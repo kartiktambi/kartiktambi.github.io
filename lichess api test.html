@@ -94,7 +94,7 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     var url=urlWithoutGameId+received.split('|')[0];
     var authkey="Bearer "+received.split('|')[1];
     const stream = fetch(url, {headers: {'Authorization': authkey}});
-    
+
     function prepjson(data){
         var obj = new Object();
         obj.state=data['status'];
@@ -159,13 +159,13 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
         if('btakeback' in data) notesarr.push("Black is proposing takeback.");
         if(notesarr.length>0) obj.notes=notesarr.join(" & ");*/
     }
-    
+
     const onComplete = () => ThunkableWebviewerExtension.postMessage("Game Complete");
-    
+
     stream
       .then(readStream(onMessage))
       .then(onComplete);
     });
-</script> 
+</script>
 </body>
 </html>
