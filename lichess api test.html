@@ -90,10 +90,11 @@ function time(duration) {
 <body>
 <script>
 ThunkableWebviewerExtension.receiveMessage(function(received) {
-  var authkey = "Bearer " + received;
-  var ongoing = fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}});
-  ThunkableWebviewerExtension.postMessage(JSON.stringify(ongoing));
+  var authwokey = "Bearer ";
+  var authkey = authwokey+received;
+  const ongoing = fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}});
   
+  ThunkableWebviewerExtension.postMessage(JSON.stringify(ongoing));
 });
 </script>
 </body>
