@@ -92,60 +92,9 @@ function time(duration) {
 ThunkableWebviewerExtension.receiveMessage(function(received) {
   var authkey = "Bearer " + received;
   var ongoing = fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}})
-  if(ongoing['nowPlaying'].length > 0) {
-    //means there's a game ongoing
-    
-    var urlWithoutGameId = "https://lichess.org/api/board/game/stream/";
-    var url=urlWithoutGameId+ongoing['nowPlaying'][0]['gameId'];
-    ThunkableWebviewerExtension.postMessage(url);
-    /*const stream = fetch(url, {headers: {'Authorization': authkey}});
-
-    function prepjson(data){
-        var obj = new Object();
-        obj.state=data['status'];
-        obj.move=data['moves'].split(' ').at(-1);
-        obj.wtime=time(data['wtime']);
-        obj.btime=time(data['btime']);
-        obj.who="White";
-        if(data['moves'].split(' ').length%2!=0) obj.who="Black";
-
-        obj.notes="NA";
-        if('winner' in data) obj.notes=data['winner']+" is Winner.";
-        else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
-        else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
-        else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
-        else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
-
-        var final= JSON.stringify(obj);
-        return final;
-    }
-
-    const onMessage = event => {
-        var data;
-        var result;
-        if(event['type']=='gameFull') {
-            data=event['state'];
-            result=prepjson(data);
-            ThunkableWebviewerExtension.postMessage("gF");
-        } else if(event['type']=='gameState') {
-            result=prepjson(event);
-            ThunkableWebviewerExtension.postMessage(result);
-        } else if(event['type']=='chatLine') {
-            result="Chat Message by "+event['username']+" || "+event['text'];
-            ThunkableWebviewerExtension.postMessage(result);
-        } else {
-            result="OtherMsg";
-            ThunkableWebviewerExtension.postMessage(result);
-        }
-    }
-
-    const onComplete = () => ThunkableWebviewerExtension.postMessage("GC | Game Complete!");
-
-    stream.then(readStream(onMessage)).then(onComplete);*/
-  } else {
-    ThunkableWebviewerExtension.postMessage("NA | No ongoing game found. Click to refresh.");
-  }
-  });
+  ThunkableWebviewerExtension.postMessage(ongoing);
+  
+});
 </script>
 </body>
 </html>
