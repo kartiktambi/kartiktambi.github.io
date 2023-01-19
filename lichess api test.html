@@ -138,7 +138,7 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
 
             var final= JSON.stringify(obj);
             //return final;*/
-            ThunkableWebviewerExtension.postMessage(JSON.stringify(event));
+            ThunkableWebviewerExtension.postMessage("gF");
         } else if(event['type']=='gameState') {
             data=event;
             result=prepjson(data);
