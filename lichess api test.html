@@ -91,8 +91,15 @@ function time(duration) {
 <script>
 var urlWithoutGameId = "https://lichess.org/api/board/game/stream/";
 ThunkableWebviewerExtension.receiveMessage(function(received) {
+  var authkey="Bearer "+received;
+  var ongoing=fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}})
+  if(ongoing['nowPlaying'] && ongoing['nowPlaying'].length) { //means there's a game ongoing
+    
+  }
+
     var url=urlWithoutGameId+received.split('|')[0];
     var authkey="Bearer "+received.split('|')[1];
+    //var url=urlWithoutGameId+received.split('|')[0];
     const stream = fetch(url, {headers: {'Authorization': authkey}});
 
     function prepjson(data){
@@ -165,7 +172,7 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     stream
       .then(readStream(onMessage))
       .then(onComplete);
-    });
+  });
 </script>
 </body>
 </html>
