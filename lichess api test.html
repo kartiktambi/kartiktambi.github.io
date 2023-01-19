@@ -89,18 +89,16 @@ function time(duration) {
 </head>
 <body>
 <script>
-var urlWithoutGameId = "https://lichess.org/api/board/game/stream/";
 ThunkableWebviewerExtension.receiveMessage(function(received) {
-  var authkey="Bearer "+received;
-  var ongoing=fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}})
-  if(ongoing['nowPlaying'] && ongoing['nowPlaying'].length) { //means there's a game ongoing
+  var authkey = "Bearer " + received;
+  var ongoing = fetch("https://lichess.org/api/account/playing", {headers: {'Authorization': authkey}})
+  if(ongoing['nowPlaying'] && ongoing['nowPlaying'].length) {
+    //means there's a game ongoing
     
-  }
-
-    var url=urlWithoutGameId+received.split('|')[0];
-    var authkey="Bearer "+received.split('|')[1];
-    //var url=urlWithoutGameId+received.split('|')[0];
-    const stream = fetch(url, {headers: {'Authorization': authkey}});
+    var urlWithoutGameId = "https://lichess.org/api/board/game/stream/";
+    var url=urlWithoutGameId+ongoing['nowPlaying'][0]['gameId'];
+    ThunkableWebviewerExtension.postMessage(url);
+    /*const stream = fetch(url, {headers: {'Authorization': authkey}});
 
     function prepjson(data){
         var obj = new Object();
@@ -126,52 +124,27 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
         var data;
         var result;
         if(event['type']=='gameFull') {
-            /*data=event['state'];
-            //result=prepjson(data);
-            var obj = new Object();
-            obj.state="gameState";
-            obj.move="gS";
-            obj.wtime="gS";
-            obj.btime="gS";
-            obj.who="White";
-            if(data['moves'].split(' ').length%2!=0) obj.who="Black";
-
-            obj.notes="NA";
-            if('winner' in data) obj.notes=data['winner']+" is Winner.";
-            else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
-            else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
-            else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
-            else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
-
-            var final= JSON.stringify(obj);
-            //return final;*/
+            data=event['state'];
+            result=prepjson(data);
             ThunkableWebviewerExtension.postMessage("gF");
         } else if(event['type']=='gameState') {
-            data=event;
-            result=prepjson(data);
+            result=prepjson(event);
             ThunkableWebviewerExtension.postMessage(result);
         } else if(event['type']=='chatLine') {
-            result="ChatMessage by "+event['username']+" || "+event['text'];
+            result="Chat Message by "+event['username']+" || "+event['text'];
             ThunkableWebviewerExtension.postMessage(result);
         } else {
             result="OtherMsg";
             ThunkableWebviewerExtension.postMessage(result);
         }
-
-        /*var notesarr = [];
-        if('winner' in data) notesarr.push(data['winner']+"is Winner.");
-        if('wdraw' in data) notesarr.push("White is offering draw.");
-        if('bdraw' in data) notesarr.push("Black is offering draw.");
-        if('wtakeback' in data) notesarr.push("White is proposing takeback.");
-        if('btakeback' in data) notesarr.push("Black is proposing takeback.");
-        if(notesarr.length>0) obj.notes=notesarr.join(" & ");*/
     }
 
-    const onComplete = () => ThunkableWebviewerExtension.postMessage("Game Complete");
+    const onComplete = () => ThunkableWebviewerExtension.postMessage("GC | Game Complete!");
 
-    stream
-      .then(readStream(onMessage))
-      .then(onComplete);
+    stream.then(readStream(onMessage)).then(onComplete);*/
+  } else {
+    ThunkableWebviewerExtension.postMessage("NA | No ongoing game found. Click to refresh.");
+  }
   });
 </script>
 </body>
