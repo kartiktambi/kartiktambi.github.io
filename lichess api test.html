@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+const readStream = processLine => response => {
+  const stream = response.body.getReader();
+  const matcher = /\r?\n/;
+  const decoder = new TextDecoder();
+  let buf = '';
+
+  const loop = () =>
+    stream.read().then(({ done, value }) => {
+      if (done) {
+        if (buf.length > 0) processLine(JSON.parse(buf));
+      } else {
+        const chunk = decoder.decode(value, {
+          stream: true
+        });
+        buf += chunk;
+
+        const parts = buf.split(matcher);
+        buf = parts.pop();
+        for (const i of parts.filter(p => p)) processLine(JSON.parse(i));
+        return loop();
+      }
+    });
+
+  return loop();
+}
+
+var ThunkableWebviewerExtension = (function () {
+  const postMessageToWebview = (message) => {
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(message);
+    } else {
+      window.parent.postMessage(message, '*');
+    }
+  };
+
+  const getReceiveMessageCallback = (fxn, hasReturnValue) => (event) => {
+    if (typeof fxn === 'function') {
+      if (event.data) {
+        let dataObject;
+        try {
+          dataObject = JSON.parse(event.data);
+        } catch (e) {
+          // message is not valid json
+        }
+        if (dataObject && dataObject.type === 'ThunkablePostMessage' && hasReturnValue) {
+          fxn(dataObject.message, (returnValue) => {
+            const returnMessageObject = { type: 'ThunkablePostMessageReturnValue', uuid: dataObject.uuid, returnValue };
+            postMessageToWebview(JSON.stringify(returnMessageObject));
+          });
+        } else if (!hasReturnValue && (!dataObject || dataObject.type !== 'ThunkablePostMessage')) {
+          fxn(event.data);
+        }
+      }
+    }
+  };
+
+  return {
+    postMessage: postMessageToWebview,
+    receiveMessage: function(fxn) {
+      const callbackFunction = getReceiveMessageCallback(fxn, false);
+      document.addEventListener('message', callbackFunction, false);
+      window.addEventListener('message', callbackFunction, false);
+    },
+    receiveMessageWithReturnValue: function(fxn) {
+      const callbackFunction = getReceiveMessageCallback(fxn, true);
+      document.addEventListener('message', callbackFunction, false);
+      window.addEventListener('message', callbackFunction, false);
+    },
+  };
+})();
+
+function time(duration) {
+  var milliseconds = Math.floor((duration % 1000) / 100),
+    seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+  hours = (hours < 10) ? "0" + hours : hours;
+  minutes = (minutes < 10) ? "0" + minutes : minutes;
+  seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+  return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+}
+</script>
+</head>
+<body>
+<script>
+var urlWithoutGameId = "https://lichess.org/api/board/game/stream/";
+ThunkableWebviewerExtension.receiveMessage(function(received) {
+    var url=urlWithoutGameId+received.split('|')[0];
+    var authkey="Bearer "+received.split('|')[1];
+    const stream = fetch(url, {headers: {'Authorization': authkey}});
+    
+    function prepjson(data){
+        var obj = new Object();
+        obj.state=data['status'];
+        obj.move=data['moves'].split(' ').at(-1);
+        obj.wtime=time(data['wtime']);
+        obj.btime=time(data['btime']);
+        obj.who="White";
+        if(data['moves'].split(' ').length%2!=0) obj.who="Black";
+
+        obj.notes="NA";
+        if('winner' in data) obj.notes=data['winner']+" is Winner.";
+        else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
+        else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
+        else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
+        else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
+
+        var final= JSON.stringify(obj);
+        return final;
+    }
+
+    const onMessage = event => {
+        var data;
+        var result;
+        if(event['type']=='gameFull') {
+            /*data=event['state'];
+            //result=prepjson(data);
+            var obj = new Object();
+            obj.state="gameState";
+            obj.move="gS";
+            obj.wtime="gS";
+            obj.btime="gS";
+            obj.who="White";
+            if(data['moves'].split(' ').length%2!=0) obj.who="Black";
+
+            obj.notes="NA";
+            if('winner' in data) obj.notes=data['winner']+" is Winner.";
+            else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
+            else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
+            else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
+            else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
+
+            var final= JSON.stringify(obj);
+            //return final;*/
+            ThunkableWebviewerExtension.postMessage(JSON.stringify(event));
+        } else if(event['type']=='gameState') {
+            data=event;
+            result=prepjson(data);
+            ThunkableWebviewerExtension.postMessage(result);
+        } else if(event['type']=='chatLine') {
+            result="ChatMessage by "+event['username']+" || "+event['text'];
+            ThunkableWebviewerExtension.postMessage(result);
+        } else {
+            result="OtherMsg";
+            ThunkableWebviewerExtension.postMessage(result);
+        }
+
+        /*var notesarr = [];
+        if('winner' in data) notesarr.push(data['winner']+"is Winner.");
+        if('wdraw' in data) notesarr.push("White is offering draw.");
+        if('bdraw' in data) notesarr.push("Black is offering draw.");
+        if('wtakeback' in data) notesarr.push("White is proposing takeback.");
+        if('btakeback' in data) notesarr.push("Black is proposing takeback.");
+        if(notesarr.length>0) obj.notes=notesarr.join(" & ");*/
+    }
+    
+    const onComplete = () => ThunkableWebviewerExtension.postMessage("Game Complete");
+    
+    stream
+      .then(readStream(onMessage))
+      .then(onComplete);
+    });
+</script> 
+</body>
+</html>
