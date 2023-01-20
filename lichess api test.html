@@ -135,7 +135,7 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
             final.data=result;
             ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
         } else if(event['type']=='chatLine') {
-            result="Chat Message by "+event['username']+" || "+event['text'];
+            result="Chat Message by " + event['username'] + " || " + event['text'];
 
             var final=new Object();
             final.type="CL";
