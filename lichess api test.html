@@ -89,7 +89,7 @@ function time(duration) {
 </head>
 <body>
 <script>
-var urlWithoutGameId = "https://lichess.org/api/board/game/stream/"; //raw url
+var urlWithoutGameId = "https://lichess.org/api/bot/game/stream/"; //raw url
 ThunkableWebviewerExtension.receiveMessage(function(received) {
   var url=urlWithoutGameId+received.split('|')[0];
   var authkey="Bearer "+received.split('|')[1];
@@ -119,54 +119,28 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
       var data;
       var result;
       if(event['type']=='gameFull') {
-          /*data=event['state'];
-          //result=prepjson(data);
-          var obj = new Object();
-          obj.state="gameState";
-          obj.move="gS";
-          obj.wtime="gS";
-          obj.btime="gS";
-          obj.who="White";
-          if(data['moves'].split(' ').length%2!=0) obj.who="Black";
-
-          obj.notes="NA";
-          if('winner' in data) obj.notes=data['winner']+" is Winner.";
-          else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
-          else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
-          else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
-          else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
-
-          var final= JSON.stringify(obj);
-          //return final;*/
-          ThunkableWebviewerExtension.postMessage(JSON.stringify(event));
+          data=event['state'];
+          result=prepjson(data);
+          ThunkableWebviewerExtension.postMessage(result);
       } else if(event['type']=='gameState') {
           data=event;
           result=prepjson(data);
           ThunkableWebviewerExtension.postMessage(result);
       } else if(event['type']=='chatLine') {
-          result="ChatMessage by "+event['username']+" || "+event['text'];
+          result="CM || ChatMessage by "+event['username']+" || "+event['text'];
           ThunkableWebviewerExtension.postMessage(result);
       } else {
-          result="OtherMsg";
-          ThunkableWebviewerExtension.postMessage(result);
+          ThunkableWebviewerExtension.postMessage("OM");
       }
-
-      /*var notesarr = [];
-      if('winner' in data) notesarr.push(data['winner']+"is Winner.");
-      if('wdraw' in data) notesarr.push("White is offering draw.");
-      if('bdraw' in data) notesarr.push("Black is offering draw.");
-      if('wtakeback' in data) notesarr.push("White is proposing takeback.");
-      if('btakeback' in data) notesarr.push("Black is proposing takeback.");
-      if(notesarr.length>0) obj.notes=notesarr.join(" & ");*/
   }
   
-  const onComplete = () => ThunkableWebviewerExtension.postMessage("Game Complete");
+  const onComplete = () => ThunkableWebviewerExtension.postMessage("GC");
   
   stream
     .then(readStream(onMessage))
     .then(onComplete);
 });
 </script>
-<h1>v3.0</h1>
+<h1>v4.0</h1>
 </body>
 </html>
