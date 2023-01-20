@@ -89,7 +89,7 @@ function time(duration) {
 </head>
 <body>
 <script>
-var urlWithoutGameId = "https://lichess.org/api/bot/game/stream/"; //raw url
+var urlWithoutGameId = "https://lichess.org/api/board/game/stream/"; //raw url
 ThunkableWebviewerExtension.receiveMessage(function(received) {
   var url=urlWithoutGameId+received.split('|')[0];
   var authkey="Bearer "+received.split('|')[1];
