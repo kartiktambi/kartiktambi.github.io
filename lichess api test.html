@@ -75,9 +75,9 @@ var ThunkableWebviewerExtension = (function () {
 
 function time(duration) {
   var milliseconds = Math.floor((duration % 1000) / 100),
-    seconds = Math.floor((duration / 1000) % 60),
-    minutes = Math.floor((duration / (1000 * 60)) % 60),
-    hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+      seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
 
   hours = (hours < 10) ? "0" + hours : hours;
   minutes = (minutes < 10) ? "0" + minutes : minutes;
@@ -91,56 +91,74 @@ function time(duration) {
 <script>
 var urlWithoutGameId = "https://lichess.org/api/board/game/stream/"; //raw url
 ThunkableWebviewerExtension.receiveMessage(function(received) {
-  var url=urlWithoutGameId+received.split('|')[0];
-  var authkey="Bearer "+received.split('|')[1];
-  const stream = fetch(url, {headers: {'Authorization': authkey}});
-  
-  function prepjson(data){
-      var obj = new Object();
-      obj.state=data['status'];
-      obj.move=data['moves'].split(' ').at(-1);
-      obj.wtime=time(data['wtime']);
-      obj.btime=time(data['btime']);
-      obj.who="White";
-      if(data['moves'].split(' ').length%2!=0) obj.who="Black";
+    var url=urlWithoutGameId+received.split('|')[0];
+    var authkey="Bearer "+received.split('|')[1];
+    const stream = fetch(url, {headers: {'Authorization': authkey}});
+    
+    function prepjson(data){
+        var obj = new Object();
+        obj.state=data['status'];
+        obj.move=data['moves'].split(' ').at(-1);
+        obj.wtime=time(data['wtime']);
+        obj.btime=time(data['btime']);
+        obj.who="White";
+        if(data['moves'].split(' ').length%2!=0) obj.who="Black";
 
-      obj.notes="NA";
-      if('winner' in data) obj.notes=data['winner']+" is Winner.";
-      else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
-      else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
-      else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
-      else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
+        obj.notes="NA";
+        if('winner' in data) obj.notes=data['winner']+" is Winner.";
+        else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
+        else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
+        else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
+        else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
 
-      var final= JSON.stringify(obj);
-      return final;
-  }
+        var final= JSON.stringify(obj);
+        return final;
+    }
 
-  const onMessage = event => {
-      var data;
-      var result;
-      if(event['type']=='gameFull') {
-          data=event['state'];
-          result=prepjson(data);
-          ThunkableWebviewerExtension.postMessage(result);
-      } else if(event['type']=='gameState') {
-          data=event;
-          result=prepjson(data);
-          ThunkableWebviewerExtension.postMessage(result);
-      } else if(event['type']=='chatLine') {
-          result="CM || ChatMessage by "+event['username']+" || "+event['text'];
-          ThunkableWebviewerExtension.postMessage(result);
-      } else {
-          ThunkableWebviewerExtension.postMessage("OM");
-      }
-  }
-  
-  const onComplete = () => ThunkableWebviewerExtension.postMessage("GC");
-  
-  stream
-    .then(readStream(onMessage))
-    .then(onComplete);
+    const onMessage = event => {
+        var data;
+        var result;
+        if(event['type']=='gameFull') {
+            data=event['state'];
+            result=prepjson(data);
+
+            var final=new Object();
+            final.type="GF";
+            final.data=result;
+            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+        } else if(event['type']=='gameState') {
+            data=event;
+            result=prepjson(data);
+            
+            var final=new Object();
+            final.type="GS";
+            final.data=result;
+            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+        } else if(event['type']=='chatLine') {
+            result="Chat Message by "+event['username']+" || "+event['text'];
+
+            var final=new Object();
+            final.type="CL";
+            final.data=result;
+            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+        } else {
+            var final=new Object();
+            final.type="OM";
+            final.data="Other Message";
+            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+        }
+    }
+    
+    const onComplete = () => {
+        var final=new Object();
+        final.type="GC";
+        final.data="Game Complete!";
+        ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+    }
+    
+    stream.then(readStream(onMessage)).then(onComplete);
 });
 </script>
-<h1>v4.0</h1>
+<h1>v5.0</h1>
 </body>
 </html>
