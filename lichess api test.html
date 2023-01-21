@@ -96,15 +96,11 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     const stream = fetch(url, {headers: {'Authorization': authkey}});
     
     function prepmoves(moves) {
-        var firstline="";
-        var secondline="";
+        moves.pop();
+        var firstline="", secondline="";
         var data = moves.slice(-10);
-        for (let i = 0; i < data.length; i+=2) {
-            firstline+=data[i]+"   ";
-        }
-        for (let i = 1; i < data.length; i+=2) {
-            secondline+=data[i]+"   ";
-        }
+        for (let i = 0; i < data.length; i+=2) firstline+=data[i]+"   ";
+        for (let i = 1; i < data.length; i+=2) secondline+=data[i]+"   ";
         return firstline+"\n"+secondline;
     }
 
@@ -173,5 +169,6 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     stream.then(readStream(onMessage)).then(onComplete);
 });
 </script>
+<h1>hi</h1>
 </body>
 </html>
