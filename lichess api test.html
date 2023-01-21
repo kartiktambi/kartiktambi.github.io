@@ -85,6 +85,36 @@ function time(duration) {
 
   return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
 }
+
+function prepmoves(moves) {
+    moves.pop(); //remove last element
+    var firstline="", secondline="";
+    var data = moves.slice(-10);
+    for (let i = 0; i < data.length; i+=2) firstline+=data[i]+"   ";
+    for (let i = 1; i < data.length; i+=2) secondline+=data[i]+"   ";
+    return firstline+"\n"+secondline;
+}
+
+function prepjson(data){
+    var obj = new Object();
+    obj.state = data['status'];
+    obj.move = data['moves'].split(' ').at(-1);
+    obj.last = prepmoves(data['moves'].split(' '));
+    obj.wtime = time(data['wtime']);
+    obj.btime = time(data['btime']);
+    obj.who = "White";
+    if(data['moves'].split(' ').length%2!=0) obj.who = "Black";
+
+    obj.notes = "NA";
+    if('winner' in data) obj.notes=data['winner']+" is Winner.";
+    else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
+    else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
+    else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
+    else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
+
+    var final= JSON.stringify(obj);
+    return final;
+}
 </script>
 </head>
 <body>
@@ -94,36 +124,6 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     var url=urlWithoutGameId+received.split('|')[0];
     var authkey="Bearer "+received.split('|')[1];
     const stream = fetch(url, {headers: {'Authorization': authkey}});
-    
-    function prepmoves(moves) {
-        moves.pop(); //remove last element
-        var firstline="", secondline="";
-        var data = moves.slice(-10);
-        for (let i = 0; i < data.length; i+=2) firstline+=data[i]+"   ";
-        for (let i = 1; i < data.length; i+=2) secondline+=data[i]+"   ";
-        return firstline+"\n"+secondline;
-    }
-
-    function prepjson(data){
-        var obj = new Object();
-        obj.state = data['status'];
-        obj.move = data['moves'].split(' ').at(-1);
-        obj.last = prepmoves(data['moves'].split(' '));
-        obj.wtime = time(data['wtime']);
-        obj.btime = time(data['btime']);
-        obj.who = "White";
-        if(data['moves'].split(' ').length%2!=0) obj.who = "Black";
-
-        obj.notes = "NA";
-        if('winner' in data) obj.notes=data['winner']+" is Winner.";
-        else if('wdraw' in data && data['wdraw']==true) obj.notes="White is offering draw.";
-        else if('bdraw' in data && data['bdraw']==true) obj.notes="Black is offering draw.";
-        else if('wtakeback' in data && data['wtakeback']==true) obj.notes="White is proposing takeback.";
-        else if('btakeback' in data && data['btakeback']==true) obj.notes="Black is proposing takeback.";
-
-        var final= JSON.stringify(obj);
-        return final;
-    }
 
     const onMessage = event => {
         var data;
