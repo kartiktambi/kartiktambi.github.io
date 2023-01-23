@@ -95,8 +95,9 @@ function prepmoves(moves) {
     return firstline+"\n"+secondline;
 }
 
-function prepjson(data){
+function prepjson(data, resptype){
     var obj = new Object();
+    obj.type=resptype;
     obj.state = data['status'];
     obj.move = data['moves'].split(' ').at(-1);
     obj.last = prepmoves(data['moves'].split(' '));
@@ -130,20 +131,20 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
         var result;
         if(event['type']=='gameFull') {
             data=event['state'];
-            result=prepjson(data);
+            result=prepjson(data, "GF");
 
-            var final=new Object();
+            /*var final=new Object();
             final.type="GF";
-            final.data=result;
-            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+            final.data=result;*/
+            ThunkableWebviewerExtension.postMessage(result);
         } else if(event['type']=='gameState') {
             data=event;
-            result=prepjson(data);
+            result=prepjson(data, "GS");
             
-            var final=new Object();
+            /*var final=new Object();
             final.type="GS";
-            final.data=result;
-            ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
+            final.data=result;*/
+            ThunkableWebviewerExtension.postMessage(result);
         } else if(event['type']=='chatLine') {
             result="Chat Message by " + event['username'] + " || " + event['text'];
 
