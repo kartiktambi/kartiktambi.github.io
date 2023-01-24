@@ -87,9 +87,8 @@ function time(duration) {
 }
 
 function prepmoves(moves) {
-    moves.pop(); //remove last element
     var firstline="", secondline="";
-    var data = moves.slice(-10);
+    var data = moves.slice(-10 + moves.length % 2);
     for (let i = 0; i < data.length; i+=2) firstline+=data[i]+"   ";
     for (let i = 1; i < data.length; i+=2) secondline+=data[i]+"   ";
     return firstline+"\n"+secondline;
@@ -97,14 +96,13 @@ function prepmoves(moves) {
 
 function prepjson(data, resptype){
     var obj = new Object();
-    obj.type=resptype;
+    obj.type = resptype;
     obj.state = data['status'];
     obj.move = data['moves'].split(' ').at(-1);
     obj.last = prepmoves(data['moves'].split(' '));
     obj.wtime = time(data['wtime']);
     obj.btime = time(data['btime']);
-    obj.who = "White";
-    if(data['moves'].split(' ').length%2!=0) obj.who = "Black";
+    obj.who = (data['moves'].split(' ').length%2!=0 ? "Black" : "White");
 
     obj.notes = "NA";
     if('winner' in data) obj.notes=data['winner']+" is Winner.";
@@ -127,30 +125,19 @@ ThunkableWebviewerExtension.receiveMessage(function(received) {
     const stream = fetch(url, {headers: {'Authorization': authkey}});
 
     const onMessage = event => {
-        var data;
-        var result;
+        var data, result;
         if(event['type']=='gameFull') {
             data=event['state'];
             result=prepjson(data, "GF");
-
-            /*var final=new Object();
-            final.type="GF";
-            final.data=result;*/
             ThunkableWebviewerExtension.postMessage(result);
         } else if(event['type']=='gameState') {
             data=event;
             result=prepjson(data, "GS");
-            
-            /*var final=new Object();
-            final.type="GS";
-            final.data=result;*/
             ThunkableWebviewerExtension.postMessage(result);
         } else if(event['type']=='chatLine') {
-            result="Chat Message by " + event['username'] + " || " + event['text'];
-
             var final=new Object();
             final.type="CL";
-            final.data=result;
+            final.data="Chat Message by " + event['username'] + " || " + event['text'];
             ThunkableWebviewerExtension.postMessage(JSON.stringify(final));
         } else {
             var final=new Object();
