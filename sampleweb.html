@@ -11,6 +11,7 @@
     }
   </style>
   <script>
+    Object.defineProperty(window, 'self', { value: window.top });
     window.addEventListener("DOMContentLoaded", function() {
       if (window.self !== window.top) {
         // If loaded within an iframe
