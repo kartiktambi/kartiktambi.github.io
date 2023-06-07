@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sample Webpage</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+  </style>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.self !== window.top) {
+        // If loaded within an iframe
+        document.getElementById("heading").textContent = "2";
+      } else {
+        // If loaded in a regular environment
+        document.getElementById("heading").textContent = "1";
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1 id="heading">0</h1>
+</body>
+</html>
