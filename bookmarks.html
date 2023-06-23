@@ -21,6 +21,28 @@
       return list.join(' OR ');
     }
 
+    function extractValuesFromJSON(jsonResponse) {
+      const parsedResponse = JSON.parse(jsonResponse);
+      const rows = parsedResponse.table.rows;
+
+      let extractedValues = '';
+
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const value1 = row.c[1].f;
+        const value2 = row.c[2].v;
+        const value3 = row.c[3].v;
+        const value4 = row.c[4].v;
+        const value5 = row.c[5].v;
+        const value6 = row.c[6].v;
+        const value7 = row.c[7].v;
+
+        extractedValues += `${value1}\n${value2}\n${value3}\n${value4}\n${value5}\n${value6}\n${value7}\n\n`;
+      }
+
+      return extractedValues;
+    }
+
     function getRequest() {
       // Get the URL parameter
       const urlParams = new URLSearchParams(window.location.search);
@@ -39,31 +61,12 @@
           // Clean up the raw response
           const cleanedResponse = cleanUpResponse(data);
 
-          // Parse the cleaned JSON response
-          const jsonResponse = JSON.parse(cleanedResponse);
-          const value = jsonResponse.table.rows[0].c[0].v;
+          // Extract the values from the JSON
+          const extractedValues = extractValuesFromJSON(cleanedResponse);
 
-          // Delimit the string and replace each item
-          const items = value.split(' | ');
-          const replacedItems = items.map(item => `D MATCHES '${item}'`);
-
-          // Implode the list with the delimiter ' OR '
-          const listToText = formatListToText(replacedItems);
-
-          // Create the new GET request URL with the updated text
-          const newRequestUrl = `https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT%20D,G,Q,R,S,T,U%20WHERE%20${listToText}`;
-
-          // Make the new GET request
-          fetch(newRequestUrl)
-            .then(response => response.text())
-            .then(data => {
-              // Display the new raw API response in the label
-              const responseLabel = document.getElementById('response-label');
-              responseLabel.innerText = data;
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
+          // Display the extracted values in the label
+          const responseLabel = document.getElementById('response-label');
+          responseLabel.innerText = extractedValues;
         })
         .catch(error => {
           console.error('Error:', error);
