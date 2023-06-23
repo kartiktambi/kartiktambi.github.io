@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Double Decode and GET Request</title>
+  <script>
+    function doubleDecodeNumber(doubleEncodedNumber) {
+      const base64Decoded = atob(doubleEncodedNumber);
+      const base64DecodedAgain = atob(base64Decoded);
+      const dividedNumber = parseFloat(base64DecodedAgain) / 2;
+      return dividedNumber;
+    }
+
+    function getRequest() {
+      // Get the URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const encodedNumber = urlParams.get('number');
+
+      // Decode the double-encoded number
+      const decodedNumber = doubleDecodeNumber(encodedNumber);
+
+      // Create the GET request URL with the decoded number
+      const requestUrl = `https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT%20W%20WHERE%20D%20MATCHES%20'${decodedNumber}'`;
+
+      // Make the GET request
+      fetch(requestUrl)
+        .then(response => response.text())
+        .then(data => {
+          // Display the raw response in the label
+          const responseLabel = document.getElementById('response-label');
+          responseLabel.innerText = data;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  </script>
+</head>
+<body onload="getRequest()">
+  <h1>Double Decode and GET Request</h1>
+  <label id="response-label"></label>
+</body>
+</html>
