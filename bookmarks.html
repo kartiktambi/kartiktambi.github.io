@@ -158,7 +158,8 @@
     }
 
     function generatePdf() {
-      const pdf = new jsPDF();
+      window.jsPDF = window.jspdf.jsPDF;
+      var pdf = new jsPDF();
       const valueGroups = document.querySelectorAll('.value-group');
     
       valueGroups.forEach((valueGroup, index) => {
