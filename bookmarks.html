@@ -86,7 +86,6 @@
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.3/purify.min.js"></script>
 </head>
 <body onload="getRequest()">
   <button id="save-pdf-btn">Save as PDF</button>
@@ -163,33 +162,24 @@
       window.jsPDF = window.jspdf.jsPDF;
       window.html2canvas = html2canvas;
       var pdf = new jsPDF();
-    
       const valueGroups = document.querySelectorAll('.value-group');
-      const options = {
-        html2canvas: { scale: 2 },
-        callback: function () {
-          pdf.save('exported_bookmarks.pdf');
-        }
-      };
-    
-      let pageCount = 0;
-    
-      function addPageContent() {
-        if (pageCount < valueGroups.length) {
-          const valueGroup = valueGroups[pageCount];
-          const valueGroupHtml = valueGroup.innerHTML;
+      
+      valueGroups.forEach((valueGroup, index) => {
+        if (index !== 0) {
           pdf.addPage();
-          pdf.setPage(pageCount + 1);
-          pdf.html(valueGroupHtml, options);
-    
-          pageCount++;
-          setTimeout(addPageContent, 100);
         }
-      }
+        pdf.html(valueGroup, {
+          callback: function () {
+            if (index !== valueGroups.length - 1) {
+              pdf.addPage();
+            }
+          },
+          autoPaging: true
+        });
+      });
     
-      addPageContent();
+      pdf.save('exported_bookmarks.pdf');
     }
-
 
     const savePdfButton = document.getElementById('save-pdf-btn');
     savePdfButton.addEventListener('click', generatePdf);
