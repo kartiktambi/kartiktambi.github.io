@@ -160,9 +160,10 @@
 
     function generatePdf() {
       window.jsPDF = window.jspdf.jsPDF;
+      window.html2canvas = html2canvas;
       var pdf = new jsPDF();
       const valueGroups = document.querySelectorAll('.value-group');
-    
+      
       valueGroups.forEach((valueGroup, index) => {
         if (index !== 0) {
           pdf.addPage();
