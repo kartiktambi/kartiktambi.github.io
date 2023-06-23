@@ -73,6 +73,7 @@
       margin: 20px auto;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
   <script>
     function doubleDecodeNumber(doubleEncodedNumber) {
       const base64Decoded = atob(doubleEncodedNumber);
@@ -179,5 +180,40 @@
 </head>
 <body onload="getRequest()">
   <div id="response-label">Processing...</div>
+  <div id="values-container"></div>
+  <button id="save-pdf-btn">Save as PDF</button>
+   <script>
+    const responseLabel = document.getElementById("response-label");
+    const valuesContainer = document.getElementById("values-container");
+    const savePdfButton = document.getElementById("save-pdf-btn");
+
+    // Function to generate PDF
+    function generatePdf() {
+      const pdf = new jsPDF();
+
+      // Retrieve all value groups
+      const valueGroups = document.querySelectorAll(".value-group");
+
+      // Iterate over each value group and add as a separate page in the PDF
+      valueGroups.forEach((valueGroup, index) => {
+        // Get the HTML content of the value group
+        const valueGroupHtml = valueGroup.outerHTML;
+
+        // Add a new page to the PDF
+        if (index !== 0) {
+          pdf.addPage();
+        }
+
+        // Render the HTML content to PDF
+        pdf.fromHTML(valueGroupHtml, 10, 10);
+      });
+
+      // Save the PDF file
+      pdf.save("exported_bookmarks.pdf");
+    }
+
+    // Event listener for "Save as PDF" button
+    savePdfButton.addEventListener("click", generatePdf);
+  </script>
 </body>
 </html>
