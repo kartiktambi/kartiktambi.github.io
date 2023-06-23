@@ -158,19 +158,23 @@
     }
 
     function generatePdf() {
-      window.jsPDF = window.jspdf.jsPDF;
-      var pdf = new jsPDF();
+      const pdf = new jsPDF();
       const valueGroups = document.querySelectorAll('.value-group');
-
+    
       valueGroups.forEach((valueGroup, index) => {
         if (index !== 0) {
           pdf.addPage();
         }
-
-        const valueGroupHtml = valueGroup.outerHTML;
-        pdf.html(valueGroupHtml, 10, 10);
+        pdf.html(valueGroup, {
+          callback: function () {
+            if (index !== valueGroups.length - 1) {
+              pdf.addPage();
+            }
+          },
+          autoPaging: true
+        });
       });
-
+    
       pdf.save('exported_bookmarks.pdf');
     }
 
