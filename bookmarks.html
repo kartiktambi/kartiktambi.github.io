@@ -9,13 +9,36 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 2px solid #007aff;
+      border-radius: 10px;
+      padding: 10px;
     }
 
-    #response-label img {
+    #response-label .row-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #response-label .row-content div {
+      margin-bottom: 10px;
+    }
+
+    #response-label .row-content img {
       max-width: 100%;
       max-height: 100%;
       border-radius: 10px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    #response-label .row-content .col1 {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    #response-label .row-content a {
+      color: #007aff;
+      text-decoration: underline;
+      cursor: pointer;
     }
   </style>
   <script>
@@ -52,7 +75,20 @@
         const col6 = row.c[5].v;
         const col7 = row.c[6].v;
 
-        extractedValues += `${col1}<br>${col2}<br><img src="${col3}"><br>${col4}<br>${col5}<br>${col6}<br>${col7}<br><br>`;
+        const rowContent = `
+          <div class="row-content">
+            <div class="col1">${col1}</div>
+            <div class="col2">${col2}</div>
+            <div class="col3">${col3 !== 'NA' ? `<a href="${col3}" target="_blank">${col3}</a>` : col3}</div>
+            <div class="col4">${col4 !== 'NA' ? `<a href="${col4}" target="_blank">${col4}</a>` : col4}</div>
+            <div class="col5">${col5 !== 'NA' ? `<a href="${col5}" target="_blank">${col5}</a>` : col5}</div>
+            <div class="col6">${col6}</div>
+            <div class="col7">${col7}</div>
+          </div>
+          <br>
+        `;
+
+        extractedValues += rowContent;
       }
 
       // Display the extracted values in the label
@@ -63,24 +99,24 @@
     function getRequest() {
       const urlParams = new URLSearchParams(window.location.search);
       const encodedNumber = urlParams.get('number');
+      const doubleEncodedNumber = decodeURIComponent(encodedNumber);
 
-      const decodedNumber = doubleDecodeNumber(encodedNumber);
+      const decodedNumber = doubleDecodeNumber(doubleEncodedNumber);
 
-      const requestUrl = `https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT%20W%20WHERE%20D%20MATCHES%20'${decodedNumber}'`;
+      const apiUrl = 'https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT W WHERE D MATCHES \'' + decodedNumber + '\'';
 
-      fetch(requestUrl)
+      fetch(apiUrl)
         .then(response => response.text())
         .then(data => {
           const cleanedResponse = cleanUpResponse(data);
           const jsonResponse = JSON.parse(cleanedResponse);
+          const extractedValues = jsonResponse.table.rows[0].c[0].v;
 
-          const value = jsonResponse.table.rows[0].c[0].v;
-          const items = value.split(' | ');
-          const replacedItems = items.map(item => `D MATCHES '${item}'`);
+          const itemList = extractedValues.split(' | ');
+          const replacedList = itemList.map(item => `D MATCHES '${item}'`);
+          const formattedText = formatListToText(replacedList);
 
-          const listToText = formatListToText(replacedItems);
-
-          const newRequestUrl = `https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT%20D,G,Q,R,S,T,U%20WHERE%20${listToText}`;
+          const newRequestUrl = 'https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT D,G,Q,R,S,T,U WHERE ' + formattedText;
 
           fetch(newRequestUrl)
             .then(response => response.text())
@@ -100,6 +136,6 @@
   </script>
 </head>
 <body onload="getRequest()">
-    <div id="response-label">Processing...</div>
+  <div id="response-label">Processing...</div>
 </body>
 </html>
