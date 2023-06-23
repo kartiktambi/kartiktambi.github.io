@@ -3,42 +3,35 @@
 <head>
   <title>Export Bookmarks</title>
   <style>
-    #response-label {
+   #response-label {
       width: 500px;
       height: 300px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
+    }
+
+    .value-group {
       border: 2px solid #007aff;
       border-radius: 10px;
       padding: 10px;
-    }
-
-    #response-label .row-content {
-      display: flex;
-      flex-direction: column;
-    }
-
-    #response-label .row-content div {
       margin-bottom: 10px;
     }
 
-    #response-label .row-content img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 10px;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+    .value-group p {
+      margin: 0;
+      font-size: 14px;
     }
 
-    #response-label .row-content .col1 {
+    .value-group p.col2 {
       font-weight: bold;
       font-size: 16px;
     }
 
-    #response-label .row-content a {
+    .value-group a {
       color: #007aff;
-      text-decoration: underline;
-      cursor: pointer;
+      text-decoration: none;
     }
   </style>
   <script>
@@ -75,20 +68,31 @@
         const col6 = row.c[5].v;
         const col7 = row.c[6].v;
 
-        const rowContent = `
-          <div class="row-content">
-            <div class="col1">${col1}</div>
-            <div class="col2">${col2}</div>
-            <div class="col3">${col3 !== 'NA' ? `<a href="${col3}" target="_blank">${col3}</a>` : col3}</div>
-            <div class="col4">${col4 !== 'NA' ? `<a href="${col4}" target="_blank">${col4}</a>` : col4}</div>
-            <div class="col5">${col5 !== 'NA' ? `<a href="${col5}" target="_blank">${col5}</a>` : col5}</div>
-            <div class="col6">${col6}</div>
-            <div class="col7">${col7}</div>
-          </div>
-          <br>
-        `;
+        let col4Formatted = col4;
+        let col5Formatted = col5;
+        let col6Formatted = col6;
 
-        extractedValues += rowContent;
+        if (col4 !== 'NA') {
+          col4Formatted = `<a href="${col4}" target="_blank">${col4}</a>`;
+        }
+        if (col5 !== 'NA') {
+          col5Formatted = `<a href="${col5}" target="_blank">${col5}</a>`;
+        }
+        if (col6 !== 'NA') {
+          col6Formatted = `<a href="${col6}" target="_blank">${col6}</a>`;
+        }
+
+        extractedValues += `
+          <div class="value-group">
+            <p class="col2">${col2}</p>
+            <p>${col1}</p>
+            <img src="${col3}">
+            <p>${col7}</p>
+            <p>${col4Formatted}</p>
+            <p>${col5Formatted}</p>
+            <p>${col6Formatted}</p>
+          </div>
+        `;
       }
 
       // Display the extracted values in the label
