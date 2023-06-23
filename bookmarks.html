@@ -162,24 +162,33 @@
       window.jsPDF = window.jspdf.jsPDF;
       window.html2canvas = html2canvas;
       var pdf = new jsPDF();
-      const valueGroups = document.querySelectorAll('.value-group');
-      
-      valueGroups.forEach((valueGroup, index) => {
-        if (index !== 0) {
-          pdf.addPage();
-        }
-        pdf.html(valueGroup, {
-          callback: function () {
-            if (index !== valueGroups.length - 1) {
-              pdf.addPage();
-            }
-          },
-          autoPaging: true
-        });
-      });
     
-      pdf.save('exported_bookmarks.pdf');
+      const valueGroups = document.querySelectorAll('.value-group');
+      const options = {
+        html2canvas: { scale: 2 },
+        callback: function () {
+          pdf.save('exported_bookmarks.pdf');
+        }
+      };
+    
+      let pageCount = 0;
+    
+      function addPageContent() {
+        if (pageCount < valueGroups.length) {
+          const valueGroup = valueGroups[pageCount];
+          const valueGroupHtml = valueGroup.innerHTML;
+          pdf.addPage();
+          pdf.setPage(pageCount + 1);
+          pdf.html(valueGroupHtml, options);
+    
+          pageCount++;
+          setTimeout(addPageContent, 100);
+        }
+      }
+    
+      addPageContent();
     }
+
 
     const savePdfButton = document.getElementById('save-pdf-btn');
     savePdfButton.addEventListener('click', generatePdf);
