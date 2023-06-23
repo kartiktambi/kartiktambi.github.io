@@ -66,53 +66,33 @@
 
     .value-group img {
       width: 95%;
-      height: calc(30vw / 95%);
+      height: calc((95% * 3) / 5);
       object-fit: contain;
       border-radius: 10px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
       margin: 20px auto;
     }
+
+    #save-pdf-btn {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: calc(1.2vw + 1.2vh);
+      background-color: #007aff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
 </head>
 <body onload="getRequest()">
-  <div id="response-label">Processing...</div>
   <button id="save-pdf-btn">Save as PDF</button>
+  <div id="response-label">Processing...</div>
+
   <div id="values-container"></div>
-  
+
   <script>
-    const savePdfButton = document.getElementById("save-pdf-btn");
-    const valuesContainer = document.getElementById("values-container");
-
-    // Function to generate PDF
-    function generatePdf() {
-      const pdf = new jsPDF();
-
-      // Retrieve all value groups
-      const valueGroups = document.querySelectorAll(".value-group");
-
-      // Iterate over each value group and add as a separate page in the PDF
-      valueGroups.forEach((valueGroup, index) => {
-        // Add a new page to the PDF
-        if (index !== 0) {
-          pdf.addPage();
-        }
-
-        // Convert value group to canvas and add to PDF
-        html2canvas(valueGroup)
-          .then(canvas => {
-            const imgData = canvas.toDataURL("image/png");
-            pdf.addImage(imgData, "PNG", 10, 10);
-          });
-      });
-
-      // Save the PDF file
-      pdf.save("exported_bookmarks.pdf");
-    }
-
-    // Event listener for "Save as PDF" button
-    savePdfButton.addEventListener("click", generatePdf);
-    
     function doubleDecodeNumber(doubleEncodedNumber) {
       const base64Decoded = atob(doubleEncodedNumber);
       const base64DecodedAgain = atob(base64Decoded);
@@ -172,10 +152,30 @@
         `;
       }
 
-      // Display the extracted values in the label
-      const responseLabel = document.getElementById('response-label');
-      responseLabel.innerHTML = extractedValues;
+      // Display the extracted values in the values-container
+      const valuesContainer = document.getElementById('values-container');
+      valuesContainer.innerHTML = extractedValues;
     }
+
+    function generatePdf() {
+      const pdf = new jsPDF();
+
+      const valueGroups = document.querySelectorAll('.value-group');
+
+      valueGroups.forEach((valueGroup, index) => {
+        if (index !== 0) {
+          pdf.addPage();
+        }
+
+        const valueGroupHtml = valueGroup.outerHTML;
+        pdf.fromHTML(valueGroupHtml, 10, 10);
+      });
+
+      pdf.save('exported_bookmarks.pdf');
+    }
+
+    const savePdfButton = document.getElementById('save-pdf-btn');
+    savePdfButton.addEventListener('click', generatePdf);
 
     function getRequest() {
       const urlParams = new URLSearchParams(window.location.search);
