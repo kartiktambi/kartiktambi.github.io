@@ -8,7 +8,6 @@
     }
 
     #response-label {
-      font-weight: bold;
       font-size: calc(1.8vw + 1.8vh);
       margin-top: 10px;
       margin-bottom: 10px;
@@ -73,8 +72,8 @@
       margin: 20px auto;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
   <script>
     function doubleDecodeNumber(doubleEncodedNumber) {
       const base64Decoded = atob(doubleEncodedNumber);
@@ -94,45 +93,49 @@
       return list.join(' OR ');
     }
 
+    // Function to generate a PDF from the contents of response-label div
     function generatePDF() {
-      // Create a new jsPDF instance
+      // Create a new instance of jsPDF
       window.jsPDF = window.jspdf.jsPDF;
+      window.html2canvas = html2canvas;
       var doc = new jsPDF();
     
-      // Get the response-label element
+      // Set the default font size for the PDF
+      doc.setFontSize(12);
+    
+      // Get the response-label div
       const responseLabel = document.getElementById('response-label');
     
-      // Get all the value-group elements
+      // Get all the value-group divs inside response-label
       const valueGroups = responseLabel.getElementsByClassName('value-group');
     
-      // Set initial y position for the first value-group
-      let y = 10;
-    
-      // Iterate over each value-group element
+      // Iterate over each value-group div
       for (let i = 0; i < valueGroups.length; i++) {
         const valueGroup = valueGroups[i];
     
-        // Check if the current value-group exceeds the page height
-        if (y + valueGroup.offsetHeight > doc.internal.pageSize.getHeight()) {
-          // Add a new page if there's not enough space
+        // Generate a new page for each value-group div (except the first one)
+        if (i > 0) {
           doc.addPage();
-          y = 10; // Reset the y position
         }
     
-        // Save the current y position before adding the content
-        const startY = y;
+        // Convert the HTML content of the value-group div to canvas
+        html2canvas(valueGroup)
+          .then((canvas) => {
+            // Get the canvas data as an image URL
+            const imgData = canvas.toDataURL('image/png');
     
-        // Add the HTML content of the value-group to the PDF
-        doc.html(valueGroup, 10, y, {
-          width: 190
-        });
+            // Add the image to the PDF
+            doc.addImage(imgData, 'PNG', 10, 10, 0, 0);
     
-        // Update the y position for the next value-group
-        y = startY + valueGroup.offsetHeight + 10;
+            // If it's the last value-group div, save the PDF
+            if (i === valueGroups.length - 1) {
+              doc.save('extracted_values.pdf');
+            }
+          })
+          .catch((error) => {
+            console.error('An error occurred while generating PDF:', error);
+          });
       }
-    
-      // Save the PDF
-      doc.save('extracted_values.pdf');
     }
 
     function displayExtractedValues(jsonResponse) {
