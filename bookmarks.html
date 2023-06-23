@@ -168,7 +168,7 @@
         }
 
         const valueGroupHtml = valueGroup.outerHTML;
-        pdf.fromHTML(valueGroupHtml, 10, 10);
+        pdf.html(valueGroupHtml, 10, 10);
       });
 
       pdf.save('exported_bookmarks.pdf');
