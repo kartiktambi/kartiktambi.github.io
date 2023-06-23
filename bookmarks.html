@@ -114,51 +114,42 @@
       responseLabel.innerHTML = extractedValues;
     }
 
-    function displayExtractedValues(jsonResponse) {
-      const rows = jsonResponse.table.rows;
+    function getRequest() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const encodedNumber = urlParams.get('number');
+      const doubleEncodedNumber = decodeURIComponent(encodedNumber);
 
-      let extractedValues = '';
+      const decodedNumber = doubleDecodeNumber(doubleEncodedNumber);
 
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const col1 = row.c[0].f;
-        const col2 = row.c[1].v;
-        const col3 = row.c[2].v;
-        const col4 = row.c[3].v;
-        const col5 = row.c[4].v;
-        const col6 = row.c[5].v;
-        const col7 = row.c[6].v;
+      const apiUrl = 'https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT W WHERE D MATCHES \'' + decodedNumber + '\'';
 
-        let col4Formatted = col4;
-        let col5Formatted = col5;
-        let col6Formatted = col6;
+      fetch(apiUrl)
+        .then(response => response.text())
+        .then(data => {
+          const cleanedResponse = cleanUpResponse(data);
+          const jsonResponse = JSON.parse(cleanedResponse);
+          const extractedValues = jsonResponse.table.rows[0].c[0].v;
 
-        if (col4 !== 'NA') {
-          col4Formatted = `<a href="${col4}" target="_blank">${col4}</a>`;
-        }
-        if (col5 !== 'NA') {
-          col5Formatted = `<a href="${col5}" target="_blank">${col5}</a>`;
-        }
-        if (col6 !== 'NA') {
-          col6Formatted = `<a href="${col6}" target="_blank">${col6}</a>`;
-        }
+          const itemList = extractedValues.split(' | ');
+          const replacedList = itemList.map(item => `D MATCHES '${item}'`);
+          const formattedText = formatListToText(replacedList);
 
-        extractedValues += `
-          <div class="value-group">
-            <p class="col2">${col2}</p>
-            <p>${col1}</p>
-            <img src="${col3}">
-            <p>${col7}</p>
-            <p>${col4Formatted}</p>
-            <p>${col5Formatted}</p>
-            <p>${col6Formatted}</p>
-          </div>
-        `;
-      }
+          const newRequestUrl = 'https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT D,G,Q,R,S,T,U WHERE ' + formattedText;
 
-      // Display the extracted values in the label
-      const responseLabel = document.getElementById('response-label');
-      responseLabel.innerHTML = extractedValues;
+          fetch(newRequestUrl)
+            .then(response => response.text())
+            .then(data => {
+              const cleanedResponse2 = cleanUpResponse(data);
+              const jsonResponse2 = JSON.parse(cleanedResponse2);
+              displayExtractedValues(jsonResponse2);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
   </script>
 </head>
