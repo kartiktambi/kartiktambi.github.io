@@ -36,7 +36,7 @@
         const col6 = row.c[5].v;
         const col7 = row.c[6].v;
 
-        extractedValues += `${col1}<br>${col2}<br>${col3}<br>${col4}<br>${col5}<br>${col6}<br>${col7}<br><br>`;
+        extractedValues += `${col1}<br>${col2}<br><img src="${col3}"><br>${col4}<br>${col5}<br>${col6}<br>${col7}<br><br>`;
       }
 
       // Display the extracted values in the label
@@ -100,7 +100,6 @@
   </script>
 </head>
 <body onload="getRequest()">
-  <h1>Double Decode and GET Request</h1>
-  <label id="response-label"></label>
+  <label id="response-label">Processing...</label>
 </body>
 </html>
