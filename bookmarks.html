@@ -17,6 +17,10 @@
       return jsonResponse;
     }
 
+    function formatListToText(list) {
+      return list.join(' OR ');
+    }
+
     function getRequest() {
       // Get the URL parameter
       const urlParams = new URLSearchParams(window.location.search);
@@ -39,9 +43,27 @@
           const jsonResponse = JSON.parse(cleanedResponse);
           const value = jsonResponse.table.rows[0].c[0].v;
 
-          // Display the value in the label
-          const responseLabel = document.getElementById('response-label');
-          responseLabel.innerText = value;
+          // Delimit the string and replace each item
+          const items = value.split(' | ');
+          const replacedItems = items.map(item => `D MATCHES '${item}'`);
+
+          // Implode the list with the delimiter ' OR '
+          const listToText = formatListToText(replacedItems);
+
+          // Create the new GET request URL with the updated text
+          const newRequestUrl = `https://docs.google.com/spreadsheets/d/1RC_QUIUBf7juTngdPFlC73wo9w2A6HZwl4CpVO1A-ew/gviz/tq?tq=SELECT%20D,G,Q,R,S,T,U%20WHERE%20${listToText}`;
+
+          // Make the new GET request
+          fetch(newRequestUrl)
+            .then(response => response.text())
+            .then(data => {
+              // Display the new raw API response in the label
+              const responseLabel = document.getElementById('response-label');
+              responseLabel.innerText = data;
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
         })
         .catch(error => {
           console.error('Error:', error);
