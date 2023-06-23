@@ -14,10 +14,10 @@
 
     .value-group {
       width: 90%;
-      border: 3px solid #007aff;
+      border: 5px solid #007aff;
       border-radius: 10px;
       padding: 10px;
-      margin-bottom: 10px;
+      margin: 20px 0;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -27,11 +27,12 @@
       margin: 0;
       font-size: calc(1.2vw + 1.2vh);
       font-family: "Segoe UI", Arial, sans-serif;
+      width: 95%;
     }
 
     .value-group p.col2 {
       font-weight: bold;
-      font-size: calc(1.5vw + 1.5vh);
+      font-size: calc(1.8vw + 1.8vh);
     }
 
     .value-group a {
@@ -45,7 +46,7 @@
       object-fit: contain;
       border-radius: 10px;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-      margin: 10px auto;
+      margin: 20px auto;
     }
   </style>
   <script>
@@ -99,9 +100,9 @@
         extractedValues += `
           <div class="value-group">
             <p class="col2">${col2}</p>
-            <p>${col1}</p>
-            <img src="${col3}">
             <p>${col7}</p>
+            <img src="${col3}">
+            <p>${col1}</p>
             <p>${col4Formatted}</p>
             <p>${col5Formatted}</p>
             <p>${col6Formatted}</p>
