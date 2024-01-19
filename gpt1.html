@@ -98,10 +98,12 @@
                         // Disable clicking during loading
                         disableMatrixClick();
                         showResultPage(cell.textContent);
-                        // Highlight clicked cell
-                        cell.classList.add('clicked');
-                        // Simulate loading with a 2-second delay
-                        setTimeout(enableMatrixClick, 2000);
+                        // Highlight clicked cell after a delay
+                        setTimeout(function() {
+                            cell.classList.add('clicked');
+                            // Simulate loading with a 2-second delay
+                            setTimeout(enableMatrixClick, 2000);
+                        }, 200);
                     }
                 };
             }
