@@ -52,11 +52,6 @@
             background-color: #27ae60;
             color: #fff;
         }
-
-        #loading-icon {
-            display: none;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -75,7 +70,6 @@
     <table id="matrix">
         <!-- Matrix will be generated dynamically using JavaScript -->
     </table>
-    <div id="loading-icon">&#9202; Loading...</div>
 </div>
 
 <!-- Result Page -->
@@ -94,17 +88,9 @@
                 const cell = row.insertCell(j);
                 cell.textContent = Math.floor(Math.random() * 10); // Random number between 0 and 9
                 cell.onclick = function() {
-                    if (!cell.classList.contains('clicked')) {
-                        // Disable clicking during loading
-                        disableMatrixClick();
-                        showResultPage(cell.textContent);
-                        // Highlight clicked cell after a delay
-                        setTimeout(function() {
-                            cell.classList.add('clicked');
-                            // Simulate loading with a 2-second delay
-                            setTimeout(enableMatrixClick, 2000);
-                        }, 200);
-                    }
+                    showResultPage(cell.textContent);
+                    // Highlight clicked cell
+                    cell.classList.add('clicked');
                 };
             }
         }
@@ -131,24 +117,6 @@
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
-    }
-
-    // Function to disable clicking on the matrix during loading
-    function disableMatrixClick() {
-        const matrixCells = document.querySelectorAll('#matrix td');
-        matrixCells.forEach(cell => {
-            cell.style.pointerEvents = 'none';
-        });
-        document.getElementById('loading-icon').style.display = 'block';
-    }
-
-    // Function to enable clicking on the matrix after loading
-    function enableMatrixClick() {
-        const matrixCells = document.querySelectorAll('#matrix td');
-        matrixCells.forEach(cell => {
-            cell.style.pointerEvents = 'auto';
-        });
-        document.getElementById('loading-icon').style.display = 'none';
     }
 </script>
 
