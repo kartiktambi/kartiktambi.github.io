@@ -5,7 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Game</title>
     <style>
-        /* Add your CSS styles here */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #matrix-container,
+        #result-page {
+            display: none;
+        }
+
+        h1, h2, p {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        td.clicked {
+            background-color: #27ae60;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -33,8 +79,8 @@
 </div>
 
 <script>
-    // Array of arrays for the matrix
-    const matrixValues = [
+    // Your provided 2D array
+    let values = [
         ["सु", "प्र", "उ", "बि", "हो", "मु", "ग", "ब", "सु", "नु", "बि", "घ", "धि", "इ", "द"],
         ["र", "रु", "फ", "सि", "सि", "रहिं", "बस", "हि", "मं", "ल", "न", "ल", "य", "न", "अं"],
         ["सुज", "सो", "ग", "सु", "कु", "म", "स", "ग", "त", "न", "ई", "ल", "धा", "बे", "नो"],
@@ -52,18 +98,20 @@
         ["र", "ा", "ा", "ला", "धी", "ा", "री", "ा", "हू", "हीं", "खा", "जू", "ई", "रा", "रे"]
     ];
 
-    // Function to generate the matrix using the provided array of arrays
+    // Function to generate a matrix using the provided values
     function generateMatrix() {
         const matrixTable = document.getElementById('matrix');
-        for (let i = 0; i < matrixValues.length; i++) {
+        for (let i = 0; i < values.length; i++) {
             const row = matrixTable.insertRow(i);
-            for (let j = 0; j < matrixValues[i].length; j++) {
+            for (let j = 0; j < values[i].length; j++) {
                 const cell = row.insertCell(j);
-                cell.textContent = matrixValues[i][j];
-                cell.onclick = function() {
-                    showResultPage(cell.textContent);
-                    // Highlight clicked cell
-                    cell.classList.add('clicked');
+                cell.textContent = values[i][j];
+                cell.onclick = function () {
+                    if (!cell.classList.contains('clicked')) {
+                        showResultPage(values[i][j], i, j);
+                        // Highlight clicked cell
+                        cell.classList.add('clicked');
+                    }
                 };
             }
         }
@@ -77,10 +125,10 @@
     }
 
     // Function to show the result page
-    function showResultPage(value) {
+    function showResultPage(value, row, col) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-        document.getElementById('result-value').textContent = value;
+        document.getElementById('result-value').textContent = `Element: ${value}, Location: [${row}][${col}]`;
     }
 
     // Function to restart the game
