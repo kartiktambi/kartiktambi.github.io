@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaze Tracking Web App</title>
+
+    <!-- Include WebGazer.js -->
+    <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            height: 100vh;
+            margin: 0;
+        }
+
+        .grid-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Grid of Numbers -->
+<script>
+    // Function to generate a random number between min and max (inclusive)
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Generate a 5x6 grid of random numbers
+    const grid = Array.from({ length: 5 }, () =>
+        Array.from({ length: 6 }, () => getRandomNumber(1, 30))
+    );
+
+    // Render the grid on the page
+    grid.forEach((row, rowIndex) => {
+        row.forEach((number, colIndex) => {
+            const cell = document.createElement("div");
+            cell.classList.add("grid-cell");
+            cell.innerText = number;
+            cell.dataset.row = rowIndex;
+            cell.dataset.col = colIndex;
+            document.body.appendChild(cell);
+        });
+    });
+</script>
+
+<!-- Initialize WebGazer -->
+<script>
+    // Wait for WebGazer to load
+    webgazer.setGazeListener((data, elapsedTime) => {
+        if (data) {
+            // Access gaze coordinates
+            const x = data.x;
+            const y = data.y;
+
+            // Implement logic based on gaze coordinates
+            // (e.g., determine the number on the grid)
+            const element = document.elementFromPoint(x, y);
+            if (element && element.classList.contains("grid-cell")) {
+                const row = element.dataset.row;
+                const col = element.dataset.col;
+                console.log(`Gaze at cell (${row}, ${col})`);
+            }
+        }
+    }).begin();
+</script>
+
+</body>
+</html>
+
