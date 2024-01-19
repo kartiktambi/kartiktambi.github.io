@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #matrix-container {
+            display: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: auto;
+        }
+
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        #result-page {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Welcome Page -->
+<div id="welcome-page">
+    <h1>Welcome to the Matrix Game</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <button onclick="showMatrixPage()">Begin</button>
+</div>
+
+<!-- Matrix Page -->
+<div id="matrix-container">
+    <h2>Matrix Game</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <table id="matrix">
+        <!-- Matrix will be generated dynamically using JavaScript -->
+    </table>
+</div>
+
+<!-- Result Page -->
+<div id="result-page">
+    <h2>Final Result - <span id="result-value"></span></h2>
+    <button onclick="restartGame()">Restart</button>
+</div>
+
+<script>
+    // Function to generate a random 15x15 matrix
+    function generateMatrix() {
+        const matrixTable = document.getElementById('matrix');
+        for (let i = 0; i < 15; i++) {
+            const row = matrixTable.insertRow(i);
+            for (let j = 0; j < 15; j++) {
+                const cell = row.insertCell(j);
+                cell.textContent = Math.floor(Math.random() * 10); // Random number between 0 and 9
+                cell.onclick = function() {
+                    showResultPage(cell.textContent);
+                };
+            }
+        }
+    }
+
+    // Function to show the matrix page
+    function showMatrixPage() {
+        document.getElementById('welcome-page').style.display = 'none';
+        document.getElementById('matrix-container').style.display = 'block';
+        generateMatrix();
+    }
+
+    // Function to show the result page
+    function showResultPage(value) {
+        document.getElementById('matrix-container').style.display = 'none';
+        document.getElementById('result-page').style.display = 'block';
+        document.getElementById('result-value').textContent = value * 10;
+    }
+
+    // Function to restart the game
+    function restartGame() {
+        document.getElementById('result-page').style.display = 'none';
+        document.getElementById('welcome-page').style.display = 'block';
+        // Clear the matrix
+        document.getElementById('matrix').innerHTML = '';
+    }
+</script>
+
+</body>
+</html>
