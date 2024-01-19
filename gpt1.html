@@ -11,8 +11,29 @@
             margin: 20px;
         }
 
-        #matrix-container {
+        #welcome-page,
+        #matrix-container,
+        #result-page {
             display: none;
+        }
+
+        h1, h2, p {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
         }
 
         table {
@@ -25,10 +46,12 @@
             height: 30px;
             border: 1px solid #ccc;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        #result-page {
-            display: none;
+        td.clicked {
+            background-color: #27ae60;
+            color: #fff;
         }
     </style>
 </head>
@@ -67,6 +90,8 @@
                 cell.textContent = Math.floor(Math.random() * 10); // Random number between 0 and 9
                 cell.onclick = function() {
                     showResultPage(cell.textContent);
+                    // Highlight clicked cell
+                    cell.classList.add('clicked');
                 };
             }
         }
@@ -91,7 +116,8 @@
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
         // Clear the matrix
-        document.getElementById('matrix').innerHTML = '';
+        const matrixTable = document.getElementById('matrix');
+        matrixTable.innerHTML = '';
     }
 </script>
 
