@@ -98,6 +98,33 @@
         ["र", "ा", "ा", "ला", "धी", "ा", "री", "ा", "हू", "हीं", "खा", "जू", "ई", "रा", "रे"]
     ];
 
+    let loc = [
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5],
+        [6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2],
+        [3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5],
+        [6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2],
+        [3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5],
+        [6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2],
+        [3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5],
+        [6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2],
+        [3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+    ];
+
+    let desc = [
+        ["one-one", "one-two", "one-three", "one-four", "one-five", "one-six", "one-seven"],
+        ["two-one", "two-two", "two-three", "two-four", "two-five", "two-six", "two-seven"],
+        ["three-one", "three-two", "three-three", "three-four", "three-five", "three-six", "three-seven"],
+        ["four-one", "four-two", "four-three", "four-four", "four-five", "four-six", "four-seven"],
+        ["five-one", "five-two", "five-three", "five-four", "five-five", "five-six", "five-seven"],
+        ["six-one", "six-two", "six-three", "six-four", "six-five", "six-six", "six-seven"],
+        ["seven-one", "seven-two", "seven-three", "seven-four", "seven-five", "seven-six", "seven-seven"],
+        ["eight-one", "eight-two", "eight-three", "eight-four", "eight-five", "eight-six", "eight-seven"],
+        ["nine-one", "nine-two", "nine-three", "nine-four", "nine-five", "nine-six", "nine-seven"]
+    ];
+
     // Function to generate a matrix using the provided values
     function generateMatrix() {
         const matrixTable = document.getElementById('matrix');
@@ -129,6 +156,11 @@
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
         document.getElementById('result-value').textContent = `Element: ${value}, Location: [${row}][${col}]`;
+        let descref = loc[row][col];
+        for (let i = 0; i < 7; i++) {
+            // Display 7 lines with values from the desc matrix
+            resultValueElement.innerHTML += `<br>${desc[[descref][i]}</br>`;
+        }
     }
 
     // Function to restart the game
