@@ -5,53 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Game</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-
-        #matrix-container,
-        #result-page {
-            display: none;
-        }
-
-        h1, h2, p {
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 15px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #3498db;
-            color: #fff;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: auto;
-        }
-
-        td {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        td.clicked {
-            background-color: #27ae60;
-            color: #fff;
-        }
+        /* Add your CSS styles here */
     </style>
 </head>
 <body>
@@ -79,14 +33,33 @@
 </div>
 
 <script>
-    // Function to generate a random 15x15 matrix
+    // Array of arrays for the matrix
+    const matrixValues = [
+        ["सु", "प्र", "उ", "बि", "हो", "मु", "ग", "ब", "सु", "नु", "बि", "घ", "धि", "इ", "द"],
+        ["र", "रु", "फ", "सि", "सि", "रहिं", "बस", "हि", "मं", "ल", "न", "ल", "य", "न", "अं"],
+        ["सुज", "सो", "ग", "सु", "कु", "म", "स", "ग", "त", "न", "ई", "ल", "धा", "बे", "नो"],
+        ["त्य", "र", "न", "कु", "जो", "म", "रि", "र", "र", "अ", "की", " हो", "सं", "रा", "य"],
+        ["पु", "सु", "थ", "सी", "जे", "इ", "ग", "म", "सं", "क", "रे", "हो", "स", "स", "नि"],
+        ["त", "र", "त", "र", "स", "हूँ", "ह", "ब", "ब", "प", "चि", "स", "हिं", "स", "तु"],
+        ["म", "का", "ा", "र", "र", "म", "मि", "मी", "म्हा", "ा", "जा", "हू", "हीं", "ा", "ा"],
+        ["ता", "रा", "रे", "री", "हृ", "का", "फ", "खा", "जू", "ई", "र", "रा", "पू", "द", "ल"],
+        ["नि", "को", "जो", "गो", "न", "मु", "जि", "यँ", "ने", "मनि", "क", "ज", "प", "स", "ल"],
+        ["हि", "रा", "मि", " स", "रि", "ग", "द", "न्मु", "ख", "म", "खि", "जि", "म", "त", "जं"],
+        ["सिं", "ख", "नु", "न", "कौ", "मि", "निज", "र्क", "ग", "धु", "ध", "सु", "का", "स", "र"],
+        ["गु", "ब", "म", "अ", "रि", "नि", "म", "ल", "ा", "न", "ढँ", "ती", "न", "क", "भ"],
+        ["ना", "पु", "व", "अ", "ा", "र", "ल", "ा", "ए", "तु", "र", "न", "नु", "वै", "थ"],
+        ["सि", "हूँ", "सु", "म्ह", "रा", "र", "स", "स", "र", "त", "न", "ख", "ा", "ज", "ा"],
+        ["र", "ा", "ा", "ला", "धी", "ा", "री", "ा", "हू", "हीं", "खा", "जू", "ई", "रा", "रे"]
+    ];
+
+    // Function to generate the matrix using the provided array of arrays
     function generateMatrix() {
         const matrixTable = document.getElementById('matrix');
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < matrixValues.length; i++) {
             const row = matrixTable.insertRow(i);
-            for (let j = 0; j < 15; j++) {
+            for (let j = 0; j < matrixValues[i].length; j++) {
                 const cell = row.insertCell(j);
-                cell.textContent = Math.floor(Math.random() * 10); // Random number between 0 and 9
+                cell.textContent = matrixValues[i][j];
                 cell.onclick = function() {
                     showResultPage(cell.textContent);
                     // Highlight clicked cell
@@ -107,7 +80,7 @@
     function showResultPage(value) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-        document.getElementById('result-value').textContent = value * 10;
+        document.getElementById('result-value').textContent = value;
     }
 
     // Function to restart the game
