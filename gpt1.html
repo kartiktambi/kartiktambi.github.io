@@ -83,6 +83,23 @@
 <div id="result-page">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
     <h2>Chosen Letter - <span id="result-value"></span></h1>
+    <br><br>
+    
+    <span style="font-size:22px">उत्तरस्वरुप चौपाई -</span><br>
+    <span style="font-size:22px"><b><span id="result1"></span></b></span><br><br><br>
+    <img id="result-image" width="40" height="40"><br>
+    <span style="font-size:23px">फल </span><br>
+    <span style="font-size:21px"><b><span id="result2"></span></b></span><br><br>
+    <span style="font-size:23px">Answer -</span><br>
+    <span style="font-size:21px"><b><span id="result3"></span></b></span><br><br><br><br>
+    <span style="font-size:20px">श्रीरामचरितमानस में स्थान -</span><br>
+    <span style="font-size:20px"><span id="result4"></span></span><br><br>
+    <span style="font-size:20px">चौपाई : </span><br>
+    <span style="font-size:20px"><b><span id="result5"></span></b></span><br><br>
+    <span style="font-size:20px">भावार्थ :</span><br>
+    <span style="font-size:20px"><span id="result6"></span></span><br><br>
+
+    <!--
     <h2>Answer from - <span id="result1"></span></h2><br>
     <img id="result-image1" width="30" height="30">
     <h3><span id="result2"></span></h3>
@@ -92,6 +109,7 @@
     <h3><span id="result5"></span></h3>
     <h3><span id="result6"></span></h3>
     <h3><span id="result7"></span></h3><br>
+    -->
     
     <button onclick="restartGame()">Restart</button>
 </div>
@@ -127,29 +145,27 @@
     function showResultPage(value, row, col) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-        document.getElementById('result-value').textContent = `${value} - Location: [${row}][${col}]`;
+        document.getElementById('result-value').textContent = value;
+        //document.getElementById('result-value').textContent = `${value} - Location: [${row}][${col}]`;
         
         let descref = loc[row][col];
         
         if(desc[descref][0] == 1) {
           document.getElementById("result2").style.color = "#ff0000";
-          document.getElementById("result5").style.color = "#ff0000";
-          document.getElementById("result-image1").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
-          document.getElementById("result-image2").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
+          document.getElementById("result3").style.color = "#ff0000";
+          document.getElementById("result-image").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
         } else {
-          document.getElementById("result2").style.color = "#04aa6d";
-          document.getElementById("result5").style.color = "#04aa6d";
-          document.getElementById("result-image1").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
-          document.getElementById("result-image2").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
+          document.getElementById("result2").style.color = "#087809";
+          document.getElementById("result3").style.color = "#087809";
+          document.getElementById("result-image").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
         }
         
         document.getElementById('result1').textContent = desc[descref][1];
         document.getElementById('result2').textContent = desc[descref][2];
         document.getElementById('result3').textContent = desc[descref][3];
         document.getElementById('result4').textContent = desc[descref][4];
-        document.getElementById('result5').textContent = desc[descref][5];
+        document.getElementById('result5').innerHTML = desc[descref][5][0] + "<br>" + desc[descref][5][1] + "<br>" + desc[descref][5][2] + "<br>" + desc[descref][5][3];
         document.getElementById('result6').textContent = desc[descref][6];
-        document.getElementById('result7').textContent = desc[descref][7];
     }
 
     // Function to restart the game
