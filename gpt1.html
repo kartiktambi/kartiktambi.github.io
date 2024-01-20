@@ -54,11 +54,6 @@
             font-size: 17px;
             color: #ff0000;
         }
-
-        td.clicked {
-            background-color: #27ae60;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -73,7 +68,8 @@
 <!-- Matrix Page -->
 <div id="matrix-container">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
-    <p>Click on a letter below to get answer to your question</p>
+    <p>Click on a letter below to get answer to your question - </p>
+    <p id="tblproc" style="visibility:hidden"><b>Loading....</b></p>
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
@@ -124,11 +120,12 @@
                 const cell = row.insertCell(j);
                 cell.textContent = values[i][j];
                 cell.onclick = function () {
-                    if (!cell.classList.contains('clicked')) {
+                    cell.style.backgroundColor = '#27ae60';
+                    cell.style.color = 'white';
+                    document.getElementById('tblproc').style.visibility = "visible";
+                    setTimeout(function () {
                         showResultPage(values[i][j], i, j);
-                        // Highlight clicked cell
-                        cell.classList.add('clicked');
-                    }
+                    }, 2000);
                 };
             }
         }
@@ -172,6 +169,7 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
+        document.getElementById('tblproc').style.visibility = "hidden";	
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
