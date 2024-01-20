@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Game</title>
+    <title>Shri Ramcharitmanas Prashnavali</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -11,13 +11,16 @@
             margin: 20px;
         }
 
-        #matrix-container,
-        #result-page {
+        #matrix-container, #result-page {
             display: none;
         }
 
         h1, h2, p {
             margin-bottom: 20px;
+        }
+        
+        h1 {
+        	font-size : 35px;
         }
 
         button {
@@ -38,14 +41,18 @@
         table {
             border-collapse: collapse;
             margin: auto;
+            border: 5px solid #27ae60;
         }
 
         td {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ccc;
+            width: 35px;
+            height: 35px;
+            border: 3px solid #3498db;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-weight: bold;
+            font-size: 20px;
+            color: #ff0000;
         }
 
         td.clicked {
@@ -58,23 +65,34 @@
 
 <!-- Welcome Page -->
 <div id="welcome-page">
-    <h1>Welcome to the Matrix Game</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
+    <h2>Click on below button to start.</h2>
     <button onclick="showMatrixPage()">Begin</button>
 </div>
 
 <!-- Matrix Page -->
 <div id="matrix-container">
-    <h2>Matrix Game</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
+    <p>Click on a letter below to get answer to your question</p>
     <table id="matrix">
-        <!-- Matrix will be generated dynamically using JavaScript -->
+        <!-- Matrix to be generated dynamically -->
     </table>
 </div>
 
 <!-- Result Page -->
 <div id="result-page">
-    <h2>Final Result - <span id="result-value"></span></h2>
+    <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
+    <h2>Chosen Letter - <span id="result-value"></span></h1>
+    <h2>Answer from - <span id="result1"></span></h2><br>
+    <img id="result-image1" width="30" height="30">
+    <h3><span id="result2"></span></h3>
+    <h3><span id="result3"></span></h3>
+    <h3><span id="result4"></span></h3><br><br>
+    <img id="result-image2" width="30" height="30">
+    <h3><span id="result5"></span></h3>
+    <h3><span id="result6"></span></h3>
+    <h3><span id="result7"></span></h3><br>
+    
     <button onclick="restartGame()">Restart</button>
 </div>
 
@@ -114,15 +132,15 @@
     ];
 
     let desc = [
-        ["one-one", "one-two", "one-three", "one-four", "one-five", "one-six", "one-seven"],
-        ["two-one", "two-two", "two-three", "two-four", "two-five", "two-six", "two-seven"],
-        ["three-one", "three-two", "three-three", "three-four", "three-five", "three-six", "three-seven"],
-        ["four-one", "four-two", "four-three", "four-four", "four-five", "four-six", "four-seven"],
-        ["five-one", "five-two", "five-three", "five-four", "five-five", "five-six", "five-seven"],
-        ["six-one", "six-two", "six-three", "six-four", "six-five", "six-six", "six-seven"],
-        ["seven-one", "seven-two", "seven-three", "seven-four", "seven-five", "seven-six", "seven-seven"],
-        ["eight-one", "eight-two", "eight-three", "eight-four", "eight-five", "eight-six", "eight-seven"],
-        ["nine-one", "nine-two", "nine-three", "nine-four", "nine-five", "nine-six", "nine-seven"]
+        [0,"one-one", "one-two", "one-three", "one-four", "one-five", "one-six", "one-seven"],
+        [0,"two-one", "two-two", "two-three", "two-four", "two-five", "two-six", "two-seven"],
+        [1,"three-one", "three-two", "three-three", "three-four", "three-five", "three-six", "three-seven"],
+        [1,"four-one", "four-two", "four-three", "four-four", "four-five", "four-six", "four-seven"],
+        [1,"five-one", "five-two", "five-three", "five-four", "five-five", "five-six", "five-seven"],
+        [0,"six-one", "six-two", "six-three", "six-four", "six-five", "six-six", "six-seven"],
+        [0,"seven-one", "seven-two", "seven-three", "seven-four", "seven-five", "seven-six", "seven-seven"],
+        [1,"eight-one", "eight-two", "eight-three", "eight-four", "eight-five", "eight-six", "eight-seven"],
+        [0,"nine-one", "nine-two", "nine-three", "nine-four", "nine-five", "nine-six", "nine-seven"]
     ];
 
     // Function to generate a matrix using the provided values
@@ -155,12 +173,29 @@
     function showResultPage(value, row, col) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-        document.getElementById('result-value').textContent = `Element: ${value}, Location: [${row}][${col}]`;
+        document.getElementById('result-value').textContent = `${value} - Location: [${row}][${col}]`;
+        
         let descref = loc[row][col];
-        for (let i = 0; i < 7; i++) {
-            // Display 7 lines with values from the desc matrix
-            resultValueElement.innerHTML += `<br>${desc[[descref][i]}</br>`;
+        
+        if(desc[descref][0] == 1) {
+          document.getElementById("result2").style.color = "#ff0000";
+          document.getElementById("result5").style.color = "#ff0000";
+          document.getElementById("result-image1").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
+          document.getElementById("result-image2").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
+        } else {
+          document.getElementById("result2").style.color = "#04aa6d";
+          document.getElementById("result5").style.color = "#04aa6d";
+          document.getElementById("result-image1").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
+          document.getElementById("result-image2").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
         }
+        
+        document.getElementById('result1').textContent = desc[descref][1];
+        document.getElementById('result2').textContent = desc[descref][2];
+        document.getElementById('result3').textContent = desc[descref][3];
+        document.getElementById('result4').textContent = desc[descref][4];
+        document.getElementById('result5').textContent = desc[descref][5];
+        document.getElementById('result6').textContent = desc[descref][6];
+        document.getElementById('result7').textContent = desc[descref][7];
     }
 
     // Function to restart the game
