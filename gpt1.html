@@ -131,14 +131,17 @@
 <script>
     //var finalx, finaly;
     var totalentries = 0;
+    var caldone = 0;
     function PlotGaze(GazeData) {
         //finalx = GazeData.GazeX;
         //finaly = GazeData.GazeY;
         //document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
         //document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
         //document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
-        console.log("x: " + GazeData.GazeX + " , y: " + GazeData.GazeY + " , time: " + GazeData.time);
-        totalentries++;
+        if(caldone == 1) {
+            console.log("x: " + GazeData.GazeX + " , y: " + GazeData.GazeY + " , time: " + GazeData.time);
+            totalentries++;
+        }
         
         var x = GazeData.docX;
         var y = GazeData.docY;
@@ -162,11 +165,13 @@
     //set callbacks
     window.addEventListener("load", function() {
         GazeCloudAPI.OnCalibrationComplete = function() {
-            console.log('gaze Calibration Complete')
+            console.log('gaze Calibration Complete');
+            caldone = 1;
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 console.log("Done - " + totalentries + " entries");
                 alert("Done - " + totalentries + " entries");
+                caldone = 0;
                 //alert(finalx + ", " + finaly);
                 //console.log("final pos - " + finalx + " , " + finaly);
             }, 7000);
