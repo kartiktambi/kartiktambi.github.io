@@ -8,7 +8,6 @@
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            /*margin: 20px;*/
             margin: 0;
             padding: 0;
         }
@@ -50,7 +49,8 @@
         
         td {
             width: 30px;
-            height: 25px;
+            height: 30px;
+            vertical-align: middle;
             border: 3px solid #3498db;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -59,10 +59,9 @@
             color: #ff0000;
         }
         
-        /* Media query for larger screens */
         @media (min-width: 768px) {
             table {
-                width: auto; /* Set width to auto for larger screens */
+                width: auto;
             }
         }
     </style>
@@ -71,16 +70,22 @@
 
 <!-- Welcome Page -->
 <div id="welcome-page">
-    <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
-    <h2>Click on below button to start.</h2>
-    <button onclick="showMatrixPage()">Begin</button>
+    <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1><br>
+    <span style="font-size:23px; font-weight:bold; display:inline-block; width: 80%"><b>Kindly read below Instructions carefully - </b></span><br><br>
+    <ul>
+        <li style="font-size: 18px; color:red;">Instruction 1</li>
+        <li style="font-size: 18px; color:red;">Instruction 2</li>
+        <li style="font-size: 18px; color:red;">Instruction 3</li>
+        <li style="font-size: 18px; color:red;">Instruction 4</li>
+    </ul><br>
+    <span style="font-size:23px; font-weight:bold; display:inline-block; width: 80%"><b>Click to start Concentration Process - </b></span><br><br>
+    <button onclick="showMatrixPage()">Click to Begin</button>
 </div>
 
 <!-- Matrix Page -->
 <div id="matrix-container">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
     <p id="tblproc">Click on a letter below to get answer to your question - </p>
-    <!-- <p id="tblproc" style="display:none"><b>Loading....</b></p> -->
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
@@ -97,24 +102,25 @@
 <!-- Result Page -->
 <div id="result-page">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
-    <h2>• Chosen Letter - <span id="result-value"></span> •</h1><br>
-    
-    <span style="font-size:23px; margin-bottom:10px;"><u>उत्तरस्वरुप चौपाई -</u></span><br>
-    <span style="font-size:23px; color:black;"><b><span id="result1"></span></b></span><br><br><br>
-    <img id="result-image" width="50" height="50" style="margin-bottom:10px"><br>
-    <span class="title" style="font-size:24px; margin-bottom:10px; color:black;">फल -</span><br>
-    <span style="font-size:22px"><b><span id="result2"></span></b></span><br><br>
-    <span style="font-size:24px; margin-bottom:10px; color:black;">Answer -</span><br>
-    <span style="font-size:22px"><b><span id="result3"></span></b></span><br><br>
-    <hr class="dashed" style="border-top: 3px dashed #bbb; width:50%"><br><br>
-    <span style="font-size:21px; margin-bottom:5px;"><u>श्रीरामचरितमानस में स्थान -</u></span><br>
-    <span style="font-size:20px; color:black;"><span id="result4"></span></span><br><br>
-    <span style="font-size:21px; margin-bottom:5px;"><u>चौपाई : </u></span><br>
-    <span style="font-size:20px; color:black;"><b><span id="result5"></span></b></span><br><br>
-    <span style="font-size:21px; margin-bottom:5px;"><u>भावार्थ :</u></span><br>
-    <span style="font-size:20px; color:black;"><span id="result6"></span></span><br><br>
-    
-    <button onclick="restartGame()" style="margin:15px">Restart</button>
+    <br><span style="font-size:25px; color:#3498db; font-weight:bold">• Chosen Letter - <span id="result-value" style="font-size:25px; color:#3498db; font-weight:bold"></span> •</span><br>
+
+    <div style="line-height: 1.5;">
+        <span style="font-size:22px; color:black; font-weight:bold; margin-bottom:10px;"><u>उत्तरस्वरुप चौपाई</u> -</span><br>
+        <span style="font-size:23px; color:black; display:inline-block; width: 80%"><b><span id="result1"></span></b></span><br><br><br>
+        <img id="result-image" width="50" height="50" style="margin-bottom:10px"><br>
+        <span class="title" style="font-size:22px; margin-bottom:10px; color:black;"><u>फल</u> -</span><br>
+        <span style="font-size:23px; display:inline-block; width: 80%"><b><span id="result2"></span></b></span><br><br>
+        <span style="font-size:22px; margin-bottom:10px; color:black;"><u>Answer</u> -</span><br>
+        <span style="font-size:23px; display:inline-block; width: 80%"><b><span id="result3"></span></b></span><br>
+        <hr class="dashed" style="width:50%">
+        <span style="font-size:21px; color:black; font-weight:bold; margin-bottom:5px;"><u>श्रीरामचरितमानस में स्थान</u> -</span><br>
+        <span style="font-size:20px; color:black; display:inline-block; width: 80%"><span id="result4"></span></span><br><br>
+        <span style="font-size:21px; color:black; font-weight:bold; margin-bottom:5px;"><u>चौपाई</u> -</span><br>
+        <span style="font-size:20px; color:black; display:inline-block; width: 80%"><b><span id="result5"></span></b></span><br><br>
+        <span style="font-size:21px; color:black; font-weight:bold; margin-bottom:5px;"><u>भावार्थ</u> -</span><br>
+        <span style="font-size:20px; color:black; display:inline-block; width: 80%"><span id="result6"></span></span><br><br>
+    </div>
+    <button onclick="restartGame()" style="margin:15px">Click to Restart</button>
 </div>
 
 <script src="alldata.js" ></script>
@@ -177,6 +183,7 @@
                     cell.style.color = 'white';
                     //document.getElementById('tblproc').style.display = "block";
                     document.getElementById('tblproc').textContent = "Processing... Please Wait...";
+                    document.getElementById('tblproc').style.fontWeight = "bold";
                     GazeCloudAPI.StopEyeTracking();
                     setTimeout(function () {
                         showResultPage(values[i][j], i, j);
@@ -198,18 +205,14 @@
 
     // Function to show the result page
     function showResultPage(value, row, col) {
-        //document.getElementById("body").style.backgroundColor = "#ffffff";
-        document.body.style.backgroundColor = "white";
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
         document.getElementById('result-value').textContent = value;
-        
         //document.getElementById('result-value').textContent = `${value} - Location: [${row}][${col}]`;
+        
         document.getElementById("result2").style.fontWeight = 'bold';
         document.getElementById("result3").style.fontWeight = 'bold';
-        document.getElementById("result5").style.fontWeight = 'bold';
 
-        
         let descref = loc[row][col];
         
         if(desc[descref][0] == 1) {
@@ -234,8 +237,9 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-        //document.getElementById('tblproc').style.visibility = "hidden";	
+        document.getElementById('tblproc').style.fontWeight = "normal";
         document.getElementById('tblproc').textContent = "Click on a letter below to get answer to your question - ";
+
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
