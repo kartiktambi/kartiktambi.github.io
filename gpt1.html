@@ -143,8 +143,8 @@
         //document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
         //document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
         if(caldone == 1) {
-            eyedata.push({ x: GazeData.GazeX, y: GazeData.GazeY, value: GazeData.time });
-            console.log("x: " + GazeData.GazeX + " , y: " + GazeData.GazeY + " , time: " + GazeData.time);
+            eyedata.push({ x: finalx, y: finaly, value: GazeData.time });
+            console.log("x: " + finalx + " , y: " + finaly + " , time: " + GazeData.time);
             totalentries++;
         }
         
