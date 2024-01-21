@@ -79,8 +79,8 @@
 
 <!-- Matrix Page -->
 <div id="matrix-container">
-    <h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
-    <p id="tblproc">Click on a letter below - </p>
+    <!--<h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
+    <p id="tblproc">Click on a letter below - </p>-->
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
@@ -88,8 +88,8 @@
     <!--<div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>-->
     <div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
 
-    <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
     <!--
+    <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
     <p id = "GazeData" > </p>
     <p id = "HeadPhoseData" > </p>
     <p id = "HeadRotData" > </p>
@@ -215,8 +215,8 @@
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
                     //document.getElementById('tblproc').style.display = "block";
-                    document.getElementById('tblproc').textContent = "Processing... Please Wait...";
-                    document.getElementById('tblproc').style.fontWeight = "bold";
+                    //document.getElementById('tblproc').textContent = "Processing... Please Wait...";
+                    //document.getElementById('tblproc').style.fontWeight = "bold";
                     
                     GazeCloudAPI.StopEyeTracking();
                     setTimeout(function () {
@@ -271,8 +271,8 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-        document.getElementById('tblproc').style.fontWeight = "normal";
-        document.getElementById('tblproc').textContent = "Click on a letter below - ";
+        //document.getElementById('tblproc').style.fontWeight = "normal";
+        //document.getElementById('tblproc').textContent = "Click on a letter below - ";
 
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
