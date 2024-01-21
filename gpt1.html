@@ -91,7 +91,7 @@
     </table>
     
     <!--<div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>-->
-    <div id ="gaze" style ='position: absolute; display:none; width: 50px; height: 50px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
+    <div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
 
     <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
     <!--
@@ -129,14 +129,17 @@
 <script src="GazeCloudAPI.js" ></script>
     
 <script>
-    var finalx, finaly;
+    //var finalx, finaly;
+    var totalentries = 0;
     function PlotGaze(GazeData) {
-        finalx = GazeData.GazeX;
-        finaly = GazeData.GazeY;
+        //finalx = GazeData.GazeX;
+        //finaly = GazeData.GazeY;
         //document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
         //document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
         //document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
-    
+        console.log("x: " + GazeData.GazeX + " , y: " + GazeData.GazeY + " , time: " + GazeData.time);
+        totalentries++;
+        
         var x = GazeData.docX;
         var y = GazeData.docY;
     
@@ -162,8 +165,10 @@
             console.log('gaze Calibration Complete')
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
-                alert(finalx + ", " + finaly);
-                console.log("final pos - " + finalx + " , " + finaly);
+                console.log("Done - " + totalentries + " entries");
+                alert("Done - " + totalentries + " entries");
+                //alert(finalx + ", " + finaly);
+                //console.log("final pos - " + finalx + " , " + finaly);
             }, 7000);
         }
         GazeCloudAPI.OnCamDenied = function() {
