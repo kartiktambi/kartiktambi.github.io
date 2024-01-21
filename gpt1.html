@@ -71,14 +71,14 @@
 <!-- Welcome Page -->
 <div id="welcome-page">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1><br>
-    <span style="font-size:23px; font-weight:bold; display:inline-block; width: 80%"><b>Kindly read below Instructions carefully - </b></span><br><br>
+    <span style="font-size:23px; font-weight:bold; color: black; display:inline-block; width: 80%"><b>Kindly read below Instructions carefully - </b></span><br><br>
     <ul>
         <li style="font-size: 18px; color:red;">Instruction 1</li>
         <li style="font-size: 18px; color:red;">Instruction 2</li>
         <li style="font-size: 18px; color:red;">Instruction 3</li>
         <li style="font-size: 18px; color:red;">Instruction 4</li>
     </ul><br>
-    <span style="font-size:23px; font-weight:bold; display:inline-block; width: 80%"><b>Click to start Concentration Process - </b></span><br><br>
+    <span style="font-size:23px; font-weight:bold; color: black; display:inline-block; width: 80%"><b>Click to start Concentration Process - </b></span><br><br>
     <button onclick="showMatrixPage()">Click to Begin</button>
 </div>
 
@@ -90,7 +90,9 @@
         <!-- Matrix to be generated dynamically -->
     </table>
     
-    <div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>
+    <!--<div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>-->
+    <div id ="gaze" style ='position: absolute; width: 50px; height: 50px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
+
     <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
     <!--
     <p id = "GazeData" > </p>
@@ -102,7 +104,7 @@
 <!-- Result Page -->
 <div id="result-page">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
-    <br><span style="font-size:25px; color:#3498db; font-weight:bold">• Chosen Letter - <span id="result-value" style="font-size:25px; color:#3498db; font-weight:bold"></span> •</span><br>
+    <br><span style="font-size:25px; color:#ff7133; font-weight:bold">• Chosen Letter - <span id="result-value" style="font-size:25px; color:#ff7133; font-weight:bold"></span> •</span><br><br>
 
     <div style="line-height: 1.5;">
         <span style="font-size:22px; color:black; font-weight:bold; margin-bottom:10px;"><u>उत्तरस्वरुप चौपाई</u> -</span><br>
@@ -215,14 +217,14 @@
 
         let descref = loc[row][col];
         
-        if(desc[descref][0] == 1) {
+        if(desc[descref][0] == 1) { //-ve
           document.getElementById("result2").style.color = "#ff0000";
           document.getElementById("result3").style.color = "#ff0000";
-          document.getElementById("result-image").src = "https://i.ibb.co/HrJ09BX/negative2-1-1.png";
-        } else {
+          document.getElementById("result-image").src = "cross.png";
+        } else { //+ve
           document.getElementById("result2").style.color = "#087809";
           document.getElementById("result3").style.color = "#087809";
-          document.getElementById("result-image").src = "https://i.ibb.co/wQPTC0c/positive2-1-1.png";
+          document.getElementById("result-image").src = "check.png";
         }
         
         document.getElementById('result1').textContent = desc[descref][1];
