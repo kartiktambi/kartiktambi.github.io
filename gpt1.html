@@ -85,7 +85,7 @@
 <!-- Matrix Page -->
 <div id="matrix-container">
     <h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
-    <p id="tblproc">Click on a letter below to get answer to your question - </p>
+    <p id="tblproc">Click on a letter below - </p>
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
@@ -160,6 +160,11 @@
     window.addEventListener("load", function() {
         GazeCloudAPI.OnCalibrationComplete = function() {
             console.log('gaze Calibration Complete')
+            setTimeout(function () {
+                GazeCloudAPI.StopEyeTracking();
+                alert(finalx + ", " + finaly);
+                console.log("final pos - " + finalx + " , " + finaly);
+            }, 7000);
         }
         GazeCloudAPI.OnCamDenied = function() {
             console.log('camera  access denied')
@@ -186,6 +191,7 @@
                     //document.getElementById('tblproc').style.display = "block";
                     document.getElementById('tblproc').textContent = "Processing... Please Wait...";
                     document.getElementById('tblproc').style.fontWeight = "bold";
+                    
                     GazeCloudAPI.StopEyeTracking();
                     setTimeout(function () {
                         showResultPage(values[i][j], i, j);
@@ -240,7 +246,7 @@
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
         document.getElementById('tblproc').style.fontWeight = "normal";
-        document.getElementById('tblproc').textContent = "Click on a letter below to get answer to your question - ";
+        document.getElementById('tblproc').textContent = "Click on a letter below - ";
 
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
