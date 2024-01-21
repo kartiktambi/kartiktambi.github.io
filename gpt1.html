@@ -132,6 +132,10 @@
     //var finalx, finaly;
     var totalentries = 0;
     var caldone = 0;
+    var eyedata = [];
+    var maxDifference = -1;
+    var maxX, maxY;
+    
     function PlotGaze(GazeData) {
         //finalx = GazeData.GazeX;
         //finaly = GazeData.GazeY;
@@ -139,6 +143,7 @@
         //document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
         //document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
         if(caldone == 1) {
+            eyedata.push({ x: GazeData.GazeX, y: GazeData.GazeY, value: GazeData.time });
             console.log("x: " + GazeData.GazeX + " , y: " + GazeData.GazeY + " , time: " + GazeData.time);
             totalentries++;
         }
@@ -169,9 +174,25 @@
             caldone = 1;
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
-                console.log("Done - " + totalentries + " entries");
-                alert("Done - " + totalentries + " entries");
                 caldone = 0;
+                console.log("Done - " + totalentries + " / " + eyedata.length + " entries");
+                alert("Done - " + totalentries + " / " + eyedata.length + " entries");
+
+                for (var i = 1; i < eyedata.length; i++) {
+                    var currentTimestamp = eyedata[i].value;
+                    var prevTimestamp = eyedata[i - 1].value;
+                    var difference = currentTimestamp - prevTimestamp;
+            
+                    if (difference > maxDifference) {
+                        maxDifference = difference;
+                        maxX = eyedata[i].x;
+                        maxY = eyedata[i].y;
+                    }
+                }
+            
+                console.log("Max Difference:", maxDifference);
+                console.log("Point with Highest Difference - X:", maxX, "Y:", maxY);
+                
                 //alert(finalx + ", " + finaly);
                 //console.log("final pos - " + finalx + " , " + finaly);
             }, 7000);
