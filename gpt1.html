@@ -25,6 +25,7 @@
 
         button {
             padding: 15px;
+            margin: 10px;
             font-size: 16px;
             cursor: pointer;
             border: none;
@@ -82,10 +83,16 @@
 <div id="matrix-container">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
     <p>Click on a letter below to get answer to your question - </p>
-    <p id="tblproc" style="visibility:hidden"><b>Loading....</b></p>
+    <p id="tblproc" style="display:none"><b>Loading....</b></p>
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
+    
+    <div id ="gaze" style ='position: absolute;display:none;width: 75px;height: 75px;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999'></div>
+    <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
+    <p id = "GazeData" > </p>
+    <p id = "HeadPhoseData" > </p>
+    <p id = "HeadRotData" > </p>
 </div>
 
 <!-- Result Page -->
@@ -107,23 +114,54 @@
     <span style="font-size:20px"><b><span id="result5"></span></b></span><br><br>
     <span style="font-size:21px; margin-bottom:5px;"><u>भावार्थ :</u></span><br>
     <span style="font-size:20px"><span id="result6"></span></span><br><br>
-
-    <!--
-    <h2>Answer from - <span id="result1"></span></h2><br>
-    <img id="result-image1" width="30" height="30">
-    <h3><span id="result2"></span></h3>
-    <h3><span id="result3"></span></h3>
-    <h3><span id="result4"></span></h3><br><br>
-    <img id="result-image2" width="30" height="30">
-    <h3><span id="result5"></span></h3>
-    <h3><span id="result6"></span></h3>
-    <h3><span id="result7"></span></h3><br>
-    -->
     
     <button onclick="restartGame()">Restart</button>
 </div>
+
 <script src="alldata.js" ></script>
+<script src="GazeCloudAPI.js" ></script>
+    
 <script>
+    function PlotGaze(GazeData) {
+        document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
+        document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
+        document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
+    
+        var x = GazeData.docX;
+        var y = GazeData.docY;
+    
+        var gaze = document.getElementById("gaze");
+        x -= gaze.clientWidth / 2;
+        y -= gaze.clientHeight / 2;
+    
+        gaze.style.left = x + "px";
+        gaze.style.top = y + "px";
+        
+        if (GazeData.state != 0) {
+            if (gaze.style.display == 'block')
+                gaze.style.display = 'none';
+        } else {
+            if (gaze.style.display == 'none')
+                gaze.style.display = 'block';
+        }
+    }
+    
+    //set callbacks
+    window.addEventListener("load", function() {
+        GazeCloudAPI.OnCalibrationComplete = function() {
+            console.log('gaze Calibration Complete')
+        }
+        GazeCloudAPI.OnCamDenied = function() {
+            console.log('camera  access denied')
+        }
+        GazeCloudAPI.OnError = function(msg) {
+            console.log('err: ' + msg)
+        }
+        GazeCloudAPI.UseClickRecalibration = true;
+        GazeCloudAPI.OnResult = PlotGaze;
+    });
+    
+    //----------------------------------------------------------
     // Function to generate a matrix using the provided values
     function generateMatrix() {
         const matrixTable = document.getElementById('matrix');
@@ -135,13 +173,16 @@
                 cell.onclick = function () {
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
-                    document.getElementById('tblproc').style.visibility = "visible";
+                    document.getElementById('tblproc').style.display = "block";
                     setTimeout(function () {
                         showResultPage(values[i][j], i, j);
                     }, 2000);
                 };
             }
         }
+        setTimeout(function () {
+            GazeCloudAPI.StartEyeTracking();
+        }, 1250);
     }
 
     // Function to show the matrix page
