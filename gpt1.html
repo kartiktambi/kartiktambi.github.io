@@ -79,8 +79,8 @@
 <!-- Matrix Page -->
 <div id="matrix-container">
     <h1><u>Shri Ramcharitmanas Online Prashnavali</u></h1>
-    <p>Click on a letter below to get answer to your question - </p>
-    <p id="tblproc" style="display:none"><b>Loading....</b></p>
+    <p id="tblproc">Click on a letter below to get answer to your question - </p>
+    <!-- <p id="tblproc" style="display:none"><b>Loading....</b></p> -->
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
@@ -175,7 +175,8 @@
                 cell.onclick = function () {
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
-                    document.getElementById('tblproc').style.display = "block";
+                    //document.getElementById('tblproc').style.display = "block";
+                    document.getElementById('tblproc').textContent = "Processing... Please Wait...";
                     GazeCloudAPI.StopEyeTracking();
                     setTimeout(function () {
                         showResultPage(values[i][j], i, j);
@@ -197,7 +198,8 @@
 
     // Function to show the result page
     function showResultPage(value, row, col) {
-        document.getElementById("body").style.backgroundColor = "#ffffff";
+        //document.getElementById("body").style.backgroundColor = "#ffffff";
+        document.body.style.backgroundColor = "white";
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
         document.getElementById('result-value').textContent = value;
@@ -232,7 +234,8 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-        document.getElementById('tblproc').style.visibility = "hidden";	
+        //document.getElementById('tblproc').style.visibility = "hidden";	
+        document.getElementById('tblproc').textContent = "Click on a letter below to get answer to your question - ";
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
