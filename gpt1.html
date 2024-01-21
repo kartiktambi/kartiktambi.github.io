@@ -83,8 +83,8 @@
         <!-- Matrix to be generated dynamically -->
     </table>
     
-    <!--<div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>-->
-    <div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
+    <div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);       box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none; z-index: 999999'></div>
+    <!--<div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7); pointer-events: none;	z-index: 999999'></div>-->
 </div>
 
 <!-- Result Page -->
@@ -130,14 +130,14 @@
     console.log("Maximum Y coordinate: " + mY);
     
     function PlotGaze(GazeData) {
-        finalx = Math.round(GazeData.GazeX);
-        finaly = Math.round(GazeData.GazeY);
         var x = GazeData.docX;
         var y = GazeData.docY;
+        finalx = Math.round(x);
+        finaly = Math.round(y);
         
         if(caldone == 1) {
             eyedata.push({ x: finalx, y: finaly, value: GazeData.time });
-            console.log("fx: " + finalx + " , fy: " + finaly + " , dx: " + x + " , dy: " + y + " , time: " + GazeData.time);
+            console.log("x: " + finalx + " , y: " + finaly + " , time: " + GazeData.time);
             //totalentries++;
         }
     
