@@ -79,21 +79,12 @@
 
 <!-- Matrix Page -->
 <div id="matrix-container">
-    <!--<h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
-    <p id="tblproc">Click on a letter below - </p>-->
     <table id="matrix">
         <!-- Matrix to be generated dynamically -->
     </table>
     
     <!--<div id ="gaze" style ='position: absolute;display:none;width: 30px;height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);	box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none;	z-index: 999999'></div>-->
     <div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7);	pointer-events: none;	z-index: 999999'></div>
-
-    <!--
-    <button onclick="GazeCloudAPI.StopEyeTracking();">Stop Tracking</button>
-    <p id = "GazeData" > </p>
-    <p id = "HeadPhoseData" > </p>
-    <p id = "HeadRotData" > </p>
-    -->
 </div>
 
 <!-- Result Page -->
@@ -131,16 +122,20 @@
     var maxDifference = -1;
     var maxX, maxY;
     
+    // Get maximum x and y coordinates of screen
+    var mX = window.innerWidth - 1;
+    var mY = window.innerHeight - 1;
+    
+    console.log("Maximum X coordinate: " + mX);
+    console.log("Maximum Y coordinate: " + mY);
+    
     function PlotGaze(GazeData) {
         finalx = Math.round(GazeData.GazeX);
         finaly = Math.round(GazeData.GazeY);
-        //document.getElementById("GazeData").innerHTML = "GazeX: " + GazeData.GazeX + " GazeY: " + GazeData.GazeY;
-        //document.getElementById("HeadPhoseData").innerHTML = " HeadX: " + GazeData.HeadX + " HeadY: " + GazeData.HeadY + " HeadZ: " + GazeData.HeadZ;
-        //document.getElementById("HeadRotData").innerHTML = " Yaw: " + GazeData.HeadYaw + " Pitch: " + GazeData.HeadPitch + " Roll: " + GazeData.HeadRoll;
         if(caldone == 1) {
             eyedata.push({ x: finalx, y: finaly, value: GazeData.time });
             console.log("x: " + finalx + " , y: " + finaly + " , time: " + GazeData.time);
-            totalentries++;
+            //totalentries++;
         }
         
         var x = GazeData.docX;
@@ -170,8 +165,9 @@
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
-                console.log("Done - " + totalentries + " / " + eyedata.length + " entries");
-                
+                console.log("Done - " + eyedata.length + " entries");
+                alert("Done");
+                /*
                 for (var i = 2; i < eyedata.length; i++) {
                     var currentTimestamp = eyedata[i].value;
                     var prevTimestamp = eyedata[i - 1].value;
@@ -187,10 +183,8 @@
                 console.log("Max Difference:", maxDifference);
                 console.log("Point with Highest Difference - X:", maxX, "Y:", maxY);
                 alert("Done - " + totalentries + " / " + eyedata.length + " entries");
-                
-                //alert(finalx + ", " + finaly);
-                //console.log("final pos - " + finalx + " , " + finaly);
-            }, 7000);
+                */
+            }, 10000);
         }
         GazeCloudAPI.OnCamDenied = function() {
             console.log('camera  access denied')
@@ -214,9 +208,6 @@
                 cell.onclick = function () {
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
-                    //document.getElementById('tblproc').style.display = "block";
-                    //document.getElementById('tblproc').textContent = "Processing... Please Wait...";
-                    //document.getElementById('tblproc').style.fontWeight = "bold";
                     
                     GazeCloudAPI.StopEyeTracking();
                     setTimeout(function () {
@@ -242,7 +233,6 @@
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
         document.getElementById('result-value').textContent = value;
-        //document.getElementById('result-value').textContent = `${value} - Location: [${row}][${col}]`;
         
         document.getElementById("result2").style.fontWeight = 'bold';
         document.getElementById("result3").style.fontWeight = 'bold';
@@ -271,8 +261,6 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-        //document.getElementById('tblproc').style.fontWeight = "normal";
-        //document.getElementById('tblproc').textContent = "Click on a letter below - ";
 
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
