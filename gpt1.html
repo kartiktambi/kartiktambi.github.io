@@ -123,25 +123,37 @@
     var maxX, maxY;
     
     // Get maximum x and y coordinates of screen
-    var mX = window.innerWidth - 1; //1285
-    var mY = window.innerHeight - 1; //785
-    var cw = mX/15; //102
-    var ch = mY/15; //80
+    var mX = window.innerWidth - 1; //maximum x
+    var mY = window.innerHeight - 1; //maximum y
+    var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
+    var cellht = mY/15; // max divided by 15, to get height/y of equal cell
+    
     const occurrenceMap = new Map();
     
     console.log("Maximum X coordinate: " + mX);
     console.log("Maximum Y coordinate: " + mY);
+    console.log("Maximum Cell Width: " + cellwd);
+    console.log("Maximum Cell Height: " + cellht);
     
     function PlotGaze(GazeData) {
         var x = GazeData.docX;
         var y = GazeData.docY;
-        finalx = x/cw;
-        finaly = y/ch;
+        finalx = x/cellwd;
+        finaly = y/cellht;
         
         if(caldone == 1) {
             //eyedata.push({ x: Math.round(finalx), y: Math.round(finaly), time: GazeData.time });
-            var cellloc = Math.round(finalx).toString() + "|" + Math.round(finaly).toString(); //cell location in terms of cell[a][b]
-            console.log("x: " + Math.round(GazeData.docX) + " , y: " + Math.round(GazeData.docY) + " , time: " + GazeData.time + " , cellx: " , Math.round(finalx) + " , celly: " + Math.round(finaly) + " , cellloc: " + cellloc);
+            let msg = {
+                raw_docX: x,
+                raw_docY: x,
+                finalX: x/cw,
+                finalY: y/ch,
+                truncFx: Math.trunc(finalx),
+                truncFy: Math.trunc(finaly)
+            };
+            console.log(msg);
+            //var cellloc = (Math.round(finalx)-1).toString() + "|" + (Math.round(finaly)-1).toString(); //cell location in terms of cell[a][b]
+            //console.log("x: " + Math.round(GazeData.docX) + " , y: " + Math.round(GazeData.docY) + " , time: " + GazeData.time + " , cellx: " , Math.round(finalx) + " , celly: " + Math.round(finaly) + " , cellloc: " + cellloc);
         }
     
         var gaze = document.getElementById("gaze");
