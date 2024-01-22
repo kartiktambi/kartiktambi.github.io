@@ -138,8 +138,8 @@
     function PlotGaze(GazeData) {
         var x = GazeData.docX/cellwd; //value of x, with decimal
         var y = GazeData.docY/cellht; //value of y, with decimal
-        finalx = (/*is +ve*/) ? Math.trunc((x/cellwd)+1)-1 : 0; //final array location cell[.][x]
-        finaly = (/*is +ve*/) ? Math.trunc((y/cellht)+1)-1 : 0; //final array location cell[y][.]
+        finalx = (x > 0) ? Math.trunc(x+1)-1 : 0; //final array location cell[.][x]
+        finaly = (y > 0) ? Math.trunc(y+1)-1 : 0; //final array location cell[y][.]
         
         if(caldone == 1) {
             console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
