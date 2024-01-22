@@ -125,8 +125,8 @@
     // Get maximum x and y coordinates of screen
     var mX = window.innerWidth - 1; //maximum x
     var mY = window.innerHeight - 1; //maximum y
-    var cellwd = Math.trunc(mX/15); // max divided by 15, to get width/x of equal cell
-    var cellht = Math.trunc(mY/15); // max divided by 15, to get height/y of equal cell
+    var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
+    var cellht = mY/15; // max divided by 15, to get height/y of equal cell
     
     const occurrenceMap = new Map();
     
@@ -136,10 +136,10 @@
     console.log("Maximum Cell Height: " + cellht);
     
     function PlotGaze(GazeData) {
-        var x = GazeData.docX;
-        var y = GazeData.docY;
-        finalx = Math.trunc(x/cellwd);
-        finaly = Math.trunc(y/cellht);
+        var x = GazeData.docX/cellwd; //value of x, with decimal
+        var y = GazeData.docY/cellht; //value of y, with decimal
+        finalx = (/*is +ve*/) ? Math.trunc((x/cellwd)+1)-1 : 0; //final array location cell[.][x]
+        finaly = (/*is +ve*/) ? Math.trunc((y/cellht)+1)-1 : 0; //final array location cell[y][.]
         
         if(caldone == 1) {
             console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
