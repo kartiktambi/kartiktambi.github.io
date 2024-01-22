@@ -128,7 +128,7 @@
     var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
     var cellht = mY/15; // max divided by 15, to get height/y of equal cell
     
-    const occurrences = {};
+    var occurrences = {};
     
     console.log("Maximum X coordinate: " + mX);
     console.log("Maximum Y coordinate: " + mY);
@@ -190,9 +190,15 @@
                 alert("Done, press Ctrl + Shift + J");
                 
                 const finalcellloc = findMaxOccurrence(occurrences);
+                var cellintable = document.getElementById(finalcellloc);
+                cellintable.style.backgroundColor = '#27ae60';
+                cellintable.style.color = 'white';
+                
                 var tempi = finalcellloc.split('|')[0];
                 var tempj = finalcellloc.split('|')[1];
-                showResultPage(values[tempi][tempj], tempi, tempj);
+                setTimeout(function () {
+                    showResultPage(values[tempi][tempj], tempi, tempj);
+                }, 1500);
             }, 10000);
         }
         GazeCloudAPI.OnCamDenied = function() {
@@ -214,6 +220,7 @@
             for (let j = 0; j < values[i].length; j++) {
                 const cell = row.insertCell(j);
                 cell.textContent = values[i][j];
+                cell.id = i.toString() + "|" + j.toString();
                 /*cell.onclick = function () {
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
@@ -290,6 +297,10 @@
         // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
+        //clear the object
+        Object.keys(occurrences).forEach((prop) => {
+          delete occurrences[prop];
+        });
     }
 </script>
 
