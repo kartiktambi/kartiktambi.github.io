@@ -59,11 +59,47 @@
             font-size: 17px;
             color: #ff0000;
         }
+        
+      	.tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+      	.tab {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #f2f2f2;
+            border: 2px dashed #000;
+            border-radius: 5px 5px 0 0;
+            margin-left:15px;
+            font-weight: bold;
+        }
+
+        .tab:hover {
+            background-color: #ddd;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+			border: 2px solid #000;
+        }
+
+        .content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-<!-- Welcome Page -->
+<!-- Old Welcome Page
 <div id="welcome-page">
     <h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1><br>
     <span style="font-size:21px; font-weight:bold; color: black; display:inline-block; width: 80%"><b>Kindly read below Instructions carefully - </b></span><br><br>
@@ -74,6 +110,76 @@
         <li style="font-size: 18px; color:red; font-weight:bold;">Instruction 4</li>
     </ul><br>
     <span style="font-size:20px; color: black; display:inline-block; width: 80%"><b>Click to start Concentration Process - </b></span><br><br>
+    <button onclick="showMatrixPage()">Click to Begin</button>
+</div>
+-->
+    
+<!-- Welcome Page -->
+<div id="welcome-page">
+    <h1 style="font-weight:bold; color:red;">Shri Ramcharitmanas Online Prashnavali</h1>
+    <img id="result-image" src="https://preview.redd.it/jai-shree-ram-v0-nnlxqlpc6bz91.png?width=640&crop=smart&auto=webp&s=99cd532513ee691cd11d032e615232ee9b449e46" width="80%" style="margin-bottom:10px"><br>
+
+    <div class="tabs">
+       <div class="tab active" onclick="showTab('hindi')" data-tab="hindi">हिंदी में देखें</div>
+       <div class="tab" onclick="showTab('english')" data-tab="english">View in English</div>
+    </div>
+
+  	<div id="hindiContent" class="content active" style="border: 0px solid #000;">
+        <div style="text-align: left; width:90%; margin: auto;">
+            <p style="font-size: 18px; color:black; display:inline; margin-bottom:5px;">श्री रामशलाका प्रश्नावली का यह वेब-ऐप संस्करण प्राचीन ज्ञान को आधुनिक तकनीक के साथ मिलाने का एक विनम्र प्रयास है।</p>
+            <p style="font-size: 18px; color:black;">यह वेब-ऐप उपयोगकर्ता के फोकस निर्धारण बिंदु की पहचान करने के लिए आई-ट्रैकर कैलिब्रेशन का उपयोग करता है। इस प्रक्रिया में कोई उपयोगकर्ता डेटा रिकॉर्ड नहीं किया जाता है।</p><br>
+            <p style="font-size: 20px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>कृपया नीचे दिए गए निर्देशों को ध्यानपूर्वक पढ़ें -</u></p>
+            <p style="font-size: 18px; color:black;">श्री रामशलाका प्रश्नावली संत गोस्वामी तुलसीदास द्वारा रचित 'श्री राम चरित मानस' का एक अंश है। इस प्रश्नावली का उपयोग आपके प्रश्नों के उत्तर पाने या आपके द्वारा किए जाने वाले प्रयासों के परिणाम की भविष्यवाणी करने के लिए किया जाता है।</p>
+            <p style="font-size: 18px; color:black;">उत्तर/भविष्यवाणियां 'श्री राम चरित मानस' के चोपाई (दोहे) पर आधारित हैं।</p>
+            <p style="font-size: 18px; color:black;">श्री रामशलाका प्रश्नावली 15x15 ग्रिड है। ग्रिड के प्रत्येक वर्ग में श्री राम चरित मानस की नौ चौपाइयों (दोहे) में से एक अक्षर (हिंदी वर्णमाला) है।</p><br>
+            
+            <p style="font-size: 20px; text-align: center;  font-weight:bold; color: red;  margin-top:0px;"><u>इस वेब-ऐप में श्री रामशलाका प्रश्नावली का उपयोग कैसे करें: -</u></p>
+            
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१)  </span><span style="color:black; font-weight:normal;">चुपचाप बैठें और मन से कोई भी विचार निकाल लें।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">२)  </span><span style="color:black; font-weight:normal;">सबसे पहले भगवान श्री राम को प्रणाम करें और अपने प्रश्न पर ध्यान केंद्रित करें।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">३)  </span><span style="color:black; font-weight:normal;">अपने मन में प्रश्न स्पष्ट शब्दों में पूछें।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">४)  </span><span style="color:black; font-weight:normal;">स्क्रीन पर "प्रारंभ" बटन दबाएं।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">५)  </span><span style="color:black; font-weight:normal;">कृपया एक मिनट के लिए मन में "जय श्री राम" का जाप करते हुए स्क्रीन पर नारंगी बिंदु का अनुसरण करें।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">६)  </span><span style="color:black; font-weight:normal;">उसके बाद, प्रश्नावली ग्रिड दिखाई देगी।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">७)  </span><span style="color:black; font-weight:normal;">किसी एक अक्षर/ किसी एक वर्ग पर 10 सेकंड तक फोकस करें। केवल एक बार ही ध्यान केंद्रित करें क्योंकि विचलित ध्यान ईश्वर में विश्वास की कमी को दर्शाता है।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">८)  </span><span style="color:black; font-weight:normal;">जिस वर्ग पर आपने ध्यान केंद्रित किया है, वहां से शुरू करके हर नौवें वर्ग से अक्षर लिए जाते हैं और एक क्रम में जोड़ दिए जाते हैं। यह 'श्री राम लिखित मानस' से एक चौपाई बनती है। पूछे गए प्रश्न का उत्तर इस प्रकार बनी चोपाई पर आधारित है।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">९)  </span><span style="color:black; font-weight:normal;">यह आपको दूसरे पृष्ठ पर ले जाएगा जहां उत्तर सकारात्मक होने पर हरे रंग में और नकारात्मक होने पर लाल रंग में हाइलाइट किया जाएगा। साथ ही रामायण की चौपाई और उसकी व्याख्या भी बताई जाएगी.</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१०)  </span><span style="color:black; font-weight:normal;">कृपया केवल गंभीर प्रश्न पूछें और प्रतिदिन एक प्रश्न पूछें।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">११)  </span><span style="color:black; font-weight:normal;">प्रश्नावली का प्रयोग खेल के रूप में नहीं करना चाहिए।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१२)  </span><span style="color:black; font-weight:normal;">व्यक्ति को एक ही प्रश्न बार-बार नहीं पूछना चाहिए। भगवान राम द्वारा दिये गये निर्णय को ही अंतिम मानना ​​चाहिए।</span></p>
+            <p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१३)  </span><span style="color:black; font-weight:normal;">हम जो भी करेंगे, वही होगा जो भगवान राम ने तय किया है। इसलिए, यदि उत्तर नकारात्मक है, तो ईश्वर जिस ओर इशारा कर रहा है उस पर भरोसा करें।</span></p>
+        </div>
+  	</div>
+    
+  	<div id="englishContent" class="content" style="border: 0px solid #000;">
+        <div style="text-align: left; width:90%; margin: auto;">
+            <p style="font-size: 18px; color:black; display:inline; margin-bottom:5px;">This web-app version of Shree Ramshalaka Prashnavali is a humble attempt to merge ancient wisdom with modern technology. </p>
+            <p style="font-size: 18px; color:black;">This web-app uses eye-tracker calibration to identify user's focus fixation point. No user data is recorded in the process.</p><br>
+            <p style="font-size: 20px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>Kindly read below Instructions carefully - </u></p>
+            <p style="font-size: 18px; color:black;">Shree Ramshalaka Prashnavali is an extract from 'Shri Ram Charit Manas', authored by the Saint Goswami Tulsidas. This Prashnavali is used to get answers to your questions or predict the outcome of endeavors you want to take. </p>
+            <p style="font-size: 18px; color:black;">The answers / predictions are based on Chopais (couplets) from 'Shri Ram Charit Manas'. </p>
+            <p style="font-size: 18px; color:black;">Shree Ramshalaka Prashnavali is a 15x15 grid. Each square in the grid has one Akshar (Hindi alphabet) from nine Chopais (couplets) of Shri Ram Charit Manas. </p><br>
+            
+            <p style="font-size: 20px; text-align: center;  font-weight:bold; color: red;  margin-top:0px;"><u>How to Use Shree Ramshalaka Prashnavali in this web-app :-</u></p>
+            
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">1)  </span><span style="color:black; font-weight:normal;">Sit silently and clear the mind of any thoughts.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">2)  </span><span style="color:black; font-weight:normal;">Bow to Lord Shree Ram first and concentrate on your question.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">3)  </span><span style="color:black; font-weight:normal;">Ask the question in your mind in clear and distinct words.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">4)  </span><span style="color:black; font-weight:normal;">Press "Begin" button on screen.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">5)  </span><span style="color:black; font-weight:normal;">Please follow the orange dot on screen with chanting "Jai Shree Ram" in mind, for a minute.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">6)  </span><span style="color:black; font-weight:normal;">After that, Prashnavali Grid shall be visible.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">7)  </span><span style="color:black; font-weight:normal;">Focus on any one Akshar/ any one square for 10 seconds. Focus only once as distracted focus shows lack of faith in GOD.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">8)  </span><span style="color:black; font-weight:normal;">The akshars from every ninth square starting from the square on which you have focused are taken and joined in a sequence. This forms one Chopai from 'Shri Ram Cahrit Manas'. The answer to the question asked is based on the Chopai so formed.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">9)  </span><span style="color:black; font-weight:normal;">It will take you to another page where the answer will be highlighted in green if it is positive and red if it is negative. Also, the chaupai of the ramayan and the explanation of the same will be explained.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">10)  </span><span style="color:black; font-weight:normal;">Please ask only serious question and one question a day.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">11)  </span><span style="color:black; font-weight:normal;">One must not use the Prashnavali as the game.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">12)  </span><span style="color:black; font-weight:normal;">One must not ask the same questions over and over again. One should take the decision given by Lord Ram as final.</span></p>
+			<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">13)  </span><span style="color:black; font-weight:normal;">Whatever we do, the only thing that will happen is what Lord Ram has decided. So, if the answer is negative, trust what God is pointing to.</span></p>
+        </div>
+  	</div>
+    
+  	<hr class="dashed" style="width:50%">
+    <p style="font-size: 22px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>Click to start Concentration Process -</u></p>
     <button onclick="showMatrixPage()">Click to Begin</button>
 </div>
 
@@ -301,6 +407,23 @@
         Object.keys(occurrences).forEach((prop) => {
           delete occurrences[prop];
         });
+    }
+    
+    function showTab(tabName) {
+      const tabs = ['hindi', 'english'];
+
+      tabs.forEach(tab => {
+        const tabContent = document.getElementById(tab + 'Content');
+        const tabButton = document.querySelector(`.tab[data-tab="${tab}"]`);
+
+        if (tab === tabName) {
+          tabContent.classList.add('active');
+          tabButton.classList.add('active');
+        } else {
+          tabContent.classList.remove('active');
+          tabButton.classList.remove('active');
+        }
+      });
     }
 </script>
 
