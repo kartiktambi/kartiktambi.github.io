@@ -145,8 +145,8 @@
         }
     
         var gaze = document.getElementById("gaze");
-        x -= gaze.clientWidth / 2;
-        y -= gaze.clientHeight / 2;
+        //x -= gaze.clientWidth / 2;
+        //y -= gaze.clientHeight / 2;
     
         gaze.style.left = x + "px";
         gaze.style.top = y + "px";
@@ -168,7 +168,7 @@
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
-                console.log("Done - " + eyedata.length + " entries");
+                //console.log("Done - " + eyedata.length + " entries");
 
                 
                 
