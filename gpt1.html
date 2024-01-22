@@ -178,6 +178,7 @@
                 6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100
                 `;
                 
+                                
                 // Parse CSV data
                 const parseCSV = (csv) => {
                   const lines = csv.trim().split('\n');
@@ -195,88 +196,74 @@
                   });
                 };
                 
-                // Calculate distance between two points
-                const calculateDistance = (point1, point2) => {
-                  const dx = point2.x - point1.x;
-                  const dy = point2.y - point1.y;
-                  return Math.sqrt(dx * dx + dy * dy);
+                // Function to create a fixation density map
+                const createFixationDensityMap = (fixations, gridSize, aois) => {
+                  const densityMap = Array.from({ length: gridSize }, () => Array.from({ length: gridSize }, () => 0));
+                
+                  const maxX = Math.max(...fixations.flatMap(fixation => fixation.points.map(point => parseFloat(point.x))));
+                  const maxY = Math.max(...fixations.flatMap(fixation => fixation.points.map(point => parseFloat(point.y))));
+                
+                  fixations.forEach(fixation => {
+                    const centerX = Math.round(parseFloat(fixation.points[0].x) / maxX * (gridSize - 1));
+                    const centerY = Math.round(parseFloat(fixation.points[0].y) / maxY * (gridSize - 1));
+                
+                    densityMap[centerY][centerX] += fixation.duration;
+                  });
+                
+                  return densityMap;
                 };
                 
-                // Apply velocity-based filter to identify fixations and saccades
-                const identifyFixationsSaccades = (data, velocityThreshold, distanceThreshold) => {
-                  const fixations = [];
-                  let currentFixation = [];
-                  let currentFixationDuration = 0;
+                // Function to find the most concentrated AOI in the density map
+                const findMostConcentratedAOI = (densityMap, aois) => {
+                  let maxDensity = 0;
+                  let mostConcentratedAOI = 'Unknown AOI';
                 
-                  for (let i = 0; i < data.length - 1; i++) {
-                    const currentPoint = data[i];
-                    const nextPoint = data[i + 1];
-                    const timeDiff = nextPoint.time - currentPoint.time;
+                  for (const aoi of aois) {
+                    const minX = parseFloat(aoi.minX);
+                    const maxX = parseFloat(aoi.maxX);
+                    const minY = parseFloat(aoi.minY);
+                    const maxY = parseFloat(aoi.maxY);
                 
-                    const velocity = calculateVelocity(currentPoint, nextPoint, timeDiff);
-                    const distance = calculateDistance(currentPoint, nextPoint);
+                    const density = densityMap.reduce((sumY, row, y) => {
+                      return sumY + row.reduce((sumX, value, x) => {
+                        if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                          return sumX + value;
+                        }
+                        return sumX;
+                      }, 0);
+                    }, 0);
                 
-                    if (velocity < velocityThreshold && distance < distanceThreshold) {
-                      // Below velocity and distance thresholds, consider it a fixation
-                      currentFixation.push(currentPoint);
-                      currentFixationDuration += timeDiff;
-                    } else {
-                      // Above thresholds, consider it a saccade
-                      if (currentFixation.length > 0) {
-                        fixations.push({ points: currentFixation, duration: currentFixationDuration });
-                        currentFixation = [];
-                        currentFixationDuration = 0;
-                      }
+                    if (density > maxDensity) {
+                      maxDensity = density;
+                      mostConcentratedAOI = aoi.name;
                     }
                   }
                 
-                  return fixations;
+                  return { AOI: mostConcentratedAOI, density: maxDensity };
                 };
                 
-                // Function to calculate velocity between two points
-                const calculateVelocity = (point1, point2, timeDiff) => {
-                  const dx = point2.x - point1.x;
-                  const dy = point2.y - point1.y;
-                  const distance = Math.sqrt(dx * dx + dy * dy);
-                  return distance / (timeDiff / 1000); // Convert timeDiff to seconds
-                };
+                // Sample gaze data (replace this with your actual gaze data)
+                eyedata.push({ x: 100, y: 200, time: 1000 });
+                eyedata.push({ x: 150, y: 250, time: 1100 });
+                eyedata.push({ x: 120, y: 180, time: 1200 });
+                eyedata.push({ x: 200, y: 300, time: 1300 });
+                eyedata.push({ x: 150, y: 200, time: 1400 });
+                eyedata.push({ x: 300, y: 400, time: 1500 });
+                eyedata.push({ x: 310, y: 410, time: 1600 });
                 
-                // Function to identify AOI for each fixation group
-                const identifyAOIForLargestFixation = (fixations, aois) => {
-                  const largestFixation = fixations.reduce((largest, current) => {
-                    return current.duration > largest.duration ? current : largest;
-                  }, { duration: 0 });
-                
-                  // Check if largestFixation.points is defined
-                  if (largestFixation.points && largestFixation.points.length > 0) {
-                    const centroidX = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.x), 0) / largestFixation.points.length;
-                    const centroidY = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.y), 0) / largestFixation.points.length;
-                
-                    for (const aoi of aois) {
-                      const minX = parseFloat(aoi.minX);
-                      const maxX = parseFloat(aoi.maxX);
-                      const minY = parseFloat(aoi.minY);
-                      const maxY = parseFloat(aoi.maxY);
-                
-                      // Check if the centroid is within the bounds of the AOI
-                      if (centroidX >= minX && centroidX <= maxX && centroidY >= minY && centroidY <= maxY) {
-                        return { AOI: aoi.name, centroidX, centroidY };
-                      }
-                    }
-                  }
-                
-                  return { AOI: 'Unknown AOI', centroidX: null, centroidY: null };
-                };
-
-                const velocityThreshold = 500; // Adjust this threshold based on your requirement
-                const distanceThreshold = 500; // Adjust this threshold based on your requirement
+                // Adjust these thresholds based on your requirements
+                const velocityThreshold = 500;
+                const distanceThreshold = 500;
+                const gridSize = 10;
                 
                 const fixations = identifyFixationsSaccades(eyedata, velocityThreshold, distanceThreshold);
-                
                 const parsedAOIsData = parseCSV(aoisCsvData);
-                const result = identifyAOIForLargestFixation(fixations, parsedAOIsData);
                 
-                console.log('Result:', result);
+                const fixationDensityMap = createFixationDensityMap(fixations, gridSize, parsedAOIsData);
+                const mostConcentratedAOI = findMostConcentratedAOI(fixationDensityMap, parsedAOIsData);
+                
+                console.log('Most Concentrated AOI:', mostConcentratedAOI);
+                
                 alert("Done, press Ctrl + Shift + J");
             }, 10000);
         }
