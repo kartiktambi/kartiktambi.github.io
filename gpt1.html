@@ -202,6 +202,14 @@
                   const dy = point2.y - point1.y;
                   return Math.sqrt(dx * dx + dy * dy);
                 };
+
+                // Function to calculate velocity between two points
+                const calculateVelocity = (point1, point2, timeDiff) => {
+                  const dx = point2.x - point1.x;
+                  const dy = point2.y - point1.y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance / (timeDiff / 1000); // Convert timeDiff to seconds
+                };
                 
                 // Apply velocity-based filter to identify fixations and saccades
                 const identifyFixationsSaccades = (data, velocityThreshold, distanceThreshold, minDuration) => {
