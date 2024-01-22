@@ -178,6 +178,7 @@
                 6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,6.666666667,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,13.33333333,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,26.66666667,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,33.33333333,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,46.66666667,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,53.33333333,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,66.66666667,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,73.33333333,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,86.66666667,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100
                 `;
                 
+                
                 // Parse CSV data
                 const parseCSV = (csv) => {
                   const lines = csv.trim().split('\n');
@@ -195,60 +196,56 @@
                   });
                 };
                 
-                // Function to find the most frequent value in x or y coordinates
-                function findMostFrequentValue(data, key) {
+                // Function to find the most frequent value in a column of eyedata
+                function findMostFrequentAoi(eyedata) {
                   const frequencyMap = new Map();
                 
-                  // Count the frequency of each value
-                  data.forEach(point => {
-                    const value = Math.round(parseFloat(point[key]));
-                    frequencyMap.set(value, (frequencyMap.get(value) || 0) + 1);
+                  // Count the occurrence of each AOI
+                  eyedata.forEach(point => {
+                    const aoi = point.aoi;
+                    frequencyMap.set(aoi, (frequencyMap.get(aoi) || 0) + 1);
                   });
                 
-                  // Find the most frequent value
-                  let mostFrequentValue = null;
+                  // Find the most frequent AOI
+                  let mostFrequentAoi = null;
                   let maxFrequency = 0;
                 
-                  frequencyMap.forEach((frequency, value) => {
+                  frequencyMap.forEach((frequency, aoi) => {
                     if (frequency > maxFrequency) {
                       maxFrequency = frequency;
-                      mostFrequentValue = value;
+                      mostFrequentAoi = aoi;
                     }
                   });
                 
-                  return mostFrequentValue;
+                  return mostFrequentAoi;
                 }
                 
-                // Function to find fixation group based on most frequent x and y coordinates
-                function findFixationGroup(data, aois) {
-                  const mostFrequentX = findMostFrequentValue(data, 'x');
-                  const mostFrequentY = findMostFrequentValue(data, 'y');
+                // Step 2: Parse AOI data
+                const aois = parseCSV(aoisCsvData);
                 
-                  // Find AOI corresponding to the most frequent x and y coordinates
-                  const fixationGroupAOI = aois.find(aoi => {
+                // Step 3: Find and store AOI header for each entry in eyedata
+                eyedata.forEach(point => {
+                  const x = parseFloat(point.x);
+                  const y = parseFloat(point.y);
+                
+                  const aoi = aois.find(aoi => {
                     const minX = parseFloat(aoi.minX);
                     const maxX = parseFloat(aoi.maxX);
                     const minY = parseFloat(aoi.minY);
                     const maxY = parseFloat(aoi.maxY);
                 
-                    return (
-                      mostFrequentX >= minX &&
-                      mostFrequentX <= maxX &&
-                      mostFrequentY >= minY &&
-                      mostFrequentY <= maxY
-                    );
+                    return x >= minX && x <= maxX && y >= minY && y <= maxY;
                   });
                 
-                  return fixationGroupAOI ? fixationGroupAOI.name : 'Unknown AOI';
-                }
+                  point.aoi = aoi ? aoi.name : 'Unknown AOI';
+                });
                 
-                // Parse AOI data
-                const parsedAOIsData = parseCSV(aoisCsvData);
+                // Step 4: Find the most frequent AOI in entire eyedata AOI column
+                const mostFrequentAoi = findMostFrequentAoi(eyedata);
                 
-                // Find fixation group based on most frequent x and y coordinates
-                const fixationGroup = findFixationGroup(eyedata, parsedAOIsData);
-                
-                console.log('Fixation Group AOI:', fixationGroup);
+                // Step 5: Output the most frequent AOI
+                console.log('Most Frequent AOI:', mostFrequentAoi);
+
                 
                 alert("Done, press Ctrl + Shift + J");
             }, 10000);
