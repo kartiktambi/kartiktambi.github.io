@@ -99,9 +99,56 @@
         .content.active {
             display: block;
         }
+
+	    .header {
+            background-color: #ffffff; /* Set your desired background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow at the bottom */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px; /* Set the desired height for the logo */
+            width: auto;
+        }
+
+        .about-button {
+            background-color: #04aa6d; /* Set the base background color for the button */
+            color: white; /* Set the base text color for the button */
+            padding: 15px 20px; /* Set the desired padding for the button */
+            margin-right: 15px;
+            border: none;
+            font-size: 20px;
+			font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: "Arial", sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .about-button:hover {
+            background-color: #038857; /* Set the hover background color */
+        }
+
+        .about-button:active {
+            background-color: #3498db; /* Set the active (clicked) background color */
+        }
     </style>
 </head>
 <body>
+
+
+<div id="webheader" class="header" style="display:visible">
+	<div class="logo">
+		<img src="sitelogo.jpg" alt="Logo">
+	</div>
+	<a href="https://google.com" class="about-button" target="_blank" rel="noopener noreferrer">About Us</a></div>
+</div>
 
 <!-- Welcome Page -->
 <div id="welcome-page">
@@ -353,6 +400,7 @@
     // Function to show the matrix page
     function showMatrixPage() {
         document.getElementById('welcome-page').style.display = 'none';
+		document.getElementById('webheader').style.display = 'none';
         document.getElementById('matrix-container').style.display = 'inline';
         generateMatrix();
     }
@@ -361,6 +409,7 @@
     function showResultPage(value, row, col) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
+		document.getElementById('webheader').style.display = 'visible';
         document.getElementById('result-value').textContent = value;
         
         document.getElementById("result2").style.fontWeight = 'bold';
@@ -391,6 +440,7 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
+		document.getElementById('webheader').style.display = 'visible';
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         // Clear the matrix
