@@ -125,8 +125,8 @@
     // Get maximum x and y coordinates of screen
     var mX = window.innerWidth - 1; //maximum x
     var mY = window.innerHeight - 1; //maximum y
-    var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
-    var cellht = mY/15; // max divided by 15, to get height/y of equal cell
+    var cellwd = Math.trunc(mX/15); // max divided by 15, to get width/x of equal cell
+    var cellht = Math.trunc(mY/15); // max divided by 15, to get height/y of equal cell
     
     const occurrenceMap = new Map();
     
@@ -138,12 +138,13 @@
     function PlotGaze(GazeData) {
         var x = GazeData.docX;
         var y = GazeData.docY;
-        finalx = x/cellwd;
-        finaly = y/cellht;
+        finalx = Math.trunc(x/cellwd);
+        finaly = Math.trunc(y/cellht);
         
         if(caldone == 1) {
-            //eyedata.push({ x: Math.round(finalx), y: Math.round(finaly), time: GazeData.time });
-            let msg = {
+            console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
+            //eyedata.push({ x: Math.round(finalx), y: Math.round(finaly), time: GazeData.time });            
+            /*let msg = {
                 raw_docX: x,
                 raw_docY: x,
                 finalX: x/cellwd,
@@ -151,17 +152,14 @@
                 truncFx: Math.trunc(finalx),
                 truncFy: Math.trunc(finaly)
             };
-            console.log(msg);
+            console.log(msg);*/
             //var cellloc = (Math.round(finalx)-1).toString() + "|" + (Math.round(finaly)-1).toString(); //cell location in terms of cell[a][b]
             //console.log("x: " + Math.round(GazeData.docX) + " , y: " + Math.round(GazeData.docY) + " , time: " + GazeData.time + " , cellx: " , Math.round(finalx) + " , celly: " + Math.round(finaly) + " , cellloc: " + cellloc);
         }
     
         var gaze = document.getElementById("gaze");
-        //x -= gaze.clientWidth / 2;
-        //y -= gaze.clientHeight / 2;
-    
-        gaze.style.left = x + "px";
-        gaze.style.top = y + "px";
+        gaze.style.left = GazeData.docX + "px";
+        gaze.style.top = GazeData.docY + "px";
         
         if (GazeData.state != 0) {
             if (gaze.style.display == 'block')
