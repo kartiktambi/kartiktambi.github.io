@@ -25,9 +25,12 @@
         }
 
         button {
-            padding: 15px;
+	    padding: 20px;
+            padding-left: 30px;
+            padding-right: 30px;
             margin: 10px;
-            font-size: 18px;
+            font-size: 22px;
+            font-weight: bold;
             cursor: pointer;
             border: none;
             border-radius: 5px;
@@ -117,7 +120,7 @@
 <!-- Welcome Page -->
 <div id="welcome-page">
 	<h1 style="font-weight:bold; color:red;">Shri Ramcharitmanas Online Prashnavali</h1>
-	<img src="shriram image.jpg" width="250px" style="margin-bottom:10px"><br><br>
+	<img src="shriram image.png" width="250px" style="margin-bottom:10px"><br><br>
 	
 	<div class="tabs">
 	<div class="tab active" onclick="showTab('hindi')" data-tab="hindi">हिंदी में देखें</div>
@@ -148,6 +151,8 @@
 		<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१२)  </span><span style="color:black; font-weight:normal;">व्यक्ति को एक ही प्रश्न बार-बार नहीं पूछना चाहिए। भगवान राम द्वारा दिये गये निर्णय को ही अंतिम मानना ​​चाहिए।</span></p>
 		<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">१३)  </span><span style="color:black; font-weight:normal;">हम जो भी करेंगे, वही होगा जो भगवान राम ने तय किया है। इसलिए, यदि उत्तर नकारात्मक है, तो ईश्वर जिस ओर इशारा कर रहा है उस पर भरोसा करें।</span></p>
         </div>
+		<hr class="dashed" style="width:50%">
+		<button onclick="showMatrixPage()">प्रारंभ करें ➤</button>
   	</div>
     
   	<div id="englishContent" class="content" style="border: 0px solid #000;">
@@ -174,11 +179,13 @@
 		<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">12)  </span><span style="color:black; font-weight:normal;">One must not ask the same questions over and over again. One should take the decision given by Lord Ram as final.</span></p>
 		<p style="font-size: 18px; margin:10px;"><span style="color:red; font-weight:bold;">13)  </span><span style="color:black; font-weight:normal;">Whatever we do, the only thing that will happen is what Lord Ram has decided. So, if the answer is negative, trust what God is pointing to.</span></p>
         </div>
+		<hr class="dashed" style="width:50%">
+		<button onclick="showMatrixPage()">Click to Begin ➤</button>
   	</div>
     
-  	<hr class="dashed" style="width:50%">
-    <p style="font-size: 22px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>Click to start Concentration Process -</u></p>
-    <button onclick="showMatrixPage()">Click to Begin</button>
+  	
+    <!--<p style="font-size: 22px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>Click to start Concentration Process -</u></p>-->
+	
 </div>
 
 <!-- Matrix Page -->
@@ -195,7 +202,6 @@
 <!-- Result Page -->
 <div id="result-page">
     <h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
-    <img src="shriram image.jpg" width="250px" style="margin-bottom:10px"><br><br>
     <br><span style="font-size:25px; color:#ff7133; font-weight:bold">• Chosen Letter - <span id="result-value" style="font-size:25px; color:#ff7133; font-weight:bold"></span> •</span><br>
 
     <div style="line-height: 1.5;">
