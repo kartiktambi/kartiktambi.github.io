@@ -83,7 +83,7 @@
         <!-- Matrix to be generated dynamically -->
     </table>
 
-         <div id="gaze" style="position: absolute; display:none; width: 30px; height: 30px; border-radius: 50%;border: solid 2px  rgba(255, 0,0, .8);	box-shadow: 0 0 80px 50px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999"></div>
+    <div id="gaze" style="position: absolute; display:none; width: 40px; height: 40px; border-radius: 50%;border: solid 2px  rgba(255, 0,0, .8);	box-shadow: 0 0 80px 50px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999"></div>
     <!--<div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);       box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none; z-index: 999999'></div>-->
     <!--<div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7); pointer-events: none;	z-index: 999999'></div>-->
 </div>
@@ -188,7 +188,6 @@
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
-                alert("Done, press Ctrl + Shift + J");
                 
                 const finalcellloc = findMaxOccurrence(occurrences);
                 var cellintable = document.getElementById(finalcellloc);
@@ -199,7 +198,7 @@
                 var tempj = finalcellloc.split('|')[1];
                 setTimeout(function () {
                     showResultPage(values[tempi][tempj], tempi, tempj);
-                }, 1500);
+                }, 2000);
             }, 10000);
         }
         GazeCloudAPI.OnCamDenied = function() {
