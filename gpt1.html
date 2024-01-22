@@ -166,7 +166,6 @@
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
                 console.log("Done - " + eyedata.length + " entries");
-                alert("Done");
 
                 // eyedata ready
                 
@@ -202,17 +201,9 @@
                   const dy = point2.y - point1.y;
                   return Math.sqrt(dx * dx + dy * dy);
                 };
-
-                // Function to calculate velocity between two points
-                const calculateVelocity = (point1, point2, timeDiff) => {
-                  const dx = point2.x - point1.x;
-                  const dy = point2.y - point1.y;
-                  const distance = Math.sqrt(dx * dx + dy * dy);
-                  return distance / (timeDiff / 1000); // Convert timeDiff to seconds
-                };
                 
                 // Apply velocity-based filter to identify fixations and saccades
-                const identifyFixationsSaccades = (data, velocityThreshold, distanceThreshold, minDuration) => {
+                const identifyFixationsSaccades = (data, velocityThreshold, distanceThreshold) => {
                   const fixations = [];
                   let currentFixation = [];
                   let currentFixationDuration = 0;
@@ -223,25 +214,16 @@
                     const timeDiff = nextPoint.time - currentPoint.time;
                 
                     const velocity = calculateVelocity(currentPoint, nextPoint, timeDiff);
+                    const distance = calculateDistance(currentPoint, nextPoint);
                 
-                    if (velocity < velocityThreshold) {
-                      // Below threshold, consider it a fixation
+                    if (velocity < velocityThreshold && distance < distanceThreshold) {
+                      // Below velocity and distance thresholds, consider it a fixation
                       currentFixation.push(currentPoint);
                       currentFixationDuration += timeDiff;
-                
-                      // Check if the current fixation duration exceeds the minimum duration
-                      if (currentFixationDuration >= minDuration) {
-                        fixations.push({ points: currentFixation, duration: currentFixationDuration });
-                        currentFixation = [];
-                        currentFixationDuration = 0;
-                      }
                     } else {
-                      // Above threshold, consider it a saccade
+                      // Above thresholds, consider it a saccade
                       if (currentFixation.length > 0) {
-                        // Check if the current fixation duration exceeds the minimum duration
-                        if (currentFixationDuration >= minDuration) {
-                          fixations.push({ points: currentFixation, duration: currentFixationDuration });
-                        }
+                        fixations.push({ points: currentFixation, duration: currentFixationDuration });
                         currentFixation = [];
                         currentFixationDuration = 0;
                       }
@@ -249,6 +231,14 @@
                   }
                 
                   return fixations;
+                };
+                
+                // Function to calculate velocity between two points
+                const calculateVelocity = (point1, point2, timeDiff) => {
+                  const dx = point2.x - point1.x;
+                  const dy = point2.y - point1.y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  return distance / (timeDiff / 1000); // Convert timeDiff to seconds
                 };
                 
                 // Function to identify AOI for each fixation group
@@ -274,19 +264,16 @@
                   return { AOI: 'Unknown AOI', centroidX, centroidY };
                 };
                 
-                // Main execution
+                const velocityThreshold = 500; // Adjust this threshold based on your requirement
+                const distanceThreshold = 500; // Adjust this threshold based on your requirement
                 
-                const velocityThreshold = 5; // Adjust this threshold based on your data
-                const distanceThreshold = 50; // Adjust this threshold based on your data
-                const minFixationDuration = 300; // Minimum fixation duration in milliseconds
-                
-                const fixations = identifyFixationsSaccades(eyedata, velocityThreshold, distanceThreshold, minFixationDuration);
+                const fixations = identifyFixationsSaccades(eyedata, velocityThreshold, distanceThreshold);
                 
                 const parsedAOIsData = parseCSV(aoisCsvData);
                 const result = identifyAOIForLargestFixation(fixations, parsedAOIsData);
                 
                 console.log('Result:', result);
-
+                alert("Done, press Ctrl + Shift + J");
             }, 10000);
         }
         GazeCloudAPI.OnCamDenied = function() {
