@@ -400,7 +400,7 @@
     // Function to show the matrix page
     function showMatrixPage() {
         document.getElementById('welcome-page').style.display = 'none';
-		document.getElementById('webheader').style.display = 'none';
+	document.getElementById('webheader').style.display = 'none';
         document.getElementById('matrix-container').style.display = 'inline';
         generateMatrix();
     }
@@ -409,7 +409,7 @@
     function showResultPage(value, row, col) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-		document.getElementById('webheader').style.display = 'visible';
+	document.getElementById('webheader').style.display = 'visible';
         document.getElementById('result-value').textContent = value;
         
         document.getElementById("result2").style.fontWeight = 'bold';
@@ -440,7 +440,7 @@
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-		document.getElementById('webheader').style.display = 'visible';
+	document.getElementById('webheader').style.display = 'visible';
 	document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         // Clear the matrix
