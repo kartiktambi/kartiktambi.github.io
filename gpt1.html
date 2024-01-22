@@ -195,116 +195,60 @@
                   });
                 };
                 
-                // Function to calculate distance between two points
-                const calculateDistance = (point1, point2) => {
-                  const dx = point2.x - point1.x;
-                  const dy = point2.y - point1.y;
-                  return Math.sqrt(dx * dx + dy * dy);
-                };
+                // Function to find the most frequent value in x or y coordinates
+                function findMostFrequentValue(data, key) {
+                  const frequencyMap = new Map();
                 
-                // Apply velocity-based filter to identify fixations and saccades
-                const identifyFixationsSaccades = (data, velocityThreshold, distanceThreshold) => {
-                  const fixations = [];
-                  let currentFixation = [];
-                  let currentFixationDuration = 0;
-                
-                  for (let i = 0; i < data.length - 1; i++) {
-                    const currentPoint = data[i];
-                    const nextPoint = data[i + 1];
-                    const timeDiff = nextPoint.time - currentPoint.time;
-                
-                    const velocity = calculateVelocity(currentPoint, nextPoint, timeDiff);
-                    const distance = calculateDistance(currentPoint, nextPoint);
-                
-                    if (velocity < velocityThreshold && distance < distanceThreshold) {
-                      // Below velocity and distance thresholds, consider it a fixation
-                      currentFixation.push(currentPoint);
-                      currentFixationDuration += timeDiff;
-                    } else {
-                      // Above thresholds, consider it a saccade
-                      if (currentFixation.length > 0) {
-                        fixations.push({ points: currentFixation, duration: currentFixationDuration });
-                        currentFixation = [];
-                        currentFixationDuration = 0;
-                      }
-                    }
-                  }
-                
-                  return fixations;
-                };
-                
-                // Function to calculate velocity between two points
-                const calculateVelocity = (point1, point2, timeDiff) => {
-                  const dx = point2.x - point1.x;
-                  const dy = point2.y - point1.y;
-                  const distance = Math.sqrt(dx * dx + dy * dy);
-                  return distance / (timeDiff / 1000); // Convert timeDiff to seconds
-                };
-                
-                // Set thresholds and grid size
-                const velocityThreshold = 500;
-                const distanceThreshold = 500;
-                const gridSize = 10;
-                
-                // Identify fixations and saccades
-                const fixations = identifyFixationsSaccades(eyedata, velocityThreshold, distanceThreshold);
-                
-                // Parse AOI data
-                const parsedAOIsData = parseCSV(aoisCsvData);
-                
-                // Function to create a fixation density map
-                const createFixationDensityMap = (fixations, gridSize, aois) => {
-                  const densityMap = Array.from({ length: gridSize }, () => Array.from({ length: gridSize }, () => 0));
-                
-                  const maxX = Math.max(...fixations.flatMap(fixation => fixation.points.map(point => parseFloat(point.x))));
-                  const maxY = Math.max(...fixations.flatMap(fixation => fixation.points.map(point => parseFloat(point.y))));
-                
-                  fixations.forEach(fixation => {
-                    const centerX = Math.round(parseFloat(fixation.points[0].x) / maxX * (gridSize - 1));
-                    const centerY = Math.round(parseFloat(fixation.points[0].y) / maxY * (gridSize - 1));
-                
-                    densityMap[centerY][centerX] += fixation.duration;
+                  // Count the frequency of each value
+                  data.forEach(point => {
+                    const value = Math.round(parseFloat(point[key]));
+                    frequencyMap.set(value, (frequencyMap.get(value) || 0) + 1);
                   });
                 
-                  return densityMap;
-                };
+                  // Find the most frequent value
+                  let mostFrequentValue = null;
+                  let maxFrequency = 0;
                 
-                // Function to find the most concentrated AOI in the density map
-                const findMostConcentratedAOI = (densityMap, aois) => {
-                  let maxDensity = 0;
-                  let mostConcentratedAOI = 'Unknown AOI';
+                  frequencyMap.forEach((frequency, value) => {
+                    if (frequency > maxFrequency) {
+                      maxFrequency = frequency;
+                      mostFrequentValue = value;
+                    }
+                  });
                 
-                  for (const aoi of aois) {
+                  return mostFrequentValue;
+                }
+                
+                // Function to find fixation group based on most frequent x and y coordinates
+                function findFixationGroup(data, aois) {
+                  const mostFrequentX = findMostFrequentValue(data, 'x');
+                  const mostFrequentY = findMostFrequentValue(data, 'y');
+                
+                  // Find AOI corresponding to the most frequent x and y coordinates
+                  const fixationGroupAOI = aois.find(aoi => {
                     const minX = parseFloat(aoi.minX);
                     const maxX = parseFloat(aoi.maxX);
                     const minY = parseFloat(aoi.minY);
                     const maxY = parseFloat(aoi.maxY);
                 
-                    const density = densityMap.reduce((sumY, row, y) => {
-                      return sumY + row.reduce((sumX, value, x) => {
-                        if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
-                          return sumX + value;
-                        }
-                        return sumX;
-                      }, 0);
-                    }, 0);
+                    return (
+                      mostFrequentX >= minX &&
+                      mostFrequentX <= maxX &&
+                      mostFrequentY >= minY &&
+                      mostFrequentY <= maxY
+                    );
+                  });
                 
-                    if (density > maxDensity) {
-                      maxDensity = density;
-                      mostConcentratedAOI = aoi.name;
-                    }
-                  }
+                  return fixationGroupAOI ? fixationGroupAOI.name : 'Unknown AOI';
+                }
                 
-                  return { AOI: mostConcentratedAOI, density: maxDensity };
-                };
+                // Parse AOI data
+                const parsedAOIsData = parseCSV(aoisCsvData);
                 
-                // Create fixation density map
-                const fixationDensityMap = createFixationDensityMap(fixations, gridSize, parsedAOIsData);
+                // Find fixation group based on most frequent x and y coordinates
+                const fixationGroup = findFixationGroup(eyedata, parsedAOIsData);
                 
-                // Find the most concentrated AOI
-                const mostConcentratedAOI = findMostConcentratedAOI(fixationDensityMap, parsedAOIsData);
-                
-                console.log('Most Concentrated AOI:', mostConcentratedAOI);
+                console.log('Fixation Group AOI:', fixationGroup);
                 
                 alert("Done, press Ctrl + Shift + J");
             }, 10000);
