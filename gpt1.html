@@ -128,7 +128,7 @@
     var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
     var cellht = mY/15; // max divided by 15, to get height/y of equal cell
     
-    const occurrenceMap = new Map();
+    const occurrences = {};
     
     console.log("Maximum X coordinate: " + mX);
     console.log("Maximum Y coordinate: " + mY);
@@ -142,7 +142,16 @@
         finaly = (y > 0) ? Math.trunc(y+1)-1 : 0; //final array location cell[y][.]
         
         if(caldone == 1) {
-            console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
+            //console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
+            var cellloc = finaly.toString() + "|" + finalx.toString();
+            console.log(cellloc);
+        
+            if (occurrences[cellloc] === undefined) {
+                occurrences[cellloc] = 1;
+            } else {
+                occurrences[cellloc]++;
+            }
+            
             //eyedata.push({ x: Math.round(finalx), y: Math.round(finaly), time: GazeData.time });            
             /*let msg = {
                 raw_docX: x,
@@ -178,11 +187,12 @@
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
-                //console.log("Done - " + eyedata.length + " entries");
-
-                
-                
                 alert("Done, press Ctrl + Shift + J");
+                
+                const finalcellloc = findMaxOccurrence(occurrences);
+                var tempi = finalcellloc.split('|')[0];
+                var tempj = finalcellloc.split('|')[1];
+                showResultPage(values[tempi][tempj], tempi, tempj);
             }, 10000);
         }
         GazeCloudAPI.OnCamDenied = function() {
@@ -204,7 +214,7 @@
             for (let j = 0; j < values[i].length; j++) {
                 const cell = row.insertCell(j);
                 cell.textContent = values[i][j];
-                cell.onclick = function () {
+                /*cell.onclick = function () {
                     cell.style.backgroundColor = '#27ae60';
                     cell.style.color = 'white';
                     
@@ -212,12 +222,28 @@
                     setTimeout(function () {
                         showResultPage(values[i][j], i, j);
                     }, 2000);
-                };
+                };*/
             }
         }
         setTimeout(function () {
             GazeCloudAPI.StartEyeTracking();
         }, 1250);
+    }
+
+    function findMaxOccurrence(occurrences) {
+        let maxString = null;
+        let maxOccurrences = -1;
+    
+        for (const str in occurrences) {
+            if (occurrences.hasOwnProperty(str)) {
+                if (occurrences[str] > maxOccurrences) {
+                    maxString = str;
+                    maxOccurrences = occurrences[str];
+                }
+            }
+        }
+    
+        return maxString;
     }
 
     // Function to show the matrix page
