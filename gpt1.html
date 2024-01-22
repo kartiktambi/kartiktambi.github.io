@@ -247,25 +247,27 @@
                     return current.duration > largest.duration ? current : largest;
                   }, { duration: 0 });
                 
-                  const centroidX = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.x), 0) / largestFixation.points.length;
-                  const centroidY = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.y), 0) / largestFixation.points.length;
+                  // Check if largestFixation.points is defined
+                  if (largestFixation.points && largestFixation.points.length > 0) {
+                    const centroidX = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.x), 0) / largestFixation.points.length;
+                    const centroidY = largestFixation.points.reduce((sum, point) => sum + parseFloat(point.y), 0) / largestFixation.points.length;
                 
-                  for (const aoi of aois) {
-                    const minX = parseFloat(aoi.minX);
-                    const maxX = parseFloat(aoi.maxX);
-                    const minY = parseFloat(aoi.minY);
-                    const maxY = parseFloat(aoi.maxY);
+                    for (const aoi of aois) {
+                      const minX = parseFloat(aoi.minX);
+                      const maxX = parseFloat(aoi.maxX);
+                      const minY = parseFloat(aoi.minY);
+                      const maxY = parseFloat(aoi.maxY);
                 
-                    // Check if the centroid is within the bounds of the AOI
-                    if (centroidX >= minX && centroidX <= maxX && centroidY >= minY && centroidY <= maxY) {
-                      return { AOI: aoi.name, centroidX, centroidY };
+                      // Check if the centroid is within the bounds of the AOI
+                      if (centroidX >= minX && centroidX <= maxX && centroidY >= minY && centroidY <= maxY) {
+                        return { AOI: aoi.name, centroidX, centroidY };
+                      }
                     }
                   }
                 
-                  return { AOI: 'Unknown AOI', centroidX, centroidY };
+                  return { AOI: 'Unknown AOI', centroidX: null, centroidY: null };
                 };
 
-                
                 const velocityThreshold = 500; // Adjust this threshold based on your requirement
                 const distanceThreshold = 500; // Adjust this threshold based on your requirement
                 
