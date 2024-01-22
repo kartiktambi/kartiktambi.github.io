@@ -256,6 +256,7 @@
                     const minY = parseFloat(aoi.minY);
                     const maxY = parseFloat(aoi.maxY);
                 
+                    // Check if the centroid is within the bounds of the AOI
                     if (centroidX >= minX && centroidX <= maxX && centroidY >= minY && centroidY <= maxY) {
                       return { AOI: aoi.name, centroidX, centroidY };
                     }
@@ -263,6 +264,7 @@
                 
                   return { AOI: 'Unknown AOI', centroidX, centroidY };
                 };
+
                 
                 const velocityThreshold = 500; // Adjust this threshold based on your requirement
                 const distanceThreshold = 500; // Adjust this threshold based on your requirement
