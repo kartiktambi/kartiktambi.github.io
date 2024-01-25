@@ -59,7 +59,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
             font-weight: bold;
-            font-size: 17px;
+            font-size: 10vw;
             color: #ff0000;
         }
         
@@ -266,12 +266,15 @@
     var eyedata = [];
     var maxDifference = -1;
     var maxX, maxY;
+	
+    let chosenarray = []; //the random array
+	let usagearray = []; //above array to be shuffled
     
     // Get maximum x and y coordinates of screen
     var mX = window.innerWidth - 1; //maximum x
     var mY = window.innerHeight - 1; //maximum y
-    var cellwd = mX/15; // max divided by 15, to get width/x of equal cell
-    var cellht = mY/15; // max divided by 15, to get height/y of equal cell
+    var cellwd = mX/3; // max divided by 15, to get width/x of equal cell
+    var cellht = mY/3; // max divided by 15, to get height/y of equal cell
     
     var occurrences = {};
     
@@ -337,11 +340,12 @@
                 var cellintable = document.getElementById(finalcellloc);
                 cellintable.style.backgroundColor = '#27ae60';
                 cellintable.style.color = 'white';
-                
+				var refnum = chosenarray.indexOf(cellintable.textContent);
                 var tempi = finalcellloc.split('|')[0];
                 var tempj = finalcellloc.split('|')[1];
+				
                 setTimeout(function () {
-                    showResultPage(values[tempi][tempj], tempi, tempj);
+                    showResultPage(cellintable.textContent, tempi, tempj, refnum);
                 }, 2000);
             }, 10000);
         }
@@ -356,26 +360,33 @@
     });
     
     //----------------------------------------------------------
-    // Function to generate a matrix using the provided values
+	
+	function shuffleArray(array) {
+	  for (let i = array.length - 1; i > 0; i--) {
+	    const j = Math.floor(Math.random() * (i + 1));
+	    [array[i], array[j]] = [array[j], array[i]];
+	  }
+	}
+	
     function generateMatrix() {
         const matrixTable = document.getElementById('matrix');
-        for (let i = 0; i < values.length; i++) {
-            const row = matrixTable.insertRow(i);
-            for (let j = 0; j < values[i].length; j++) {
-                const cell = row.insertCell(j);
-                cell.textContent = values[i][j];
-                cell.id = i.toString() + "|" + j.toString();
-                /*cell.onclick = function () {
-                    cell.style.backgroundColor = '#27ae60';
-                    cell.style.color = 'white';
-                    
-                    GazeCloudAPI.StopEyeTracking();
-                    setTimeout(function () {
-                        showResultPage(values[i][j], i, j);
-                    }, 2000);
-                };*/
-            }
-        }
+		let cellr = -1, cellc = -1;
+		let randnum = Math.floor((Math.random()) * 13); //which array from 0-12 is to be chosen
+		chosenarray = values2[randnum]; //above array original
+		usagearray = chosenarray.slice(); //duplicate to be used for everyrthing
+		shuffleArray(usagearray); //shuffle duplicate array for usage
+		
+		for (let i = 0; i < usagearray.length; i += 3) {
+			let row = matrixTable.insertRow();
+			cellr++;
+			for (let j = i; j < i + 3; j++) {
+				let cell = row.insertCell();
+				cell.textContent = usagearray[j];
+				cell.id = cellr.toString() + "|" + cellc.toString();
+				cellc++;
+			}
+			cellc = -1;
+		}
         setTimeout(function () {
             GazeCloudAPI.StartEyeTracking();
         }, 1250);
@@ -400,22 +411,23 @@
     // Function to show the matrix page
     function showMatrixPage() {
         document.getElementById('welcome-page').style.display = 'none';
-	document.getElementById('webheader').style.display = 'none';
+		document.getElementById('webheader').style.display = 'none';
         document.getElementById('matrix-container').style.display = 'inline';
         generateMatrix();
     }
 
     // Function to show the result page
-    function showResultPage(value, row, col) {
+    function showResultPage(value, row, col, ref) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
-	document.getElementById('webheader').style.display = 'flex';
+		document.getElementById('webheader').style.display = 'flex';
         document.getElementById('result-value').textContent = value;
         
         document.getElementById("result2").style.fontWeight = 'bold';
         document.getElementById("result3").style.fontWeight = 'bold';
 
-        let descref = loc[row][col];
+        //let descref = loc[row][col];
+		let descref = ref; //direct 0-8 value
         
         if(desc[descref][0] == 1) { //-ve
           document.getElementById("result2").style.color = "#ff0000";
