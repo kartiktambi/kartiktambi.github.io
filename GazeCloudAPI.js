@@ -1094,7 +1094,7 @@ if (true) {
                 {
                     if (typeof vPoints[Ix].txt !== 'undefined') {
                         InfoPlot.innerHTML = vPoints[Ix].txt;
-                        InfoWaitPlot.innerHTML = Math.round(size * 3.0);
+                        InfoWaitPlot.innerHTML = Math.round(size * 5.0); //3.0
                         // ctx.font = "30px Arial";
                         // ctx.fillStyle = "black";
                         //ctx.textAlign = "center";
