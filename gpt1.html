@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shri Ramcharitmanas Prashnavali</title>
+    <title>Shree Ramshalaka Prashnavali</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -101,8 +101,8 @@
         }
 
 	    .header {
-            background-color: #ffffff; /* Set your desired background color */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow at the bottom */
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -113,14 +113,14 @@
         }
 
         .logo img {
-            height: 60px; /* Set the desired height for the logo */
+            height: 60px;
             width: auto;
         }
 
         .about-button {
-            background-color: #04aa6d; /* Set the base background color for the button */
-            color: white; /* Set the base text color for the button */
-            padding: 15px 20px; /* Set the desired padding for the button */
+            background-color: #04aa6d;
+            color: white;
+            padding: 15px 20px;
             margin-right: 15px;
             border: none;
             font-size: 20px;
@@ -132,11 +132,11 @@
         }
 
         .about-button:hover {
-            background-color: #038857; /* Set the hover background color */
+            background-color: #038857;
         }
 
         .about-button:active {
-            background-color: #3498db; /* Set the active (clicked) background color */
+            background-color: #3498db;
         }
     </style>
 </head>
@@ -152,7 +152,7 @@
 
 <!-- Welcome Page -->
 <div id="welcome-page">
-	<h1 style="font-weight:bold; color:red;">Shri Ramcharitmanas Online Prashnavali</h1>
+	<h1 style="font-weight:bold; color:red;">Shree Ramshalaka Prashnavali</h1>
 	<img src="shriram image.png" width="250px" style="margin-bottom:10px"><br><br>
 	
 	<div class="tabs">
@@ -214,11 +214,7 @@
         </div>
 		<hr class="dashed" style="width:50%">
 		<button onclick="showMatrixPage()">Click to Begin ➤</button>
-  	</div>
-    
-  	
-    <!--<p style="font-size: 22px; text-align: center;  font-weight:bold; color: black;  margin-top:0px;"><u>Click to start Concentration Process -</u></p>-->
-	
+  	</div>	
 </div>
 
 <!-- Matrix Page -->
@@ -227,7 +223,7 @@
         <!-- Matrix to be generated dynamically -->
     </table>
 
-	<div id="gaze" style="position: absolute; display:none; width: 100px; height: 100px ;border-radius: 50%;border: solid 2px  rgba(255, 255,255, .2);	box-shadow: 0 0 100px 3px rgba(125, 125,125, .5); pointer-events: none; z-index: 999999"></div>
+	<div id="gaze" style="position: absolute; display:block; width: 80px; height: 80px ;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .2);	box-shadow: rgba(125, 125, 125, 0.9) 0px 0px 50px 10px; pointer-events: none; z-index: 999999"></div>
     <!--<div id="gaze" style="position: absolute; display:none; width: 40px; height: 40px; border-radius: 50%;border: solid 2px  rgba(255, 0,0, .8);	box-shadow: 0 0 80px 50px rgba(125, 125,125, .5);	pointer-events: none;	z-index: 999999"></div>-->
     <!--<div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(0, 0, 0, .8);       box-shadow: 0 0 100px 3px rgba(100, 100, 100, .5);	pointer-events: none; z-index: 999999'></div>-->
     <!--<div id ="gaze" style ='position: absolute; display:none; width: 30px; height: 30px;border-radius: 50%;border: solid 2px  rgba(255, 255, 255, .9); box-shadow: 0 0 80px 10px rgba(125, 125, 125, .7); pointer-events: none;	z-index: 999999'></div>-->
@@ -235,7 +231,7 @@
 
 <!-- Result Page -->
 <div id="result-page">
-    <h1 style="font-weight:bold;">Shri Ramcharitmanas Online Prashnavali</h1>
+    <h1 style="font-weight:bold;">Shree Ramshalaka Prashnavali</h1>
     <br><span style="font-size:25px; color:#ff7133; font-weight:bold">• Chosen Letter - <span id="result-value" style="font-size:25px; color:#ff7133; font-weight:bold"></span> •</span><br><br>
 
     <div style="line-height: 1.5;">
@@ -270,19 +266,13 @@
 	
     let chosenarray = []; //the random array
 	let usagearray = []; //above array to be shuffled
-    
-    // Get maximum x and y coordinates of screen
-    var mX = window.innerWidth - 1; //maximum x
-    var mY = window.innerHeight - 1; //maximum y
+	
+    var mX = window.innerWidth - 1; //maximum x of screen
+    var mY = window.innerHeight - 1; //maximum y of screen
     var cellwd = mX/3; // max divided by 15, to get width/x of equal cell
     var cellht = mY/3; // max divided by 15, to get height/y of equal cell
     
     var occurrences = {};
-    
-    //console.log("Maximum X coordinate: " + mX);
-    //console.log("Maximum Y coordinate: " + mY);
-    //console.log("Maximum Cell Width: " + cellwd);
-    //console.log("Maximum Cell Height: " + cellht);
     
     function PlotGaze(GazeData) {
         var x = GazeData.docX/cellwd; //value of x, with decimal
@@ -293,26 +283,12 @@
         if(caldone == 1) {
             //console.log("dox: " + Math.trunc(x) + " , doy: " + Math.trunc(y) + " , finalX: " + finalx + " , finalY: " + finaly + " | finalcell: cell[" + finaly + "][" + finalx + "]");
             var cellloc = finaly.toString() + "|" + finalx.toString();
-            //console.log(cellloc);
-        
+			
             if (occurrences[cellloc] === undefined) {
                 occurrences[cellloc] = 1;
             } else {
                 occurrences[cellloc]++;
             }
-            
-            //eyedata.push({ x: Math.round(finalx), y: Math.round(finaly), time: GazeData.time });            
-            /*let msg = {
-                raw_docX: x,
-                raw_docY: x,
-                finalX: x/cellwd,
-                finalY: y/cellht,
-                truncFx: Math.trunc(finalx),
-                truncFy: Math.trunc(finaly)
-            };
-            console.log(msg);*/
-            //var cellloc = (Math.round(finalx)-1).toString() + "|" + (Math.round(finaly)-1).toString(); //cell location in terms of cell[a][b]
-            //console.log("x: " + Math.round(GazeData.docX) + " , y: " + Math.round(GazeData.docY) + " , time: " + GazeData.time + " , cellx: " , Math.round(finalx) + " , celly: " + Math.round(finaly) + " , cellloc: " + cellloc);
         }
     
         var gaze = document.getElementById("gaze");
@@ -333,6 +309,9 @@
         GazeCloudAPI.OnCalibrationComplete = function() {
             console.log('gaze Calibration Complete');
             caldone = 1;
+			//now begin 10s timer to focus
+			//add a 10s short instruction screen here which says to focus on chart for 10s
+			
             setTimeout(function () {
                 GazeCloudAPI.StopEyeTracking();
                 caldone = 0;
@@ -390,8 +369,8 @@
 			cellc = -1;
 		}
         setTimeout(function () {
-            GazeCloudAPI.StartEyeTracking();
-        }, 1250);
+            GazeCloudAPI.StartEyeTracking(); //start calibration process
+        }, 1000);
     }
 
     function findMaxOccurrence(occurrences) {
@@ -406,20 +385,17 @@
                 }
             }
         }
-    
         return maxString;
     }
 
-    // Function to show the matrix page
-    function showMatrixPage() {
+	function showMatrixPage() {
         document.getElementById('welcome-page').style.display = 'none';
 		document.getElementById('webheader').style.display = 'none';
         document.getElementById('matrix-container').style.display = 'inline';
         generateMatrix();
     }
 
-    // Function to show the result page
-    function showResultPage(value, row, col, ref) {
+	function showResultPage(value, row, col, ref) {
         document.getElementById('matrix-container').style.display = 'none';
         document.getElementById('result-page').style.display = 'block';
 		document.getElementById('webheader').style.display = 'flex';
@@ -429,13 +405,13 @@
         document.getElementById("result3").style.fontWeight = 'bold';
 
         //let descref = loc[row][col];
-		let descref = ref; //direct 0-8 value
+		let descref = ref; //direct final 0-8 value
         
-        if(desc[descref][0] == 1) { //-ve
+        if(desc[descref][0] == 1) { //-ve outcome
           document.getElementById("result2").style.color = "#ff0000";
           document.getElementById("result3").style.color = "#ff0000";
           //document.getElementById("result-image").src = "cross.png";
-        } else { //+ve
+        } else { //+ve outcome
           document.getElementById("result2").style.color = "#087809";
           document.getElementById("result3").style.color = "#087809";
           //document.getElementById("result-image").src = "check.png";
@@ -450,25 +426,22 @@
     	document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
 
-    // Function to restart the game
+    // Function to restart
     function restartGame() {
         document.getElementById('result-page').style.display = 'none';
         document.getElementById('welcome-page').style.display = 'block';
-	document.getElementById('webheader').style.display = 'flex';
-	document.body.scrollTop = document.documentElement.scrollTop = 0;
+		document.getElementById('webheader').style.display = 'flex';
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
 
-        // Clear the matrix
         const matrixTable = document.getElementById('matrix');
         matrixTable.innerHTML = '';
-        //clear the object
         Object.keys(occurrences).forEach((prop) => {
-          delete occurrences[prop];
+			delete occurrences[prop];
         });
     }
     
     function showTab(tabName) {
       const tabs = ['hindi', 'english'];
-
       tabs.forEach(tab => {
         const tabContent = document.getElementById(tab + 'Content');
         const tabButton = document.querySelector(`.tab[data-tab="${tab}"]`);
@@ -483,6 +456,5 @@
       });
     }
 </script>
-
 </body>
 </html>
