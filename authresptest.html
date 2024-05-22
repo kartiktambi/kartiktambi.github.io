@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OAuth Callback</title>
+    <script>
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.hash.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        window.onload = function() {
+            const params = getQueryParams();
+            const accessToken = params['access_token'];
+
+            if (accessToken) {
+                fetch(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${accessToken}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const name = data.name;
+                        const email = data.email;
+                        const googleId = data.sub; //google user id
+                      
+                        console.log({ name, email, googleId });
+                    })
+                    .catch(error => console.error('Error fetching user info:', error));
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Logging you in...</h1>
+</body>
+</html>
