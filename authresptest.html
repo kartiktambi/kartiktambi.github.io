@@ -59,14 +59,14 @@
         window.onload = function() {
             const params = getQueryParams();
             const accessToken = params['access_token'];
-            const loginOTP = params['state'];
+            const loginOTP = Number(params['state']);
             window.history.pushState({},document.title, "/" + "authresptest.html");
             
             if (accessToken) {
                 fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        //console.log(data);
                         name = data.name;
                         email = data.email;
                         userid = data.sub;
@@ -82,7 +82,7 @@
                         })
                         .then(response => {
                             if (response.ok) {
-                                console.log('Token revoked successfully');
+                                //console.log('Token revoked successfully');
                                 firebaseupdate(loginOTP);
                             } else {
                                 console.error('Failed to revoke token', response.status, response.statusText);
@@ -93,11 +93,6 @@
                             console.error('Error revoking token', error);
                             firebaseupdate(loginOTP);
                         });
-                        
-                        //console.log(data.name);
-                        //console.log(data.email);
-                        //console.log(data.sub);
-                        //console.log("DONE");
                     })
                     .catch(error => {
                         status = "failed | " + error;
