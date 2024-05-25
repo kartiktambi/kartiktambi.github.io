@@ -59,8 +59,7 @@
         window.onload = function() {
             const params = getQueryParams();
             const accessToken = params['access_token'];
-            var rawOTP = params['state'];
-            const loginOTP = 1*rawOTP; //convert string to num
+            const loginOTP = params['state'];
             window.history.pushState({},document.title, "/" + "authresptest.html");
             
             if (accessToken) {
