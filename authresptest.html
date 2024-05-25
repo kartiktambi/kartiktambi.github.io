@@ -76,12 +76,21 @@
             };
             
             const loginRef = ref(database, `Login/${loginOTP}`);
-            try {
+            /*try {
                 await update(loginRef, updates);
                 alert('Update successful');
             } catch (error) {
                 alert('Update failed' + error);
-            }
+            }*/
+
+            loginRef.update(updates, (error) => {
+                if (error) {
+                    console.error(error);
+                    alert('Update failed' + error);
+                } else {
+                    alert('Update successful');
+                }
+            });
             
             //done, prompt to close browser and return to app.
             document.getElementById("label").innerHTML = message;
