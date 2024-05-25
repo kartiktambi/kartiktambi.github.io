@@ -78,7 +78,8 @@
                 userid: userid
             };
             
-            const loginRef = ref(database, `Login/${loginOTP}`);
+            //const loginRef = ref(database, `Login/${loginOTP}`);
+            const loginRef = database.ref('Login/' + loginOTP);
             /*try {
                 await update(loginRef, updates);
                 alert('Update successful');
