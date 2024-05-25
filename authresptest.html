@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>OAuth Callback</title>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-database-compat.js"></script>
     <script>
         function getQueryParams() {
             const params = {};
@@ -18,31 +20,75 @@
             const params = getQueryParams();
             const accessToken = params['access_token'];
             const loginOTP = params['state'];
-            console.log(loginOTP);
-
+            var name = "NA";
+            var email = "NA";
+            var userid = "NA";
+            var status = "pending";
+            var message = "";
+            window.history.pushState({},document.title, "/" + "authresptest.html");
+            
             if (accessToken) {
                 fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
-                        console.log(data.name);
-                        console.log(data.email);
-                        console.log(data.sub);
-                        console.log("DONE");
-                        //const name = data.name;
-                        //const email = data.email;
-                        //const googleId = data.sub; //google user id
-                      
-                        //console.log({ name, email, googleId });
+                        name = data.name;
+                        email = data.email;
+                        userid = data.sub;
+                        status = "done";
+                        message = "Successfully logged in.\nPlease return to app screen.";
+                        
+                        //console.log(data);
+                        //console.log(data.name);
+                        //console.log(data.email);
+                        //console.log(data.sub);
+                        //console.log("DONE");
                     })
-                    .catch(error => alert("ERROR:" + error));
+                    .catch(error => {
+                        status = "failed | " + error;
+                        message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
+                    });
             } else {
-                alert("ERROR:" + params['error']);
+                status = "failed | " + params['error'];
+                message = "Login failed due to reason - " + params['error'] + ".\nPlease return to app screen.";
             }
+
+            //firebase code
+            const firebaseConfig = {
+                apiKey: "AIzaSyAiD834kdRX8ojanCo0hoTcxJ9hNeP-9z0",
+                authDomain: "icai-msme-startupsphere-events.firebaseapp.com",
+                databaseURL: "https://icai-msme-startupsphere-events-default-rtdb.firebaseio.com",
+                projectId: "icai-msme-startupsphere-events",
+                storageBucket: "icai-msme-startupsphere-events.appspot.com",
+                messagingSenderId: "1018180720809",
+                appId: "1:1018180720809:web:49d0e002cd6eb7ced071b8"
+            };
+            
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+
+            // Update Login Details
+            const updates = {
+                status: status,
+                name: name,
+                email: email,
+                userid: userid
+            };
+            
+            const loginRef = ref(database, `Login/${loginOTP}`);
+            try {
+                await update(loginRef, updates);
+                alert('Update successful');
+            } catch (error) {
+                alert('Update failed' + error);
+            }
+            
+            //done, prompt to close browser and return to app.
+            document.getElementById("label").innerHTML = message;
         };
     </script>
 </head>
 <body>
-    <h1 id="label">Logging you in...</h1>
+    <h1 id="label">Logging you in...<br>Please wait, do not close.</h1>
 </body>
 </html>
