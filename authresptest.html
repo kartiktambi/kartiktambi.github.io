@@ -31,12 +31,14 @@
                       
                         //console.log({ name, email, googleId });
                     })
-                    .catch(error => console.error('Error fetching user info:', error));
+                    .catch(error => alert("ERROR:" + error));
+            } else {
+                alert("ERROR:" + params['error']);
             }
         };
     </script>
 </head>
 <body>
-    <h1>Logging you in...</h1>
+    <h1 id="label">Logging you in...</h1>
 </body>
 </html>
