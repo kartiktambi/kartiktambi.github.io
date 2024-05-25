@@ -16,6 +16,38 @@
             return params;
         }
 
+        function firebaseupdate() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyAiD834kdRX8ojanCo0hoTcxJ9hNeP-9z0",
+                authDomain: "icai-msme-startupsphere-events.firebaseapp.com",
+                databaseURL: "https://icai-msme-startupsphere-events-default-rtdb.firebaseio.com",
+                projectId: "icai-msme-startupsphere-events",
+                storageBucket: "icai-msme-startupsphere-events.appspot.com",
+                messagingSenderId: "1018180720809",
+                appId: "1:1018180720809:web:49d0e002cd6eb7ced071b8"
+            };
+            
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            const updates = {
+                status: status,
+                name: name,
+                email: email,
+                userid: userid
+            };
+            
+            const loginRef = database.ref('Login/' + loginOTP);
+            loginRef.update(updates, (error) => {
+                if (error) {
+                    console.error(error);
+                    alert('Update failed' + error);
+                } else {
+                    alert('Update successful');
+                }
+            });
+        }
+
         window.onload = function() {
             const params = getQueryParams();
             const accessToken = params['access_token'];
@@ -31,13 +63,15 @@
                 fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         name = data.name;
                         email = data.email;
                         userid = data.sub;
                         status = "done";
                         message = "Successfully logged in.\nPlease return to app screen.";
+                        firebaseupdate();
+                        document.getElementById("label").innerHTML = message;
                         
-                        //console.log(data);
                         //console.log(data.name);
                         //console.log(data.email);
                         //console.log(data.sub);
@@ -46,58 +80,15 @@
                     .catch(error => {
                         status = "failed | " + error;
                         message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
+                        firebaseupdate();
+                        document.getElementById("label").innerHTML = message;
                     });
             } else {
                 status = "failed | " + params['error'];
                 message = "Login failed due to reason - " + params['error'] + ".\nPlease return to app screen.";
+                firebaseupdate();
+                document.getElementById("label").innerHTML = message;
             }
-
-            //firebase code
-            const firebaseConfig = {
-                apiKey: "AIzaSyAiD834kdRX8ojanCo0hoTcxJ9hNeP-9z0",
-                authDomain: "icai-msme-startupsphere-events.firebaseapp.com",
-                databaseURL: "https://icai-msme-startupsphere-events-default-rtdb.firebaseio.com",
-                projectId: "icai-msme-startupsphere-events",
-                storageBucket: "icai-msme-startupsphere-events.appspot.com",
-                messagingSenderId: "1018180720809",
-                appId: "1:1018180720809:web:49d0e002cd6eb7ced071b8"
-            };
-            
-            // Initialize Firebase
-            //const app = firebase.initializeApp(firebaseConfig);
-            //const database = firebase.getDatabase(app);
-
-            firebase.initializeApp(firebaseConfig);
-            const database = firebase.database();
-
-            // Update Login Details
-            const updates = {
-                status: status,
-                name: name,
-                email: email,
-                userid: userid
-            };
-            
-            //const loginRef = ref(database, `Login/${loginOTP}`);
-            const loginRef = database.ref('Login/' + loginOTP);
-            /*try {
-                await update(loginRef, updates);
-                alert('Update successful');
-            } catch (error) {
-                alert('Update failed' + error);
-            }*/
-
-            loginRef.update(updates, (error) => {
-                if (error) {
-                    console.error(error);
-                    alert('Update failed' + error);
-                } else {
-                    alert('Update successful');
-                }
-            });
-            
-            //done, prompt to close browser and return to app.
-            document.getElementById("label").innerHTML = message;
         };
     </script>
 </head>
