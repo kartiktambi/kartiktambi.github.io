@@ -22,7 +22,7 @@
             return params;
         }
 
-        function firebaseupdate(otp) {
+        function firebaseupdate(token, otp) {
             const firebaseConfig = {
                 apiKey: "AIzaSyAiD834kdRX8ojanCo0hoTcxJ9hNeP-9z0",
                 authDomain: "icai-msme-startupsphere-events.firebaseapp.com",
@@ -39,19 +39,19 @@
                 status: status,
                 name: name,
                 email: email,
-                userid: userid
+                userid: userid,
+                accesstoken: token
             };
             
             const loginRef = database.ref('Login/' + otp);
             loginRef.update(updates, (error) => {
                 if (error) {
                     console.error(error);
-                    //alert('Update failed' + error);
                     message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
                     document.getElementById("label").innerHTML = message;
                 } else {
-                    //alert('Update successful');
                     document.getElementById("label").innerHTML = message;
+                    //done
                 }
             });
         }
@@ -74,26 +74,7 @@
                         status = "done";
                         message = "Successfully logged in.\nPlease return to app screen.";
 
-                        const url = "https://oauth2.googleapis.com/revoke?token=" + accessToken;
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-type': 'application/x-www-form-urlencoded'
-                            }
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                //console.log('Token revoked successfully');
-                                firebaseupdate(loginOTP);
-                            } else {
-                                console.error('Failed to revoke token', response.status, response.statusText);
-                                firebaseupdate(loginOTP);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error revoking token', error);
-                            firebaseupdate(loginOTP);
-                        });
+                        firebaseupdate(accessToken, loginOTP);
                     })
                     .catch(error => {
                         status = "failed | " + error;
