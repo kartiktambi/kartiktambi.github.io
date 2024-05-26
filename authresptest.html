@@ -46,19 +46,19 @@
             const loginRef = database.ref('Login/' + otp);
             loginRef.update(updates, (error) => {
                 if (error) {
-                    console.error(error);
+                    //firebase update error
                     message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
                     document.getElementById("label").innerHTML = message;
                 } else {
+                    //complete process success
                     document.getElementById("label").innerHTML = message;
-                    //done
                 }
             });
         }
 
         window.onload = function() {
             const params = getQueryParams();
-            const accessToken = params['access_token'];
+            var accessToken = params['access_token'];
             var rawOTP = params['state']; //with quotes
             const loginOTP = rawOTP.substr(1,9); //without quotes
             window.history.pushState({},document.title, "/" + "authresptest.html");
@@ -67,23 +67,26 @@
                 fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`)
                     .then(response => response.json())
                     .then(data => {
-                        //console.log(data);
+                        //google auth success
                         name = data.name;
                         email = data.email;
                         userid = data.sub;
                         status = "done";
                         message = "Successfully logged in.\nPlease return to app screen.";
-
+                        
                         firebaseupdate(accessToken, loginOTP);
                     })
                     .catch(error => {
+                        //google auth token error
                         status = "failed | " + error;
-                        message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
+                        message = "Login failed due to Server error - " + error + ".\nPlease return to app screen.";
                         firebaseupdate(accessToken, loginOTP);
                     });
             } else {
+                //google auth faield or denied
                 status = "failed | " + params['error'];
-                message = "Login failed due to reason - " + params['error'] + ".\nPlease return to app screen.";
+                accessToken = "NA";
+                message = "Login failed due to Google Authentication Error - " + params['error'] + ".\nPlease return to app screen.";
                 firebaseupdate(accessToken, loginOTP);
             }
         };
