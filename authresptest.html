@@ -48,9 +48,15 @@
                 if (error) {
                     //firebase update error
                     message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('icon').src = 'https://i.ibb.co/kXn7sC0/image.png';
+                    document.getElementById('icon').style.display = 'block';
                     document.getElementById("label").innerHTML = message;
                 } else {
                     //complete process success
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('icon').src = 'https://i.ibb.co/2n4Fwvk/image.png';
+                    document.getElementById('icon').style.display = 'block';
                     document.getElementById("label").innerHTML = message;
                 }
             });
@@ -91,9 +97,52 @@
             }
         };
     </script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #container {
+            text-align: center;
+        }
+        
+        #icon {
+        	margin-top: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 76px;
+            height: 76px;
+        }
+
+        #loading {
+            margin-top: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <h1 id="label">Processing & Logging you in...</h1>
-    <!--<h2 id="subtitle">Please do not close this page.</h1>-->
+    <div id="container">
+        <h1 id="label">Processing & Logging you in...</h1>
+        <div id="loading"></div>
+        <img id="icon" style="display:none" src="https://i.ibb.co/2n4Fwvk/image.png">
+    </div>
 </body>
 </html>
