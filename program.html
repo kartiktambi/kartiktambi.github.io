@@ -39,7 +39,7 @@
             color: #006F91; /* Changed section heading color */
         }
         .tab-heading {
-            font-size: 1.35em;
+            font-size: 1.4em;
             font-weight: bold;
             color: #000000; /* Changed section heading color */
         }
@@ -135,6 +135,12 @@
                 };
                 tabsContainer.appendChild(tab);
             });
+            
+            var headings = {
+            	'Plenary Sessions': 'Plenary Sessions - Startup Manthan',
+                'Parallel Track 1': 'Parallel Track - Tech Fusion',
+                'Parallel Track 2': 'Parallel Track - Emerging Sectors in Startups'
+            };
 
             function showContent(activeTabName) {
                 contentContainer.innerHTML = '';
@@ -150,7 +156,7 @@
                 
                 const tabHeading = document.createElement('div');
                 tabHeading.className = 'tab-heading';
-                tabHeading.textContent = activeTabName;
+                tabHeading.textContent = headings[activeTabName];
                 contentContainer.appendChild(tabHeading);
 
                 for (const [section, items] of Object.entries(sections)) {
