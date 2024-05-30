@@ -20,7 +20,7 @@
             background-color: #f9f9f9;
         }
         .tab {
-            padding: 15px 20px;
+            padding: 12.5px 20px;
             cursor: pointer;
           	flex-grow: 1;
             text-align: center;
@@ -43,6 +43,12 @@
             font-weight: bold;
             color: #000000; /* Changed section heading color */
         }
+        .tab-location {
+        	margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: 400;
+            color: #000000; /* Changed section heading color */
+        }
         .card {
             border: 2px solid #006F91; /* Changed border color and width */
             border-radius: 5px;
@@ -53,7 +59,7 @@
         }
         .card h3 {
             margin: 0;
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
         .card p {
             margin: 5px 0;
@@ -66,14 +72,12 @@
         align-items: center;
     }
     .card button {
-        margin-left: 10px;
-        padding: 5px 10px;
-        padding-left: 10px;
-        padding-right: 10px;
+        margin-left: -10px;
+        padding: 5px 7.5px;
         font-size: 16px;
         background-color: #006F91;
         color: #fff;
-        height: 50px;
+        height: 40px;
         border: none;
         border-radius: 3px;
         cursor: pointer;
@@ -142,9 +146,9 @@
         });
         
         var headings = {
-            'Plenary Sessions': 'Plenary Sessions - Startup Manthan',
-            'Parallel Track 1': 'Parallel Track - Tech Fusion',
-            'Parallel Track 2': 'Parallel Track - Emerging Sectors in Startups'
+            'Plenary Sessions': ['Plenary Sessions - Startup Manthan','Location: Main Hall'],
+            'Parallel Track 1': ['Parallel Track - Tech Fusion','Location: 2nd Hall'],
+            'Parallel Track 2': ['Parallel Track - Emerging Sectors in Startups','Location: 3rd Hall']
         };
 
         function showContent(activeTabName) {
@@ -161,8 +165,13 @@
             
             const tabHeading = document.createElement('div');
             tabHeading.className = 'tab-heading';
-            tabHeading.textContent = headings[activeTabName];
+            tabHeading.textContent = headings[activeTabName][0];
             contentContainer.appendChild(tabHeading);
+            
+            const tabLocation = document.createElement('div');
+            tabLocation.className = 'tab-location';
+            tabLocation.textContent = headings[activeTabName][1];
+            contentContainer.appendChild(tabLocation);
 
             for (const [section, items] of Object.entries(sections)) {
                 const divider = document.createElement('div');
@@ -196,14 +205,27 @@
                     const infoRow = document.createElement('div');
                     infoRow.className = 'info';
 
-                    const cardDateTimeLoc = document.createElement('p');
-                    cardDateTimeLoc.textContent = item.dateTimeLoc;
-                    infoRow.appendChild(cardDateTimeLoc);
+                    //const cardDateTimeLoc = document.createElement('p');
+                    //cardDateTimeLoc.textContent = item.dateTimeLoc;
+                  	//cardDateTimeLoc.style.display = "none";
+                    //infoRow.appendChild(cardDateTimeLoc);
+                    
+                    const cardDateTimeLoc2 = document.createElement('p');
+                    const myArray = item.dateTimeLoc.split("Time : ");
+                    const newval = myArray[1].split("Location");
+                    const from = newval[0].split(" to ")[0];
+                    const to = newval[0].split(" to ")[1];
+					cardDateTimeLoc2.textContent = "From: " + from + "\n"+"To: " + to;
+                    cardDateTimeLoc2.style.fontWeight = "Bold";
+                    
+                    infoRow.appendChild(cardDateTimeLoc2);
 
                     const button = document.createElement('button');
                     button.textContent = 'Add to Agenda';
                     button.onclick = () => {
-                        alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${activeTabName} | ${item.shortTime}`);
+                    	var tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, headings[activeTabName][0], item.shortTime];
+                        //alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${headings[activeTabName][0]} | ${item.shortTime}`);
+                        alert(JSON.stringify(tosend));
                     };
                     infoRow.appendChild(button);
                     card.appendChild(infoRow);
