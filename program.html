@@ -93,6 +93,22 @@
     <div class="tabs" id="tabs"></div>
     <div id="content" class="content"></div>
 
+	<script>
+	var ThunkableWebviewerExtension = (function () {
+	  const postMessageToWebview = (message) => {
+	    if (window.ReactNativeWebView) {
+	      window.ReactNativeWebView.postMessage(message);
+	    } else {
+	      window.parent.postMessage(message, '*');
+	    }
+	  };
+	
+	  return {
+	    postMessage: postMessageToWebview
+	  };
+	})();
+	</script>
+
     <script>
         async function fetchData() {
             const url = 'https://docs.google.com/spreadsheets/d/1hI2QrxKHLBW0O-bhoolTtCvNdcZtMV49rTqfDH_la5I/gviz/tq?sheet=Schedule&tq=SELECT%20K,B,C,D,G,H,J';
@@ -225,7 +241,8 @@
                     button.onclick = () => {
                     	var tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, headings[activeTabName][0], item.shortTime];
                         //alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${headings[activeTabName][0]} | ${item.shortTime}`);
-                        alert(JSON.stringify(tosend));
+                        ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
+						//alert(JSON.stringify(tosend));
                     };
                     infoRow.appendChild(button);
                     card.appendChild(infoRow);
