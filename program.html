@@ -20,7 +20,7 @@
             background-color: #f9f9f9;
         }
         .tab {
-            padding: 10px 20px;
+            padding: 15px 20px;
             cursor: pointer;
           	flex-grow: 1;
             text-align: center;
@@ -59,20 +59,25 @@
             margin: 5px 0;
             white-space: pre-line; /* to handle the new line characters */
         }
-        .card button {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            margin-top: 10px;
-            padding: 5px 10px;
-            height: 50px;
-            font-size: 16px;
-            background-color: #006F91;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+    /* Add this CSS to your existing styles */
+    .card .info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 16px;
+        background-color: #006F91;
+        color: #fff;
+        height: 50px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
         .divider {
             border-top: 3px solid #ccc;
             margin-top: 20px;
@@ -119,113 +124,114 @@
             return processedData;
         }
 
-        function generateHTML(data) {
-            const tabsContainer = document.getElementById('tabs');
-            const contentContainer = document.getElementById('content');
+    function generateHTML(data) {
+        const tabsContainer = document.getElementById('tabs');
+        const contentContainer = document.getElementById('content');
 
-            const tabNames = Object.keys(data);
-            tabNames.forEach((tabName, index) => {
-                const tab = document.createElement('div');
-                tab.className = 'tab' + (index === 0 ? ' active' : '');
-                tab.textContent = tabName;
-                tab.onclick = () => {
-                    document.querySelector('.tab.active').classList.remove('active');
-                    tab.classList.add('active');
-                    showContent(tabName);
-                };
-                tabsContainer.appendChild(tab);
+        const tabNames = Object.keys(data);
+        tabNames.forEach((tabName, index) => {
+            const tab = document.createElement('div');
+            tab.className = 'tab' + (index === 0 ? ' active' : '');
+            tab.textContent = tabName;
+            tab.onclick = () => {
+                document.querySelector('.tab.active').classList.remove('active');
+                tab.classList.add('active');
+                showContent(tabName);
+            };
+            tabsContainer.appendChild(tab);
+        });
+        
+        var headings = {
+            'Plenary Sessions': 'Plenary Sessions - Startup Manthan',
+            'Parallel Track 1': 'Parallel Track - Tech Fusion',
+            'Parallel Track 2': 'Parallel Track - Emerging Sectors in Startups'
+        };
+
+        function showContent(activeTabName) {
+            contentContainer.innerHTML = '';
+            const sections = {};
+
+            data[activeTabName].forEach(item => {
+                const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
+                if (!sections[programSection]) {
+                    sections[programSection] = [];
+                }
+                sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
             });
             
-            var headings = {
-            	'Plenary Sessions': 'Plenary Sessions - Startup Manthan',
-                'Parallel Track 1': 'Parallel Track - Tech Fusion',
-                'Parallel Track 2': 'Parallel Track - Emerging Sectors in Startups'
-            };
+            const tabHeading = document.createElement('div');
+            tabHeading.className = 'tab-heading';
+            tabHeading.textContent = headings[activeTabName];
+            contentContainer.appendChild(tabHeading);
 
-            function showContent(activeTabName) {
-                contentContainer.innerHTML = '';
-                const sections = {};
-
-                data[activeTabName].forEach(item => {
-                    const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
-                    if (!sections[programSection]) {
-                        sections[programSection] = [];
-                    }
-                    sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
-                });
+            for (const [section, items] of Object.entries(sections)) {
+                const divider = document.createElement('div');
+                divider.className = 'divider';
+                contentContainer.appendChild(divider);
                 
-                const tabHeading = document.createElement('div');
-                tabHeading.className = 'tab-heading';
-                tabHeading.textContent = headings[activeTabName];
-                contentContainer.appendChild(tabHeading);
+                const sectionHeading = document.createElement('div');
+                sectionHeading.className = 'section-heading';
+                sectionHeading.textContent = section;
+                contentContainer.appendChild(sectionHeading);
 
-                for (const [section, items] of Object.entries(sections)) {
-                	const divider = document.createElement('div');
-                    divider.className = 'divider';
-                    contentContainer.appendChild(divider);
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    // Label for type
+                    const typeLabel = document.createElement('p');
+                    typeLabel.textContent = item.type;
+                    card.appendChild(typeLabel);
+
+                    // Title
+                    const cardTitle = document.createElement('h3');
+                    cardTitle.textContent = item.title;
+                    card.appendChild(cardTitle);
                     
-                    const sectionHeading = document.createElement('div');
-                    sectionHeading.className = 'section-heading';
-                    sectionHeading.textContent = section;
-                    contentContainer.appendChild(sectionHeading);
+                    const gap = document.createElement('div');
+                    gap.style.height = '7px';
+                    card.appendChild(gap);
 
-                    items.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'card';
+                    // Date, time, location and button in a row
+                    const infoRow = document.createElement('div');
+                    infoRow.className = 'info';
 
-                        // Label for type
-                        const typeLabel = document.createElement('p');
-                        typeLabel.textContent = item.type;
-                        card.appendChild(typeLabel);
+                    const cardDateTimeLoc = document.createElement('p');
+                    cardDateTimeLoc.textContent = item.dateTimeLoc;
+                    infoRow.appendChild(cardDateTimeLoc);
 
-                        // Title
-                        const cardTitle = document.createElement('h3');
-                        cardTitle.textContent = item.title;
-                        card.appendChild(cardTitle);
-                        
-                        const gap = document.createElement('div');
-                        gap.style.height = '7px';
-                        card.appendChild(gap);
+                    const button = document.createElement('button');
+                    button.textContent = 'Add to Agenda';
+                    button.onclick = () => {
+                        alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${activeTabName} | ${item.shortTime}`);
+                    };
+                    infoRow.appendChild(button);
+                    card.appendChild(infoRow);
 
-                        // Date, time, location
-                        const cardDateTimeLoc = document.createElement('p');
-                        cardDateTimeLoc.textContent = item.dateTimeLoc;
-                        card.appendChild(cardDateTimeLoc);
-                        
-                        
-                        
-                        const gap2 = document.createElement('div');
-                        gap2.style.height = '7px';
-                        card.appendChild(gap2);
+                    const gap2 = document.createElement('div');
+                    gap2.style.height = '7px';
+                    card.appendChild(gap2);
 
-                        // Speakers
-                        const cardSpeakers = document.createElement('p');
-                        cardSpeakers.textContent = item.speakers;
-                        card.appendChild(cardSpeakers);
+                    // Speakers
+                    const cardSpeakers = document.createElement('p');
+                    cardSpeakers.textContent = item.speakers;
+                    card.appendChild(cardSpeakers);
 
-                        // Add to Agenda button
-                        const button = document.createElement('button');
-                        button.textContent = 'Add to Agenda';
-                        button.onclick = () => {
-                            alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${activeTabName} | ${item.shortTime}`);
-                        };
-                        card.appendChild(button);
-
-                        contentContainer.appendChild(card);
-                    });
-                }
+                    contentContainer.appendChild(card);
+                });
             }
-
-            showContent(tabNames[0]);
         }
 
-        async function init() {
-            const rows = await fetchData();
-            const data = processData(rows);
-            generateHTML(data);
-        }
+        showContent(tabNames[0]);
+    }
 
-        init();
+    async function init() {
+        const rows = await fetchData();
+        const data = processData(rows);
+        generateHTML(data);
+    }
+
+    init();
     </script>
 </body>
 </html>
