@@ -47,7 +47,7 @@
             loginRef.update(updates, (error) => {
                 if (error) {
                     //firebase update error
-                    message = "Login failed due to reason - " + error + ".\nPlease return to app screen.";
+                    message = "Login failed due to reason - " + error + ".\nPlease close this window and return back to app screen.";
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('icon').src = 'https://i.postimg.cc/vTc7nLXp/image.png';
                     document.getElementById('icon').style.display = 'block';
@@ -78,21 +78,21 @@
                         email = data.email;
                         userid = data.sub;
                         status = "done";
-                        message = "Successfully logged in.\nPlease return to app screen.";
+                        message = "Successfully logged in.\nPlease close this window and return back to app screen.";
                         
                         firebaseupdate(accessToken, loginOTP);
                     })
                     .catch(error => {
                         //google auth token error
                         status = "failed | " + error;
-                        message = "Login failed due to Server error - " + error + ".\nPlease return to app screen.";
+                        message = "Login failed due to Server error - " + error + ".\nPlease close this window and return back to app screen.";
                         firebaseupdate(accessToken, loginOTP);
                     });
             } else {
                 //google auth faield or denied
                 status = "failed | " + params['error'];
                 accessToken = "NA";
-                message = "Login failed due to Google Authentication Error - " + params['error'] + ".\nPlease return to app screen.";
+                message = "Login failed due to Google Authentication Error - " + params['error'] + ".\nPlease close this window and return back to app screen.";
                 firebaseupdate(accessToken, loginOTP);
             }
         };
