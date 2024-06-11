@@ -126,8 +126,7 @@
         function processData(rows) {
             const processedData = {};
 
-            // Skip the header row
-            for (let i = 1; i < rows.length; i++) {
+            for (let i = 0; i < rows.length; i++) {
                 const row = rows[i].c.map(cell => cell.v ? cell.v.toString() : '');
                 const [tabName, programSection, type, title, dateTimeLoc, speakers, shortTime] = row;
 
