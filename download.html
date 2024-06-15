@@ -16,7 +16,7 @@
 
         #myDIV {
             width: 90%;
-            max-width: 600px; /* Adjust max-width as needed */
+            max-width: 600px;
             margin: auto;
             text-align: center;
             padding: 20px;
@@ -39,6 +39,44 @@
             display: inline-block;
         }
     </style>
+    <script>
+    function setdata(mode) {
+    	if(mode == "and") {
+        	document.getElementById("firstimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png";
+        	document.getElementById("firstlink").href = "https://play.google.com/store/apps/details?id=com.icai.startupsphere";
+        	document.getElementById("secondimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png";
+        	document.getElementById("secondlink").href = "https://apps.apple.com/app/icai-startup-sphere/id6504396448";
+        } else {
+        	document.getElementById("firstimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png";
+        	document.getElementById("firstlink").href = "https://apps.apple.com/app/icai-startup-sphere/id6504396448";
+        	document.getElementById("secondimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png";
+        	document.getElementById("secondlink").href = "https://play.google.com/store/apps/details?id=com.icai.startupsphere";
+        }
+    }
+    
+    function checkOS() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        if (/windows phone/i.test(userAgent)) {
+            setdata("and");
+            return;
+        }
+
+        if (/android/i.test(userAgent)) {
+            setdata("and");
+            return;
+        }
+
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            setdata("ios");
+            return;
+        }
+        setdata("and");
+        return;
+    }
+    
+    window.onload = checkOS;
+	</script>
 </head>
 <body>
     <div id="myDIV">
@@ -47,9 +85,9 @@
         <br>
         <p><b>Download "ICAI Startup Sphere" App from Google Play Store & iOS App Store</b></p>
         <br>
-        <a target="_blank" href='https://play.google.com/store/apps/details?id=com.icai.startupsphere'><img alt='Get it on Google Play' src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png' style="width: 75%"></a>
+        <a id="firstlink" target="_blank" href=''> <img id="firstimg" src='' style="width: 75%; order: 1"></a>
         <p style="font-family: Segoe UI, Arial, sans-serif; font-size: 1rem">-- OR --</p>
-        <a target="_blank" href='https://apps.apple.com/app/icai-startup-sphere/id6504396448'><img alt='Download on the App Store' src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png' style="width: 75%"></a>
+        <a id="secondlink" target="_blank" href=''><img id="secondimg" src='' style="width: 75%; order: 2"></a>
         <br><br><br>
     </div>
 </body>
