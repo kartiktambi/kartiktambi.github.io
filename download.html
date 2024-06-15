@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
-<title>Download ICAI Startup Sphere App</title>
 <head>
-<script>
-function checkOS() {
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download ICAI Startup Sphere App</title>
+    <style>
+        body {
+            background-image: url('https://static.vecteezy.com/system/resources/previews/011/607/159/large_2x/minimalist-and-modern-future-abstract-geometric-white-and-gray-color-background-free-photo.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
 
-    // Windows Phone must come first because its UA also contains "Android"
-    if (/windows phone/i.test(userAgent)) {
-        return "Windows Phone";
-    }
+        #myDIV {
+            width: 90%;
+            max-width: 600px; /* Adjust max-width as needed */
+            margin: auto;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-    if (/android/i.test(userAgent)) {
-        return "Android";
-    }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+        }
 
-    // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "iOS";
-    }
+        p {
+            font-family: Segoe UI, Arial, sans-serif;
+            font-size: 1.2rem; /* Adjust font size */
+        }
 
-    return "unknown";
-}
-
-var os = checkOS();
-
-if(os == "Android") window.open("https://play.google.com/store/apps/details?id=com.icai.startupsphere");
-else if(os == "iOS") window.open("https://apps.apple.com/app/icai-startup-sphere/id6504396448");
-
-</script>
+        a {
+            display: inline-block;
+        }
+    </style>
 </head>
-<body style="background-image: url('https://static.vecteezy.com/system/resources/previews/011/607/159/large_2x/minimalist-and-modern-future-abstract-geometric-white-and-gray-color-background-free-photo.jpg'); background-size: cover; background-position: center;">
-<div id="myDIV" style="display: block; width: 90%; margin: auto; text-align: center">
-  <br>
-  <img src="https://i.ibb.co/WndPvnL/icon-512.jpg" style="height: 300px; width:300px; border-radius: 10%; box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);">
-  <br>
-  <p style="font-family: Segoe UI, Arial, sans-serif; font-size: 30px"><b>Download "ICAI Startup Sphere" App from <br>Google Play Store & iOS App Store</b></p>
-  <br>
-  <a href='https://play.google.com/store/apps/details?id=com.icai.startupsphere'><img alt='Get it on Google Play' src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png' style="width: 250px"/></a>
-  <p style="font-family: Segoe UI, Arial, sans-serif; font-size: 17px">-- OR --</p>
-  <a href='https://apps.apple.com/app/icai-startup-sphere/id6504396448'><img alt='Download on the App Store' src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png' style="width: 250px"/></a>
-  <br><br><br>
-</div>
+<body>
+    <div id="myDIV">
+        <br>
+        <img src="https://i.ibb.co/WndPvnL/icon-512.jpg" alt="App Icon" style="border-radius: 10%; width: 75%">
+        <br>
+        <p><b>Download "ICAI Startup Sphere" App from Google Play Store & iOS App Store</b></p>
+        <br>
+        <a target="_blank" href='https://play.google.com/store/apps/details?id=com.icai.startupsphere'><img alt='Get it on Google Play' src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png' style="width: 75%"></a>
+        <p style="font-family: Segoe UI, Arial, sans-serif; font-size: 1rem">-- OR --</p>
+        <a target="_blank" href='https://apps.apple.com/app/icai-startup-sphere/id6504396448'><img alt='Download on the App Store' src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png' style="width: 75%"></a>
+        <br><br><br>
+    </div>
 </body>
 </html>
