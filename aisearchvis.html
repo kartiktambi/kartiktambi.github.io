@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Search - Startup Sphere</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            font-size: 7vw;
+        }
+
+        #container {
+            text-align: center;
+        }
+    </style>
+    <script>
+          var ThunkableWebviewerExtension = (function () {
+          const postMessageToWebview = (message) => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(message);
+            } else {
+              window.parent.postMessage(message, '*');
+            }
+          };
+        
+          return {
+            postMessage: postMessageToWebview
+          };
+        })();
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h1 id="label">Coming Soon!</h1>
+    </div>
+</body>
+</html>
