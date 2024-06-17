@@ -73,6 +73,7 @@
         <h1 id="label"></h1>
     </div>
     <script>
+        ThunkableWebviewerExtension.postMessage("Ready");
         ThunkableWebviewerExtension.receiveMessage(function(message) {
             if (message) {
                 if(message === "Delegate") {
