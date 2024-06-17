@@ -74,10 +74,12 @@
     </div>
     <script>
         ThunkableWebviewerExtension.receiveMessage(function(message) {
-            if(message == "Delegate") {
-                document.getElementById('label').innerHTML = "Coming Soon!";
-            } else {
-                document.getElementById('label').innerHTML = "Feature Restricted";
+            if (message) {
+                if(message === "Delegate") {
+                    document.getElementById("label").innerHTML = "Coming Soon!";
+                } else {
+                    document.getElementById("label").innerHTML = "Feature Restricted";
+                }
             }
         });
     </script>
