@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        .item label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">
+            <label for="user">User ID:</label>
+            <span id="user"></span>
+        </div>
+        <div class="item">
+            <label for="name">Name:</label>
+            <span id="name"></span>
+        </div>
+        <div class="item">
+            <label for="mobile">Mobile:</label>
+            <span id="mobile"></span>
+        </div>
+        <div class="item">
+            <label for="sessionid">Session ID:</label>
+            <span id="sessionid"></span>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                user: params.get('user'),
+                name: params.get('name'),
+                mobile: params.get('mobile'),
+                sessionid: params.get('sessionid')
+            };
+        }
+
+        function displayParams(params) {
+            document.getElementById('user').textContent = params.user;
+            document.getElementById('name').textContent = params.name;
+            document.getElementById('mobile').textContent = params.mobile;
+            document.getElementById('sessionid').textContent = params.sessionid;
+        }
+
+        function removeQueryParams() {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        const params = getQueryParams();
+        displayParams(params);
+        removeQueryParams();
+    </script>
+</body>
+</html>
