@@ -132,7 +132,9 @@
 
                 const formattedTabName = tabName;
                 const formattedDateTimeLoc = dateTimeLoc.replace(/\\n/g, '\n');
-                const formattedSpeakers = speakers.replace(/\\n/g, '\n');
+                var formattedSpeakers = speakers.replace(/\\n/g, '<br>');
+				formattedSpeakers = formattedSpeakers.replace('Moderator: ', '<b>Moderator: </b>');
+                formattedSpeakers = formattedSpeakers.replace('Panelists: ', '<b>Panelists: </b>');
 
                 if (!processedData[formattedTabName]) {
                     processedData[formattedTabName] = [];
@@ -253,7 +255,7 @@
 
                     // Speakers
                     const cardSpeakers = document.createElement('p');
-                    cardSpeakers.textContent = item.speakers;
+                    cardSpeakers.innerHTML = item.speakers;
                     card.appendChild(cardSpeakers);
 
                     contentContainer.appendChild(card);
