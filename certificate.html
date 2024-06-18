@@ -40,8 +40,12 @@
             <span id="mobile"></span>
         </div>
         <div class="item">
-            <label for="sessionid">Session ID:</label>
-            <span id="sessionid"></span>
+            <label for="track">Track:</label>
+            <span id="track"></span>
+        </div>
+        <div class="item">
+            <label for="title">Title:</label>
+            <span id="title"></span>
         </div>
     </div>
 
@@ -56,9 +60,33 @@
         }
 
         function displayParams(params) {
-            document.getElementById('name').textContent = params.name;
-            document.getElementById('mobile').textContent = params.mobile;
-            document.getElementById('sessionid').textContent = params.sessionid;
+			const url = `https://docs.google.com/spreadsheets/d/1hI2QrxKHLBW0O-bhoolTtCvNdcZtMV49rTqfDH_la5I/gviz/tq?sheet=Schedule&tq=SELECT A,D WHERE L MATCHES '` + params.sessionid + `'`;
+            var finalresp;
+            
+            fetch(url)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Error : ' + response.statusText);
+                  }
+                  return response.text(); // Or response.json() if the response is JSON
+              })
+              .then(text => {
+                    finalresp = text;
+                    finalresp = finalresp.replace(`/*O_o*/\ngoogle.visualization.Query.setResponse(`,"");
+                    finalresp = finalresp.slice(0, -2);
+        
+                    const json = JSON.parse(finalresp);
+                    var rawdata = json.table.rows[0].c;
+                    
+                    
+                    document.getElementById('name').textContent = params.name;
+                    document.getElementById('mobile').textContent = params.mobile;
+                    document.getElementById('track').textContent = rawdata[0].v;
+                    document.getElementById('title').textContent = rawdata[1].v;
+              })
+              .catch(error => {
+                  console.error('Error : ', error);
+              });
         }
 
         function removeQueryParams() {
