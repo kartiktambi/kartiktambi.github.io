@@ -32,10 +32,6 @@
 <body>
     <div class="container">
         <div class="item">
-            <label for="user">User ID:</label>
-            <span id="user"></span>
-        </div>
-        <div class="item">
             <label for="name">Name:</label>
             <span id="name"></span>
         </div>
@@ -53,7 +49,6 @@
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
-                user: params.get('user'),
                 name: params.get('name'),
                 mobile: params.get('mobile'),
                 sessionid: params.get('sessionid')
@@ -61,7 +56,6 @@
         }
 
         function displayParams(params) {
-            document.getElementById('user').textContent = params.user;
             document.getElementById('name').textContent = params.name;
             document.getElementById('mobile').textContent = params.mobile;
             document.getElementById('sessionid').textContent = params.sessionid;
