@@ -193,7 +193,8 @@
         redirectButton.className = 'redirect-button';
         redirectButton.textContent = 'View Investor Pitching & Startup Tank Time Allotments';
         redirectButton.onclick = () => {
-            window.location.href = 'https://kartiktambi.github.io/startups.html';
+		ThunkableWebviewerExtension.postMessage("Link || https://startupsphere.org/agenda.php");
+		//window.location.href = 'https://kartiktambi.github.io/startups.html';
         };
         contentContainer.appendChild(redirectButton);
     }
