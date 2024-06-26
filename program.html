@@ -88,6 +88,20 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        .redirect-button {
+	    display: block;
+	    width: 90%;
+	    font-size: 1.2em;
+	    height: 75px;
+	    line-height: 30px;
+	    background-color: #006F91;
+	    color: white;
+	    border: none;
+	    border-radius: 10px;
+	    cursor: pointer;
+	    margin: 20px auto; /* Center the button */
+	}
+
     </style>
 </head>
 <body>
@@ -170,98 +184,103 @@
         };
 
         function showContent(activeTabName) {
-            contentContainer.innerHTML = '';
-            const sections = {};
+    contentContainer.innerHTML = '';
+    const sections = {};
 
-            data[activeTabName].forEach(item => {
-                const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
-                if (!sections[programSection]) {
-                    sections[programSection] = [];
-                }
-                sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
-            });
-            
-            const tabHeading = document.createElement('div');
-            tabHeading.className = 'tab-heading';
-            tabHeading.textContent = headings[activeTabName][0];
-            contentContainer.appendChild(tabHeading);
-            
-            const tabLocation = document.createElement('div');
-            tabLocation.className = 'tab-location';
-            tabLocation.textContent = headings[activeTabName][1];
-            contentContainer.appendChild(tabLocation);
+    // Add redirect button for the first tab only
+    if (activeTabName === tabNames[0]) {
+        const redirectButton = document.createElement('button');
+        redirectButton.className = 'redirect-button';
+        redirectButton.textContent = 'View Investor Pitching & Startup Tank Time Allotments';
+        redirectButton.onclick = () => {
+            window.location.href = 'https://kartiktambi.github.io/startups.html';
+        };
+        contentContainer.appendChild(redirectButton);
+    }
 
-            for (const [section, items] of Object.entries(sections)) {
-                const divider = document.createElement('div');
-                divider.className = 'divider';
-                contentContainer.appendChild(divider);
-                
-                const sectionHeading = document.createElement('div');
-                sectionHeading.className = 'section-heading';
-                sectionHeading.textContent = section;
-                contentContainer.appendChild(sectionHeading);
-
-                items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
-
-                    // Label for type
-                    const typeLabel = document.createElement('p');
-                    typeLabel.textContent = item.type;
-                    card.appendChild(typeLabel);
-
-                    // Title
-                    const cardTitle = document.createElement('h3');
-                    cardTitle.textContent = item.title;
-                    card.appendChild(cardTitle);
-                    
-                    const gap = document.createElement('div');
-                    gap.style.height = '7px';
-                    card.appendChild(gap);
-
-                    // Date, time, location and button in a row
-                    const infoRow = document.createElement('div');
-                    infoRow.className = 'info';
-
-                    //const cardDateTimeLoc = document.createElement('p');
-                    //cardDateTimeLoc.textContent = item.dateTimeLoc;
-                  	//cardDateTimeLoc.style.display = "none";
-                    //infoRow.appendChild(cardDateTimeLoc);
-                    
-                    const cardDateTimeLoc2 = document.createElement('p');
-                    const myArray = item.dateTimeLoc.split("Time : ");
-                    const newval = myArray[1].split("Location");
-                    const from = newval[0].split(" to ")[0];
-                    const to = newval[0].split(" to ")[1];
-					cardDateTimeLoc2.textContent = "From: " + from + "\n"+"To: " + to;
-                    cardDateTimeLoc2.style.fontWeight = "Bold";
-                    
-                    infoRow.appendChild(cardDateTimeLoc2);
-
-                    const button = document.createElement('button');
-                    button.textContent = 'Add to Agenda';
-                    button.onclick = () => {
-                    	var tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, headings[activeTabName][0], item.shortTime];
-                        //alert(`${item.type} | ${item.title} | ${item.dateTimeLoc} | ${item.speakers} | ${headings[activeTabName][0]} | ${item.shortTime}`);
-                        ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
-						//alert(JSON.stringify(tosend));
-                    };
-                    infoRow.appendChild(button);
-                    card.appendChild(infoRow);
-
-                    const gap2 = document.createElement('div');
-                    gap2.style.height = '7px';
-                    card.appendChild(gap2);
-
-                    // Speakers
-                    const cardSpeakers = document.createElement('p');
-                    cardSpeakers.innerHTML = item.speakers;
-                    card.appendChild(cardSpeakers);
-
-                    contentContainer.appendChild(card);
-                });
-            }
+    data[activeTabName].forEach(item => {
+        const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
+        if (!sections[programSection]) {
+            sections[programSection] = [];
         }
+        sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
+    });
+
+    const tabHeading = document.createElement('div');
+    tabHeading.className = 'tab-heading';
+    tabHeading.textContent = headings[activeTabName][0];
+    contentContainer.appendChild(tabHeading);
+
+    const tabLocation = document.createElement('div');
+    tabLocation.className = 'tab-location';
+    tabLocation.textContent = headings[activeTabName][1];
+    contentContainer.appendChild(tabLocation);
+
+    for (const [section, items] of Object.entries(sections)) {
+        const divider = document.createElement('div');
+        divider.className = 'divider';
+        contentContainer.appendChild(divider);
+
+        const sectionHeading = document.createElement('div');
+        sectionHeading.className = 'section-heading';
+        sectionHeading.textContent = section;
+        contentContainer.appendChild(sectionHeading);
+
+        items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            // Label for type
+            const typeLabel = document.createElement('p');
+            typeLabel.textContent = item.type;
+            card.appendChild(typeLabel);
+
+            // Title
+            const cardTitle = document.createElement('h3');
+            cardTitle.textContent = item.title;
+            card.appendChild(cardTitle);
+
+            const gap = document.createElement('div');
+            gap.style.height = '7px';
+            card.appendChild(gap);
+
+            // Date, time, location and button in a row
+            const infoRow = document.createElement('div');
+            infoRow.className = 'info';
+
+            const cardDateTimeLoc2 = document.createElement('p');
+            const myArray = item.dateTimeLoc.split("Time : ");
+            const newval = myArray[1].split("Location");
+            const from = newval[0].split(" to ")[0];
+            const to = newval[0].split(" to ")[1];
+            cardDateTimeLoc2.textContent = "From: " + from + "\n" + "To: " + to;
+            cardDateTimeLoc2.style.fontWeight = "Bold";
+
+            infoRow.appendChild(cardDateTimeLoc2);
+
+            const button = document.createElement('button');
+            button.textContent = 'Add to Agenda';
+            button.onclick = () => {
+                var tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, headings[activeTabName][0], item.shortTime];
+                ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
+            };
+            infoRow.appendChild(button);
+            card.appendChild(infoRow);
+
+            const gap2 = document.createElement('div');
+            gap2.style.height = '7px';
+            card.appendChild(gap2);
+
+            // Speakers
+            const cardSpeakers = document.createElement('p');
+            cardSpeakers.innerHTML = item.speakers;
+            card.appendChild(cardSpeakers);
+
+            contentContainer.appendChild(card);
+        });
+    }
+}
+
 
         showContent(tabNames[0]);
     }
