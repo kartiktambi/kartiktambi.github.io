@@ -89,16 +89,18 @@
             margin-bottom: 10px;
         }
         .redirect-button {
-    display: block;
-    width: 90%;
-    height: 60px;
-    background-color: #006F91;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 20px auto; /* Center the button */
-}
+	    display: block;
+	    width: 90%;
+	    font-size: 1.2em;
+	    height: 75px;
+	    line-height: 30px;
+	    background-color: #006F91;
+	    color: white;
+	    border: none;
+	    border-radius: 10px;
+	    cursor: pointer;
+	    margin: 20px auto; /* Center the button */
+	}
 
     </style>
 </head>
@@ -189,7 +191,7 @@
     if (activeTabName === tabNames[0]) {
         const redirectButton = document.createElement('button');
         redirectButton.className = 'redirect-button';
-        redirectButton.textContent = 'Go to Startups Page';
+        redirectButton.textContent = 'View Investor Pitching & Startup Tank Time Allotments';
         redirectButton.onclick = () => {
             window.location.href = 'https://kartiktambi.github.io/startups.html';
         };
