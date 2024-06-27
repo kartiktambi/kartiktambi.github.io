@@ -104,6 +104,10 @@
       }
     }
 
+    function randomIntFromInterval(min, max) { // min and max included 
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
     const SUPABASE_URL = 'https://zsggjstgdgxhlyfrtoti.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZ2dqc3RnZGd4aGx5ZnJ0b3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYzNTM5MjcsImV4cCI6MjAzMTkyOTkyN30.wNWeTfJAxj7-FWgC9UlC9YV2DggU-TIbSr1nDwCI8Nc';
     const oaikey = 'YzJzdGNISnZhaTFOUm1WdlJFeDBjV0pvWldoblQyOUdWakJQYlZRelFteGlhMFpLVERodldHMWlRVFY1V25rNVptMDJTMlpxU0RnPQ==';
@@ -177,6 +181,12 @@
         if (profileError) {
           throw new Error(`Profile fetch error: ${profileError.message}`);
         }
+
+        var randid = randomIntFromInterval(100000, 999999) + randomIntFromInterval(1000, 9999) + randomIntFromInterval(100000, 999999);
+                
+        const { error } = await supabase
+          .from('AI Search')
+          .insert({ id: randid, name: query });
 
         const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.Sr === sr));
 
