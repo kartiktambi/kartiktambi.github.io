@@ -184,7 +184,7 @@
 
         var randid = randomIntFromInterval(100000, 999999) + randomIntFromInterval(1000, 9999) + randomIntFromInterval(100000, 999999);
                 
-        const { error } = await supabase
+        const { error2 } = await supabase
           .from('AI Search')
           .insert({ id: randid, name: query });
 
