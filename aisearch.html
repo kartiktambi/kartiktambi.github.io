@@ -1,45 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Search - Startup Sphere</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-        }
-
-        h1 {
-            font-size: 7vw;
-        }
-
-        #container {
-            text-align: center;
-        }
-    </style>
-    <script>
-          var ThunkableWebviewerExtension = (function () {
-          const postMessageToWebview = (message) => {
-            if (window.ReactNativeWebView) {
-              window.ReactNativeWebView.postMessage(message);
-            } else {
-              window.parent.postMessage(message, '*');
-            }
-          };
-        
-          return {
-            postMessage: postMessageToWebview
-          };
-        })();
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>AI Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    p {
+      font-size: 18px;
+    }
+    #search-form {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: calc(100% - 120px); /* Adjusted width for button */
+      margin-right: 10px;
+      border: 3px solid #007aff;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    button[type="submit"] {
+      padding: 12px 20px;
+      border: none;
+      background-color: #007aff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    #results {
+      display: grid;
+      gap: 20px;
+    }
+    card {
+      border: 2px solid #007aff;
+      border-radius: 10px;
+      padding: 15px;
+      position: relative;
+    }
+    card p {
+      margin: 5px 0;
+    }
+    card p:first-child {
+      font-size: 20px; /* Increased font size for name */
+      font-weight: bold;
+    }
+    .open-profile-button {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #007aff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
-    <div id="container">
-        <h1 id="label">Coming Soon!</h1>
-    </div>
+  <form id="search-form">
+    <input type="text" id="query" name="query" placeholder="Enter your query">
+    <button type="submit">Search</button>
+  </form>
+  <p id="label">Query Examples - <br>- I am looking for Startup Advisors<br>- I am looking for Branding agencies, etc.</p>
+  <div id="results"></div>
+
+  <script>
+  var ThunkableWebviewerExtension = (function () {
+    const postMessageToWebview = (message) => {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(message);
+      } else {
+        window.parent.postMessage(message, '*');
+      }
+    };
+  
+    return {
+      postMessage: postMessageToWebview
+    };
+  })();
+  </script>
+
+  <script>
+    function showProfile(sr, name, category) {
+      if(category.includes("Exhibitor") || category.includes("Pres") || category.includes("Vent")) {
+        //alert(`${sr} || ${name} || Company`);
+        ThunkableWebviewerExtension.postMessage(`${sr} || ${name} || Company`);
+      } else {
+        //alert(`${sr} || ${name} || Name`);
+        ThunkableWebviewerExtension.postMessage(`${sr} || ${name} || Name`);
+      }
+    }
+
+    const SUPABASE_URL = 'https://zsggjstgdgxhlyfrtoti.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZ2dqc3RnZGd4aGx5ZnJ0b3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYzNTM5MjcsImV4cCI6MjAzMTkyOTkyN30.wNWeTfJAxj7-FWgC9UlC9YV2DggU-TIbSr1nDwCI8Nc';
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      
+    document.getElementById('search-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const query = document.getElementById('query').value;
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = 'Searching...';
+      label.innerHTML = 'Please wait...';
+
+      try {
+        // Step 2: Get the embedding for the query
+        const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${OPENAI_API_KEY}`
+          },
+          body: JSON.stringify({
+            input: query,
+            model: 'text-embedding-3-small'  // Ensure this model is correct
+          })
+        });
+
+        if (!embeddingResponse.ok) {
+          throw new Error(`Embedding API response not OK: ${embeddingResponse.statusText}`);
+        }
+
+        const embeddingResult = await embeddingResponse.json();
+        const queryEmbedding = embeddingResult.data[0].embedding;
+
+        // Step 3: Fetch profiles with embeddings
+        const { data: profiles, error } = await supabase
+          .from('EventData')
+          .select('Sr, Vectors')
+          .not('Vectors', 'is', null);
+
+        if (error) {
+          throw new Error(`Supabase error: ${error.message}`);
+        }
+
+        // Step 4: Calculate cosine similarity
+        const cosineSimilarity = (vecA, vecB) => {
+          const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+          const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+          const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+          return dotProduct / (magnitudeA * magnitudeB);
+        };
+
+        const similarities = profiles.map(profile => {
+          const vectors = JSON.parse(profile.Vectors);
+          return {
+            sr: profile.Sr,
+            similarity: cosineSimilarity(queryEmbedding, vectors)
+          };
+        });
+
+        similarities.sort((a, b) => b.similarity - a.similarity);
+        const topProfiles = similarities.slice(0, 5).map(profile => profile.sr);
+
+        // Step 5: Fetch profile details
+        const { data: topProfileDetails, error: profileError } = await supabase
+          .from('EventData')
+          .select('*')
+          .in('Sr', topProfiles);
+
+        if (profileError) {
+          throw new Error(`Profile fetch error: ${profileError.message}`);
+        }
+
+        const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.Sr === sr));
+
+        // Step 6: Display results
+        resultsDiv.innerHTML = '';
+        sortedTopProfileDetails.forEach(profile => {
+          const profileDiv = document.createElement('card');
+          profileDiv.innerHTML = `
+            <p style="font-size: 20px">${profile.Name}</p>
+            <p><strong>Category:</strong> ${profile.Category}</p>
+            <p><strong>Company:</strong> ${profile.Company}</p>
+            <p><strong>Business Nature:</strong> ${profile['Business Nature']}</p>
+            <p><strong>Business Location:</strong> ${profile['Business Location']}</p>
+            <p><strong>Business Services:</strong> ${profile['Business Services']}</p>
+            <p><strong>Interested In:</strong> ${profile['Interested In']}</p>
+            <p><strong><br>More details >>></strong></p>
+            <br>
+            <button class="open-profile-button" onclick="showProfile('${profile.Sr}', '${profile.Name}', '${profile.Category}')">Open Profile</button>
+          `;
+          resultsDiv.appendChild(profileDiv);
+        });
+        label.innerHTML = 'Top Results - ';
+      } catch (error) {
+        resultsDiv.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
 </body>
 </html>
