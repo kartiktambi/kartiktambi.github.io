@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICF Player Registration Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            font-size: 16px;
+            padding: 10px;
+            border: 2px solid #007aff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            background-color: #007aff;
+            color: white;
+            font-size: 18px;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        button:hover:enabled {
+            background-color: #005bb5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007aff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        td.Active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        td.NotActive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        td.Error {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        tr.Error {
+            background-color: #f8d7da !important;
+        }
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+        }
+        footer {
+            background-color: #f0f0f0;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 30px;
+        }
+        footer a {
+            color: #007aff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>AICF Player Registration Check</h1>
+    <p>Paste up to 25 player IDs from a serial list or Excel column (one per line) below and click "Fetch Data".</p>
+    <textarea id="playerIds" placeholder="Enter up to 25 player IDs, one per line"></textarea>
+    <button id="fetchButton" onclick="fetchPlayerData()">Fetch Data</button>
+
+    <div class="filters" style="display: none;">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="Active">Active</option>
+            <option value="Not Active">Not Active</option>
+            <option value="Error">Error</option>
+        </select>
+
+        <label for="genderFilter">Filter by Gender:</label>
+        <select id="genderFilter" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+        </select>
+    </div>
+
+    <table id="outputTable" style="display: none;">
+        <thead>
+            <tr>
+                <th>PlayersID</th>
+                <th>AICF ID</th>
+                <th>Status</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Membership Expire At</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <footer>
+        Concept originally from IA Vasanth, B. H. (FIDE ID: 25006606) modified & webpage by 
+        <a href="https://about.me/kartiktambi" target="_blank">Kartik Tambi</a>.
+    </footer>
+
+    <script>
+        function formatDate(dateString) {
+            if (dateString === "Error") return "Error";
+            try {
+                const date = new Date(dateString);
+                return date.toISOString().slice(0, 19).replace("T", " ");
+            } catch {
+                return "Invalid Date";
+            }
+        }
+
+        async function fetchPlayerData() {
+            const input = document.getElementById('playerIds').value.trim();
+            const button = document.getElementById('fetchButton');
+            const outputTable = document.getElementById('outputTable');
+            const tbody = outputTable.querySelector('tbody');
+            const filtersDiv = document.querySelector('.filters');
+
+            if (!input) {
+                alert('Please enter player IDs.');
+                return;
+            }
+
+            const playerIds = input.split('\n').map(id => id.trim()).slice(0, 25);
+
+            if (playerIds.length === 0) {
+                alert('Please enter at least one player ID.');
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = 'Processing Data...';
+
+            tbody.innerHTML = ''; // Clear previous results
+            outputTable.style.display = 'none';
+            filtersDiv.style.display = 'none';
+
+            for (const playerId of playerIds) {
+                try {
+                    const url = `https://admin.aicf.in/api/players?name=${playerId}&state=0&city=0`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+
+                    const playerData = data.data[0] || {};
+                    const membershipStatus = playerData.membership_status !== false ? 'Active' : 'Not Active';
+                    const name = `${playerData.first_name || ''} ${playerData.last_name || ''}`.trim();
+                    const formattedDate = formatDate(playerData.membership_expire_at || "Error");
+                    const errorClass = playerData.aicf_id ? "" : "Error";
+
+                    const row = document.createElement('tr');
+                    if (errorClass) row.classList.add('Error');
+
+                    row.innerHTML = `
+                        <td>${playerId}</td>
+                        <td>${playerData.aicf_id || 'Error'}</td>
+                        <td class="${errorClass || membershipStatus.replace(/\s/g, '')}">
+                            ${errorClass ? 'Error' : membershipStatus}
+                        </td>
+                        <td>${name || 'Error'}</td>
+                        <td>${playerData.gender || 'Error'}</td>
+                        <td>${playerData.city_name || 'Error'}</td>
+                        <td>${playerData.state_name || 'Error'}</td>
+                        <td>${formattedDate}</td>
+                    `;
+                    tbody.appendChild(row);
+
+                    outputTable.style.display = 'table';
+                    filtersDiv.style.display = 'flex';
+
+                    // Wait for 0.25 seconds between requests
+                    await new Promise(resolve => setTimeout(resolve, 250));
+                } catch (error) {
+                    console.error('Error:', playerId, error);
+                    const row = document.createElement('tr');
+                    row.classList.add('Error');
+                    row.innerHTML = `
+                        <td>${playerId}</td>
+                        <td>Error</td>
+                        <td class="Error">Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            }
+
+            button.disabled = false;
+            button.textContent = 'Fetch Data';
+        }
+
+        function applyFilters() {
+            const statusFilter = document.getElementById('statusFilter').value.trim();
+            const genderFilter = document.getElementById('genderFilter').value.trim();
+            const rows = document.querySelectorAll('#outputTable tbody tr');
+
+            rows.forEach(row => {
+                const status = row.children[2].textContent.trim();
+                const gender = row.children[4].textContent.trim();
+
+                const statusMatch = !statusFilter || status === statusFilter;
+                const genderMatch = !genderFilter || gender === genderFilter;
+
+                row.style.display = statusMatch && genderMatch ? '' : 'none';
+            });
+        }
+
+    </script>
+</body>
+</html>
