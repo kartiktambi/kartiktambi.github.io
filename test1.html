@@ -27,6 +27,7 @@
     .instructions img {
       max-width: 100%;
       height: auto;
+      max-height: 150px;
       border-radius: 10px;
     }
 
@@ -35,6 +36,7 @@
       justify-content: center;
       gap: 10px;
       flex-wrap: wrap;
+      margin-bottom: 20px;
     }
 
     .upload-button {
@@ -45,7 +47,6 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-bottom: 20px;
       flex: 1;
       text-align: center;
     }
@@ -75,13 +76,15 @@
     }
 
     .action-button {
-      padding: 10px 20px;
+      padding: 15px 30px;
       background-color: #007bff;
       color: white;
       font-size: 16px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      flex: 1;
+      text-align: center;
     }
 
     .action-button:hover {
@@ -92,12 +95,20 @@
       .upload-buttons {
         flex-direction: column;
       }
+
+      .action-button {
+        padding: 10px 20px;
+      }
+
+      .image-preview {
+        max-height: 200px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="instructions">
+    <div class="instructions" id="instructions">
       <img src="https://res.cloudinary.com/lalittambi/image/upload/v1736611549/sm7_instructions.png" alt="Instructions">
     </div>
 
@@ -113,7 +124,7 @@
     </div>
   </div>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
     function SHA1(msg) {
       function rotate_left(n,s) {
        var t4 = ( n<<s ) | (n>>>(32-s));
@@ -249,13 +260,16 @@
     }
   </script>
 
+  
   <script type="text/javascript">
     const uploadButtons = document.getElementById('upload-buttons');
     const imagePreview = document.getElementById('image-preview');
     const actionButtons = document.getElementById('action-buttons');
+    const instructions = document.getElementById('instructions');
     const proceedButton = document.getElementById('proceed-button');
     const editButton = document.getElementById('edit-button');
     let base64Image = '';
+    let latestImg = '';
 
     // Check if the device is mobile
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -290,6 +304,8 @@
           imagePreview.src = base64Image;
           imagePreview.style.display = 'block';
           actionButtons.style.display = 'flex';
+          instructions.style.display = 'none';
+          uploadButtons.style.display = 'none';
         };
         reader.readAsDataURL(file);
       }
@@ -331,7 +347,8 @@
       })
         .then(response => response.json())
         .then(data => {
-          alert(`Image uploaded successfully. Public ID: ${data.public_id}`);
+          latestImg = data.public_id;
+          window.location.href = `https://res.cloudinary.com/lalittambi/image/upload/c_thumb,g_face,h_505,w_685/u_sm7selfie_al8izm/fl_layer_apply,g_north_west,x_-455,y_-705/${latestImg}`;
         })
         .catch(error => {
           alert(`Error uploading image: ${error}`);
