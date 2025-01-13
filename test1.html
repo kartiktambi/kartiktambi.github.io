@@ -345,7 +345,7 @@
         .then(response => response.json())
         .then(data => {
           latestImg = data.public_id;
-          window.location.href = `https://res.cloudinary.com/lalittambi/image/upload/c_thumb,g_face,h_505,w_685/u_sm7selfie_al8izm/fl_layer_apply,g_north_west,x_-455,y_-705/${latestImg}`;
+          window.location.href = `https://res.cloudinary.com/lalittambi/image/upload/c_thumb,g_face,h_505,w_685,z_0.5/u_sm7selfie_al8izm/fl_layer_apply,g_north_west,x_-455,y_-705/${latestImg}`;
         })
         .catch(error => {
           alert(`Error uploading image: ${error}`);
