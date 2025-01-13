@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Image Upload</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Image Upload</title>
   <style>
     body {
       margin: 0;
@@ -10,12 +12,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       background-color: #f9f9f9;
     }
 
     .container {
       text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .instructions {
+      max-width: 100%;
+      margin-bottom: 20px;
+      display: block;
     }
 
     .upload-button {
@@ -46,7 +56,13 @@
       border-radius: 10px;
     }
 
-    .confirm-button {
+    .thank-you {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0 10px;
+    }
+
+    .share-button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #007bff;
@@ -57,22 +73,25 @@
       cursor: pointer;
     }
 
-    .confirm-button:hover {
+    .share-button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <label class="upload-button">
+    <img src="https://res.cloudinary.com/lalittambi/image/upload/v1736611549/sm7_instructions.png" alt="Instructions" id="instructions" class="instructions">
+    <label class="upload-button" id="upload-label">
       Click to Upload or Capture Image
-      <!--<input type="file" id="file-input" accept="image/*" capture="camera">-->
       <input type="file" id="file-input" accept="image/*">
     </label>
     <div>
       <img id="image-preview" class="image-preview" src="" alt="" style="display: none;">
     </div>
-    <button id="confirm-button" class="confirm-button" style="display: none;">Confirm & Upload</button>
+    <div id="thank-you-section" style="display: none;">
+      <p class="thank-you">Thank you! Tag us on social media.</p>
+      <button id="share-button" class="share-button">Share on Social Media</button>
+    </div>
   </div>
 
   <script type="text/javascript">
@@ -214,31 +233,47 @@
   <script>
     const fileInput = document.getElementById('file-input');
     const imagePreview = document.getElementById('image-preview');
-    const confirmButton = document.getElementById('confirm-button');
-    let base64Image = '';
-    var latestimg;
+    const instructions = document.getElementById('instructions');
+    const uploadLabel = document.getElementById('upload-label');
+    const thankYouSection = document.getElementById('thank-you-section');
+    const shareButton = document.getElementById('share-button');
+    let latestImg;
 
-    // Show image preview and the confirm button
+    // Handle file input change
     fileInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          base64Image = e.target.result;
+          const base64Image = e.target.result;
           imagePreview.src = base64Image;
           imagePreview.style.display = 'block';
-          confirmButton.style.display = 'inline-block';
+          uploadLabel.style.display = 'none';
+          instructions.style.display = 'none';
+          cloudupload(base64Image);
         };
         reader.readAsDataURL(file);
       }
     });
 
+    // Handle mobile-specific behavior
+    uploadLabel.addEventListener('click', (event) => {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        event.preventDefault();
+        const userChoice = confirm("Choose an option:\nOK: Capture from Camera\nCancel: Upload from Gallery");
+        fileInput.setAttribute('capture', userChoice ? 'camera' : '');
+        fileInput.click();
+      }
+    });
+
+    // Upload to Cloudinary
     function cloudupload(base64data) {
       const form = new FormData();
-        form.append('file', base64data);
-        form.append('timestamp', Date.now());
-        form.append('api_key', '876197288662615');
-        form.append('signature', SHA1('timestamp='+Date.now()+'g9QkCO7ACWJuCL7DUBXwE_bfkAw'));
+      form.append('file', base64data);
+      form.append('timestamp', Date.now());
+      form.append('api_key', '876197288662615');
+      form.append('signature', SHA1(`timestamp=${Date.now()}g9QkCO7ACWJuCL7DUBXwE_bfkAw`));
 
       fetch('https://api.cloudinary.com/v1_1/lalittambi/image/upload', {
         method: 'POST',
@@ -246,23 +281,36 @@
       })
         .then(response => response.json())
         .then(data => {
-          latestimg = data.public_id;
-          alert(`Image uploaded successfully. Public ID: ${latestimg}`);
-          //ThunkableWebviewerExtension.postMessage(latestimg);
+          latestImg = data.public_id;
+          showThankYouMessage();
         })
         .catch(error => {
-          ThunkableWebviewerExtension.postMessage("Error uploading image:" + error);
+          alert("Error uploading image: " + error);
         });
     }
 
-    // Handle confirm and upload to Cloudinary
-    confirmButton.addEventListener('click', () => {
-      if (!base64Image) {
-        alert('No image selected.');
-        return;
-      }
+    // Show Thank You message and sharing options
+    function showThankYouMessage() {
+      const imageUrl = `https://res.cloudinary.com/lalittambi/image/upload/c_thumb,g_face,h_505,w_685/u_sm7selfie_al8izm/fl_layer_apply,g_north_west,x_-455,y_-705/${latestImg}`;
+      imagePreview.src = imageUrl;
+      thankYouSection.style.display = 'block';
+    }
 
-      cloudupload(base64Image);
+    // Share or download functionality
+    shareButton.addEventListener('click', () => {
+      const imageUrl = imagePreview.src;
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        navigator.share
+          ? navigator.share({ url: imageUrl })
+          : alert("Sharing not supported on this device.");
+      } else {
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = 'shared-image.jpg';
+        a.click();
+      }
     });
   </script>
 </body>
