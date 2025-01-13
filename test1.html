@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Image Upload</title>
+  <title>Image Upload</title>
   <style>
     body {
       margin: 0;
@@ -19,25 +17,37 @@
     .container {
       text-align: center;
       width: 90%;
-      max-width: 400px;
+      max-width: 500px;
     }
 
     .instructions {
-      max-width: 100%;
       margin-bottom: 20px;
-      display: block;
+    }
+
+    .instructions img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .upload-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .upload-button {
-      display: inline-block;
-      padding: 15px 30px;
+      padding: 15px 20px;
       background-color: #4caf50;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       margin-bottom: 20px;
+      flex: 1;
+      text-align: center;
     }
 
     .upload-button:hover {
@@ -54,16 +64,17 @@
       margin: 20px 0;
       border: 1px solid #ddd;
       border-radius: 10px;
+      display: none;
     }
 
-    .thank-you {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 20px 0 10px;
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
     }
 
-    .share-button {
-      display: inline-block;
+    .action-button {
       padding: 10px 20px;
       background-color: #007bff;
       color: white;
@@ -73,24 +84,32 @@
       cursor: pointer;
     }
 
-    .share-button:hover {
+    .action-button:hover {
       background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .upload-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://res.cloudinary.com/lalittambi/image/upload/v1736611549/sm7_instructions.png" alt="Instructions" id="instructions" class="instructions">
-    <label class="upload-button" id="upload-label">
-      Click to Upload or Capture Image
-      <input type="file" id="file-input" accept="image/*">
-    </label>
-    <div>
-      <img id="image-preview" class="image-preview" src="" alt="" style="display: none;">
+    <div class="instructions">
+      <img src="https://res.cloudinary.com/lalittambi/image/upload/v1736611549/sm7_instructions.png" alt="Instructions">
     </div>
-    <div id="thank-you-section" style="display: none;">
-      <p class="thank-you">Thank you! Tag us on social media.</p>
-      <button id="share-button" class="share-button">Share on Social Media</button>
+
+    <div class="upload-buttons" id="upload-buttons">
+      <!-- Buttons dynamically added via JavaScript -->
+    </div>
+
+    <img id="image-preview" class="image-preview" src="" alt="Preview">
+
+    <div class="action-buttons" id="action-buttons" style="display: none;">
+      <button class="action-button" id="proceed-button">Proceed</button>
+      <button class="action-button" id="edit-button">Edit Image</button>
     </div>
   </div>
 
@@ -225,55 +244,86 @@
        H4 = (H4 + E) & 0x0ffffffff;
        }
        var temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
-
+    
        return temp.toLowerCase();
     }
   </script>
 
-  <script>
-    const fileInput = document.getElementById('file-input');
+  <script type="text/javascript">
+    const uploadButtons = document.getElementById('upload-buttons');
     const imagePreview = document.getElementById('image-preview');
-    const instructions = document.getElementById('instructions');
-    const uploadLabel = document.getElementById('upload-label');
-    const thankYouSection = document.getElementById('thank-you-section');
-    const shareButton = document.getElementById('share-button');
-    let latestImg;
+    const actionButtons = document.getElementById('action-buttons');
+    const proceedButton = document.getElementById('proceed-button');
+    const editButton = document.getElementById('edit-button');
+    let base64Image = '';
 
-    // Handle file input change
-    fileInput.addEventListener('change', (event) => {
+    // Check if the device is mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      uploadButtons.innerHTML = `
+        <label class="upload-button">
+          Capture from Camera
+          <input type="file" id="camera-input" accept="image/*" capture="camera">
+        </label>
+        <label class="upload-button">
+          Upload from Gallery
+          <input type="file" id="gallery-input" accept="image/*">
+        </label>
+      `;
+    } else {
+      uploadButtons.innerHTML = `
+        <label class="upload-button">
+          Click to Select Photo
+          <input type="file" id="gallery-input" accept="image/*">
+        </label>
+      `;
+    }
+
+    // Handle file selection
+    function handleFileInput(event) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-          const base64Image = e.target.result;
+          base64Image = e.target.result;
           imagePreview.src = base64Image;
           imagePreview.style.display = 'block';
-          uploadLabel.style.display = 'none';
-          instructions.style.display = 'none';
-          cloudupload(base64Image);
+          actionButtons.style.display = 'flex';
         };
         reader.readAsDataURL(file);
       }
-    });
+    }
 
-    // Handle mobile-specific behavior
-    uploadLabel.addEventListener('click', (event) => {
-      const isMobile = window.innerWidth <= 768;
-      if (isMobile) {
-        event.preventDefault();
-        const userChoice = confirm("Choose an option:\nOK: Capture from Camera\nCancel: Upload from Gallery");
-        fileInput.setAttribute('capture', userChoice ? 'camera' : '');
-        fileInput.click();
+    // Attach event listeners for file inputs
+    const cameraInput = document.getElementById('camera-input');
+    const galleryInput = document.getElementById('gallery-input');
+
+    if (cameraInput) cameraInput.addEventListener('change', handleFileInput);
+    if (galleryInput) galleryInput.addEventListener('change', handleFileInput);
+
+    // Handle Proceed button
+    proceedButton.addEventListener('click', () => {
+      if (!base64Image) {
+        alert('No image selected.');
+        return;
       }
+
+      cloudupload(base64Image);
     });
 
-    // Upload to Cloudinary
+    // Handle Edit Image button
+    editButton.addEventListener('click', () => {
+      location.reload();
+    });
+
+    // Cloud upload function
     function cloudupload(base64data) {
       const form = new FormData();
       form.append('file', base64data);
       form.append('timestamp', Date.now());
       form.append('api_key', '876197288662615');
-      form.append('signature', SHA1(`timestamp=${Date.now()}g9QkCO7ACWJuCL7DUBXwE_bfkAw`));
+      form.append('signature', SHA1('timestamp=' + Date.now() + 'g9QkCO7ACWJuCL7DUBXwE_bfkAw'));
 
       fetch('https://api.cloudinary.com/v1_1/lalittambi/image/upload', {
         method: 'POST',
@@ -281,37 +331,12 @@
       })
         .then(response => response.json())
         .then(data => {
-          latestImg = data.public_id;
-          showThankYouMessage();
+          alert(`Image uploaded successfully. Public ID: ${data.public_id}`);
         })
         .catch(error => {
-          alert("Error uploading image: " + error);
+          alert(`Error uploading image: ${error}`);
         });
     }
-
-    // Show Thank You message and sharing options
-    function showThankYouMessage() {
-      const imageUrl = `https://res.cloudinary.com/lalittambi/image/upload/c_thumb,g_face,h_505,w_685/u_sm7selfie_al8izm/fl_layer_apply,g_north_west,x_-455,y_-705/${latestImg}`;
-      imagePreview.src = imageUrl;
-      thankYouSection.style.display = 'block';
-    }
-
-    // Share or download functionality
-    shareButton.addEventListener('click', () => {
-      const imageUrl = imagePreview.src;
-      const isMobile = window.innerWidth <= 768;
-
-      if (isMobile) {
-        navigator.share
-          ? navigator.share({ url: imageUrl })
-          : alert("Sharing not supported on this device.");
-      } else {
-        const a = document.createElement('a');
-        a.href = imageUrl;
-        a.download = 'shared-image.jpg';
-        a.click();
-      }
-    });
   </script>
 </body>
 </html>
