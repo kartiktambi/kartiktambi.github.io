@@ -18,6 +18,7 @@
     </style>
 </head>
 <body>
+    <h1>Sponsors Coming Soon!</h1>
     <div class="tabs" id="tabs"></div>
     <div id="content" class="content"></div>
 
@@ -51,7 +52,7 @@
       }
 
       const button1 = document.createElement('button');
-      button1.textContent = 'Sponsor1';
+      button1.textContent = 'Sample Sponsor1';
       button1.onclick = () => {
           var tosend = "https://google.com";
           ThunkableWebviewerExtension.postMessage(tosend);
@@ -59,7 +60,7 @@
       document.body.appendChild(button1);
 
       const button2 = document.createElement('button');
-      button2.textContent = 'Sponsor2';
+      button2.textContent = 'Sample Sponsor2';
       button2.onclick = () => {
           var tosend = "https://bing.com";
           ThunkableWebviewerExtension.postMessage(tosend);
