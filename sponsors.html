@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+        button {
+        	margin: 20px;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs" id="tabs"></div>
+    <div id="content" class="content"></div>
+
+	<script>
+	var ThunkableWebviewerExtension = (function () {
+	  const postMessageToWebview = (message) => {
+	    if (window.ReactNativeWebView) {
+	      window.ReactNativeWebView.postMessage(message);
+	    } else {
+	      window.parent.postMessage(message, '*');
+	    }
+	  };
+	
+	  return {
+	    postMessage: postMessageToWebview
+	  };
+	})();
+	</script>
+
+    <script>
+      async function fetchData() {
+          const url = 'https://docs.google.com/spreadsheets/d/1hI2QrxKHLBW0O-bhoolTtCvNdcZtMV49rTqfDH_la5I/gviz/tq?sheet=Schedule&tq=SELECT%20K,B,C,D,G,H,J';
+          const response = await fetch(url);
+          let text = await response.text();
+
+          // Remove unwanted prefix and suffix
+          text = text.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "").slice(0, -2);
+
+          const json = JSON.parse(text);
+          return json.table.rows;
+      }
+
+      const button1 = document.createElement('button');
+      button1.textContent = 'Sponsor1';
+      button1.onclick = () => {
+          var tosend = "https://google.com";
+          ThunkableWebviewerExtension.postMessage(tosend);
+      };
+      document.body.appendChild(button1);
+
+      const button2 = document.createElement('button');
+      button2.textContent = 'Sponsor2';
+      button2.onclick = () => {
+          var tosend = "https://bing.com";
+          ThunkableWebviewerExtension.postMessage(tosend);
+      };
+      document.body.appendChild(button2);
+
+      async function init() {
+          const rows = await fetchData();
+          //const data = processData(rows);
+          //generateHTML(data);
+      }
+    
+      init();
+    </script>
+</body>
+</html>
