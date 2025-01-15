@@ -3,77 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsors</title>
+    <title>Mobile Webpage</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            height: 100vh;
         }
-        button {
-        	margin: 20px;
-            font-size: 40px;
+
+        .box {
+            width: 90%;
+            aspect-ratio: 16 / 9;
+            border: 3px solid #333;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .box img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Sponsors Coming Soon!</h1>
-    <div class="tabs" id="tabs"></div>
-    <div id="content" class="content"></div>
-
-	<script>
-	var ThunkableWebviewerExtension = (function () {
-	  const postMessageToWebview = (message) => {
-	    if (window.ReactNativeWebView) {
-	      window.ReactNativeWebView.postMessage(message);
-	    } else {
-	      window.parent.postMessage(message, '*');
-	    }
-	  };
-	
-	  return {
-	    postMessage: postMessageToWebview
-	  };
-	})();
-	</script>
-
     <script>
-      async function fetchData() {
-          const url = 'https://docs.google.com/spreadsheets/d/1hI2QrxKHLBW0O-bhoolTtCvNdcZtMV49rTqfDH_la5I/gviz/tq?sheet=Schedule&tq=SELECT%20K,B,C,D,G,H,J';
-          const response = await fetch(url);
-          let text = await response.text();
-
-          // Remove unwanted prefix and suffix
-          text = text.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "").slice(0, -2);
-
-          const json = JSON.parse(text);
-          return json.table.rows;
-      }
-
-      const button1 = document.createElement('button');
-      button1.textContent = 'Sample Sponsor1';
-      button1.onclick = () => {
-          var tosend = "https://google.com";
-          ThunkableWebviewerExtension.postMessage(tosend);
-      };
-      document.body.appendChild(button1);
-
-      const button2 = document.createElement('button');
-      button2.textContent = 'Sample Sponsor2';
-      button2.onclick = () => {
-          var tosend = "https://bing.com";
-          ThunkableWebviewerExtension.postMessage(tosend);
-      };
-      document.body.appendChild(button2);
-
-      async function init() {
-          const rows = await fetchData();
-          //const data = processData(rows);
-          //generateHTML(data);
-      }
-    
-      init();
+        var ThunkableWebviewerExtension = (function () {
+          const postMessageToWebview = (message) => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(message);
+            } else {
+              window.parent.postMessage(message, '*');
+            }
+          };
+        
+          return {
+            postMessage: postMessageToWebview
+          };
+        })();
     </script>
+
+    <div class="box">
+        <img src="https://startup.icai.org/wp-content/uploads/2025/01/NAV-Logo-RGB_Blue-1024x621-400x200.png" alt="Box 1" onclick="ThunkableWebviewerExtension.postMessage('http://www.navbackoffice.com/')">
+    </div>
+    <div class="box">
+        <img src="https://startup.icai.org/wp-content/uploads/2025/01/Tally-on-wheels.png" alt="Box 2" onclick="ThunkableWebviewerExtension.postMessage('http://www.tallyonwheels.com/')">
+    </div>
 </body>
 </html>
