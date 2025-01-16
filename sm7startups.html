@@ -136,11 +136,11 @@
             cardsContainer.innerHTML = '<p>Loading...</p>';
 
             try {
-                let url = `${API_URL}?filterByFormula={Category}="Startup"`;
+                let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Category}="Startup"`;
 
                 // If search query is entered, apply the name filter too
                 if (searchQuery) {
-                    url = `${API_URL}?filterByFormula=AND({Category}="Startup",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
+                    url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND({Category}="Startup",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
                 }
 
                 const response = await fetch(url, {
