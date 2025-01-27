@@ -60,6 +60,7 @@
             var id = message;
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${id}`;
             ThunkableWebviewerExtension.postMessage(qrCodeUrl);
+            console.log(qrCodeUrl);
         });
     </script>
 </body>
