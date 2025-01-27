@@ -178,26 +178,14 @@
         });
         
         var headings = {
-            'Plenary Sessions': ['Plenary Sessions - Startup Manthan','Location: Main Hall'],
-            'Parallel Track 1': ['Parallel Track - Tech Fusion','Location: 2nd Hall'],
-            'Parallel Track 2': ['Parallel Track - Emerging Sectors in Startups','Location: 3rd Hall']
+            'Plenary Sessions': ['Plenary Sessions','Location: Main Hall'],
+            'Parallel Track 1': ['Parallel Track 1','Location: 2nd Hall'],
+            'Parallel Track 2': ['Parallel Track 2','Location: 3rd Hall']
         };
 
         function showContent(activeTabName) {
     contentContainer.innerHTML = '';
     const sections = {};
-
-    // Add redirect button for the first tab only
-    if (activeTabName === tabNames[0]) {
-        const redirectButton = document.createElement('button');
-        redirectButton.className = 'redirect-button';
-        redirectButton.textContent = 'View Investor Pitching & Startup Tank Time Allotments';
-        redirectButton.onclick = () => {
-		ThunkableWebviewerExtension.postMessage("Link || https://startupsphere.org/agenda.php");
-		//window.location.href = 'https://kartiktambi.github.io/startups.html';
-        };
-        contentContainer.appendChild(redirectButton);
-    }
 
     data[activeTabName].forEach(item => {
         const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
