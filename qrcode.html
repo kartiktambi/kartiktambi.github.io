@@ -1,16 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code URL</title>
+</head>
 <body>
+    <label id="qrUrl"></label>
 
-<?php
-$id = isset($_GET['id']) ? $_GET['id'] : '';
-if($id) {
-    $url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . $id;
-    echo $url;
-} else {
-    echo "ID parameter is missing.";
-}
-?>
+    <script>
+        // Function to get query parameter by name
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
+        // Fetch the 'id' parameter from the URL
+        const id = getQueryParam('id');
+
+        // Generate the QR code URL and display it in the label
+        if (id) {
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${id}`;
+            document.getElementById('qrUrl').textContent = qrCodeUrl;
+        }
+    </script>
 </body>
 </html>
