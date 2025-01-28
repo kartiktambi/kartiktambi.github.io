@@ -184,7 +184,7 @@
                 card.innerHTML = `
                     <div class="profile-header">
                         <p>${record.fields.Name}</p>
-                        <button class="open-profile-button" onclick="send('${record.id + ' || ' + record.fields['Category']}')">Open Profile</button>
+                        <button class="open-profile-button" onclick="send('${record.fields['ID'] + ' || ' + record.fields['Category']}')">Open Profile</button>
                     </div>
                     <div class="subtitle">${record.fields['Short Bio'] || 'No bio available'}</div>
                     <div class="business-card-image" style="background-image: url('${imageUrl}');"></div>
