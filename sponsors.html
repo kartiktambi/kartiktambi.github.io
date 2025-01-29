@@ -606,6 +606,39 @@ Fancybox.bind('[data-fancybox="glopacgallery"]', {
         });
     </script>
     <script>
+        var ThunkableWebviewerExtension = (function () {
+          const postMessageToWebview = (message) => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(message);
+            } else {
+              window.parent.postMessage(message, '*');
+            }
+          };
+        
+          return {
+            postMessage: postMessageToWebview
+          };
+        })();
+    </script>
+    <script>
+    // Select all anchor tags on the page
+// Select all anchor tags on the page
+const links = document.querySelectorAll('a');
+
+// Loop through each link and add an event listener
+links.forEach(link => {
+  link.addEventListener('click', function(event) {
+    // Prevent the default behavior (navigation)
+    event.preventDefault();
+
+    // Alert the link's text
+    ThunkableWebviewerExtension.postMessage(link.href);
+  });
+});
+
+
+    </script>
+    <script>
         if ($(document).width() < 768) {
             const navLinks = document.querySelectorAll('header .nav-item')
             const menuToggle = document.getElementById('navbarTogglerDemo01')
