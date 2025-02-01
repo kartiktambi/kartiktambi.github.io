@@ -1,52 +1,4 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Webpage</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            height: 100vh;
-        }
 
-        .box {
-            width: 70%;
-            aspect-ratio: 16 / 9;
-            border: 3px solid #333;
-            margin: 30px;
-            display: flex;
-            padding: 25px;
-            align-items: center;
-            justify-content: center;
-            background-color: #fff;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-
-        .box img {
-            max-width: 100%;
-            max-height: 100%;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="box">
-        <img src="https://i.ibb.co/rwvdNvM/WOFA-Logo.png" alt="Box 2">
-    </div>
-    <h1>Coming Soon!</h1>
-</body>
-</html>
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,7 +96,7 @@
 
   <script>
     function showProfile(sr, category) {
-      ThunkableWebviewerExtension.postMessage(`${sr} || ${category} || Name`);
+      alert(`${sr} || ${category} || Name`);
     }
 
     function randomIntFromInterval(min, max) { // min and max included 
@@ -249,7 +201,7 @@
             <p><strong>Interested In:</strong> ${profile['Interested In']}</p>
             <p><strong><br>More details >>></strong></p>
             <br>
-            <button class="open-profile-button" onclick="showProfile('${profile.Sr}', '${profile.Category}')">Open Profile</button>
+            <button class="open-profile-button" onclick="showProfile('${profile.ID}', '${profile.Category}')">Open Profile</button>
           `;
           resultsDiv.appendChild(profileDiv);
         });
@@ -261,3 +213,52 @@
   </script>
 </body>
 </html>
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Webpage</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            height: 100vh;
+        }
+
+        .box {
+            width: 70%;
+            aspect-ratio: 16 / 9;
+            border: 3px solid #333;
+            margin: 30px;
+            display: flex;
+            padding: 25px;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .box img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="https://i.ibb.co/rwvdNvM/WOFA-Logo.png" alt="Box 2">
+    </div>
+    <h1>Coming Soon!</h1>
+</body>
+</html>
+-->
