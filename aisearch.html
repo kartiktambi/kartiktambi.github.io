@@ -96,7 +96,7 @@
 
   <script>
     function showProfile(sr, category) {
-      alert(`${sr} || ${category} || Name`);
+      ThunkableWebviewerExtension.postMessage(`${sr} || ${category} || Name`);
     }
 
     function randomIntFromInterval(min, max) { // min and max included 
