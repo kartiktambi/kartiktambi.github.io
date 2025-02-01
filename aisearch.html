@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +46,7 @@
     <h1>Coming Soon!</h1>
 </body>
 </html>
-<!--
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,7 +123,7 @@
     <input type="text" id="query" name="query" placeholder="Enter your query">
     <button type="submit">Search</button>
   </form>
-  <p id="label">Query Examples - <br>- I am looking for Startup Advisors<br>- I am looking for Branding agencies, etc.</p>
+  <p id="label">Query Examples - <br>- I am looking for Accountants<br>- I am looking for GST Services, etc.</p>
   <div id="results"></div>
 
   <script>
@@ -142,27 +143,21 @@
   </script>
 
   <script>
-    function showProfile(sr, name, category) {
-      if(category.includes("Exhibitor") || category.includes("Pres") || category.includes("Vent")) {
-        //alert(`${sr} || ${name} || Company`);
-        ThunkableWebviewerExtension.postMessage(`${sr} || ${name} || Company`);
-      } else {
-        //alert(`${sr} || ${name} || Name`);
-        ThunkableWebviewerExtension.postMessage(`${sr} || ${name} || Name`);
-      }
+    function showProfile(sr, category) {
+      ThunkableWebviewerExtension.postMessage(`${sr} || ${category} || Name`);
     }
 
     function randomIntFromInterval(min, max) { // min and max included 
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    const SUPABASE_URL = 'https://zsggjstgdgxhlyfrtoti.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzZ2dqc3RnZGd4aGx5ZnJ0b3RpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYzNTM5MjcsImV4cCI6MjAzMTkyOTkyN30.wNWeTfJAxj7-FWgC9UlC9YV2DggU-TIbSr1nDwCI8Nc';
-    const oaikey = 'YUdrPQ==';
-    const actualkey = atob(atob(oaikey));
+    const SUPABASE_URL = 'https://rlsqxzzvxzxppyygmzez.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsc3F4enp2eHp4cHB5eWdtemV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc3OTQ3NDgsImV4cCI6MjA1MzM3MDc0OH0.s1ZMM9auwtC4QUd1-sdcoWlTBtT8GnWKWOVtWW1J04o';
+    const aikey = 'YzJzdGNISnZhaTFzVkdJeVgydElkMUZLZUhoM1owdzBVR3A0UmpSamFXNXJlVmR5YkZwM2RtZElhelExVmtsNFkxbDRkVUl3WDNOTFFUSnFOVk50Y20xaVlWQnpiRWhEYmxGcU1UbGtURGt4VGxRelFteGlhMFpLYUY5SlJuTXdhMWt3YTFwU1IxTnNVblJQVjNkNGMxUTFXRU4wVG00eWRGSjVTRkkxZW1Zd2JHUkhWRWx3WldWSE1uTlhNelZZYTJGWlNXRjZWRXAxVFd0SGMxSnVZVTV4V1VFPQ==';
+    const actualkey = atob(atob(aikey));
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      
+
     document.getElementById('search-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const query = document.getElementById('query').value;
@@ -193,13 +188,15 @@
 
         // Step 3: Fetch profiles with embeddings
         const { data: profiles, error } = await supabase
-          .from('EventData')
-          .select('Sr, Vectors')
+          .from('Database')
+          .select('ID, Vectors')
           .not('Vectors', 'is', null);
 
         if (error) {
           throw new Error(`Supabase error: ${error.message}`);
         }
+        
+        
 
         // Step 4: Calculate cosine similarity
         const cosineSimilarity = (vecA, vecB) => {
@@ -212,7 +209,7 @@
         const similarities = profiles.map(profile => {
           const vectors = JSON.parse(profile.Vectors);
           return {
-            sr: profile.Sr,
+            sr: profile.ID,
             similarity: cosineSimilarity(queryEmbedding, vectors)
           };
         });
@@ -222,9 +219,9 @@
 
         // Step 5: Fetch profile details
         const { data: topProfileDetails, error: profileError } = await supabase
-          .from('EventData')
+          .from('Database')
           .select('*')
-          .in('Sr', topProfiles);
+          .in('ID', topProfiles);
 
         if (profileError) {
           throw new Error(`Profile fetch error: ${profileError.message}`);
@@ -236,7 +233,7 @@
           .from('AI Search')
           .insert({ id: randid, name: query });
 
-        const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.Sr === sr));
+        const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.ID === sr));
 
         // Step 6: Display results
         resultsDiv.innerHTML = '';
@@ -246,13 +243,13 @@
             <p style="font-size: 20px">${profile.Name}</p>
             <p><strong>Category:</strong> ${profile.Category}</p>
             <p><strong>Company:</strong> ${profile.Company}</p>
-            <p><strong>Business Nature:</strong> ${profile['Business Nature']}</p>
-            <p><strong>Business Location:</strong> ${profile['Business Location']}</p>
-            <p><strong>Business Services:</strong> ${profile['Business Services']}</p>
+            <p><strong>Professional Industry:</strong> ${profile['Professional Industry']}</p>
+            <p><strong>Work Location:</strong> ${profile['Work Location']}</p>
+            <p><strong>Services Offered:</strong> ${profile['Services Offered']}</p>
             <p><strong>Interested In:</strong> ${profile['Interested In']}</p>
             <p><strong><br>More details >>></strong></p>
             <br>
-            <button class="open-profile-button" onclick="showProfile('${profile.Sr}', '${profile.Name}', '${profile.Category}')">Open Profile</button>
+            <button class="open-profile-button" onclick="showProfile('${profile.Sr}', '${profile.Category}')">Open Profile</button>
           `;
           resultsDiv.appendChild(profileDiv);
         });
@@ -264,4 +261,3 @@
   </script>
 </body>
 </html>
--->
