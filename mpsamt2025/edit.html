@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 400px;
+            margin: auto;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit Profile</h2>
+    <form id="editProfileForm">
+        <input type="text" name="Name" placeholder="Name" required>
+        <input type="number" name="Age" placeholder="Age" required>
+        <input type="text" name="DOB" placeholder="DOB (dd/mm/yyyy)" pattern="\d{2}/\d{2}/\d{4}" required>
+        <input type="text" name="Time Of Birth" placeholder="Time Of Birth (hh:mm)" pattern="\d{2}:\d{2}" required>
+        <input type="text" name="Place Of Birth" placeholder="Place Of Birth">
+        <input type="file" id="picUpload" accept="image/*">
+        <input type="text" name="Pic" id="picUrl" placeholder="Image URL" readonly>
+        <input type="text" name="Gotra" placeholder="Gotra">
+        <input type="text" name="Height" placeholder="Height">
+        <input type="text" name="Weight" placeholder="Weight">
+        <input type="text" name="Complexion" placeholder="Complexion">
+        <input type="text" name="Blood Group" placeholder="Blood Group">
+        <select name="Education">
+            <option>Graduate</option>
+            <option>Post Graduate</option>
+            <option>Diploma</option>
+            <option>Under Graduate</option>
+        </select>
+        <input type="text" name="Qualification" placeholder="Qualification">
+        <select name="Job">
+            <option>Service</option>
+            <option>Business</option>
+            <option>Profession</option>
+            <option>Not Working</option>
+        </select>
+        <input type="text" name="Occupation" placeholder="Occupation">
+        <input type="text" name="Occupation Location" placeholder="Occupation Location">
+        <select name="Income">
+            <option>NA</option>
+            <option>Below 5 Lacs</option>
+            <option>5 - 10 Lacs</option>
+            <option>10 - 15 Lacs</option>
+            <option>15 - 20 Lacs</option>
+            <option>20 - 25 Lacs</option>
+            <option>Above 25 Lacs</option>
+        </select>
+        <input type="text" name="Father Name" placeholder="Father Name">
+        <input type="text" name="Mother Name" placeholder="Mother Name">
+        <input type="text" name="Family Business" placeholder="Family Business">
+        <input type="text" name="Family Income" placeholder="Family Income">
+        <input type="text" name="Nanihal" placeholder="Nanihal">
+        <select name="Others" multiple>
+            <option>None</option>
+            <option>Manglik</option>
+            <option>Divorcee</option>
+            <option>Widow / Widower</option>
+            <option>Handicap</option>
+        </select>
+        <input type="text" name="Address" placeholder="Address">
+        <input type="text" name="Social Media" placeholder="Social Media">
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        const airtableAPIKey = "patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e";
+        const baseId = "appj4wPGcujATtwED";
+        const tableName = "Registrations";
+        const recordId = "recDmO3pFZmvXewEW";
+        const cloudinaryUrl = "https://api.cloudinary.com/v1_1/kartik14/image/upload";
+
+        // Fetch data from Airtable
+        $.getJSON(`https://api.airtable.com/v0/${baseId}/${tableName}/${recordId}`, {
+            headers: { Authorization: `Bearer ${airtableAPIKey}` }
+        }, function(data) {
+            Object.keys(data.fields).forEach(key => {
+                $(`[name='${key}']`).val(data.fields[key]);
+            });
+        });
+
+        // Upload image to Cloudinary
+        $("#picUpload").change(function() {
+            let formData = new FormData();
+            formData.append("file", this.files[0]);
+            formData.append("upload_preset", "Maheshwari Sammelan Amt. 2025");
+            $.ajax({
+                url: cloudinaryUrl,
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $("#picUrl").val(response.secure_url);
+                }
+            });
+        });
+
+        // Submit form and update Airtable
+        $("#editProfileForm").submit(function(event) {
+            event.preventDefault();
+            let formData = {};
+            $(this).serializeArray().forEach(field => {
+                formData[field.name] = field.value;
+            });
+            $.ajax({
+                url: `https://api.airtable.com/v0/${baseId}/${tableName}/${recordId}`,
+                type: "PATCH",
+                headers: { Authorization: `Bearer ${airtableAPIKey}`, "Content-Type": "application/json" },
+                data: JSON.stringify({ fields: formData }),
+                success: function() {
+                    alert("Profile updated successfully!");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
