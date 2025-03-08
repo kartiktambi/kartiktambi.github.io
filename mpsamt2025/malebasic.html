@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airtable Cards</title>
+    <style>
+        :root {
+          --accent: #42094F;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px; /* Reduced padding */
+            margin: 0;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            padding: 10px;
+            width: 80%;
+            font-size: 18px;
+            border: 3px solid var(--accent);
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 12px 20px;
+            border: none;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        .cards-container {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            max-height: 85vh; /* Limit height of the cards container */
+            overflow-y: auto; /* Enable scrolling for the cards container */
+        }
+        .card {
+            border: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .card .profile-header p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .card .profile-header .open-profile-button {
+            padding: 12px 20px;
+            border: none;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .card .subtitle {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limit to 3 lines */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card .business-card-image {
+            width: 100%;
+            height: 180px;
+            border-radius: 5px;
+            margin-top: 5px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search by Name">
+        <button onclick="fetchAndDisplayData()">Search</button>
+    </div>
+
+    <div class="cards-container" id="cards-container"></div>
+
+    <script>
+        var ThunkableWebviewerExtension = (function () {
+          const postMessageToWebview = (message) => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage(message);
+            } else {
+              window.parent.postMessage(message, '*');
+            }
+          };
+        
+          return {
+            postMessage: postMessageToWebview
+          };
+        })();
+    </script>
+  
+    <script>
+        const API_URL = 'https://api.airtable.com/v0/app6t87a0rcY2FkP5/Registrations';
+        const API_HEADERS = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer patGC60OTRHCreqrY.c56880aa4f1a952915cd4c795373bb589df2f2436992ee5301953ee2f12a4342'
+        };
+
+        let allRecords = [];
+
+        async function fetchAndDisplayData() {
+            const searchQuery = document.getElementById('search-box').value.toLowerCase();
+            const cardsContainer = document.getElementById('cards-container');
+            cardsContainer.innerHTML = '<p>Loading...</p>';
+
+            try {
+                let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Category}="Delegate"`;
+
+                // If search query is entered, apply the name filter too
+                if (searchQuery) {
+                    url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND({Category}="Delegate",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
+                }
+
+                const response = await fetch(url, {
+                    headers: API_HEADERS
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const data = await response.json();
+                allRecords = data.records;
+
+                displayCards(allRecords);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                cardsContainer.innerHTML = '<p>Error loading data. Please try again later.</p>';
+            }
+        }
+
+        function send(id) {
+            ThunkableWebviewerExtension.postMessage(id);
+        }
+
+        function displayCards(records) {
+            const cardsContainer = document.getElementById('cards-container');
+            cardsContainer.innerHTML = '';
+
+            if (records.length === 0) {
+                cardsContainer.innerHTML = '<p>No records found.</p>';
+                return;
+            }
+
+            records.forEach(record => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Set the background image from the "Business Card" field
+                const imageUrl = record.fields['Business Card'] || ''; // Use a default placeholder if no image exists
+
+                card.innerHTML = `
+                    <div class="profile-header">
+                        <p>${record.fields.Name}</p>
+                        <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
+                    </div>
+                    <div class="subtitle">${record.fields['Short Bio'] || 'No bio available'}</div>
+                    <div class="business-card-image" style="background-image: url('${imageUrl}');"></div>
+                `;
+
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        // Initial fetch to display all records (category filter only)
+        fetchAndDisplayData();
+    </script>
+
+</body>
+</html>
