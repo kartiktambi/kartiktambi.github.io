@@ -82,7 +82,7 @@
             color: #555;
             margin: 5px 0;
             display: -webkit-box;
-            -webkit-line-clamp: 3; /* Limit to 3 lines */
+            -webkit-line-clamp: 5; /* Limit to 3 lines */
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -186,8 +186,9 @@
                         <p>${record.fields.Name}</p>
                         <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
                     </div>
-                    <div class="subtitle">${"<b>Age: </b>" + record.fields['Age'] + " | <b>Education: </b>" + record.fields['Education'] + "<br>" + "<b>Location: </b>" + record.fields['Occupation Location']}</div>
-                    <div class="business-card-image" style="background-image: url('${imageUrl}');"></div>
+                    <p style="margin-top: -5px; margin-bottom: -2px;">${"<b>Registration ID : </b>" + record.fields['ID']}</p>
+                    <div class="subtitle">${"<br><b>Age: </b>" + record.fields['Age'] + " | <b>Education: </b>" + record.fields['Education'] + "<br>" + "<b>Occupation: </b>" + record.fields['Job'] + "<br>" + "<b>Work Location: </b>" + record.fields['Occupation Location']}</div>
+                    
                 `;
 
                 cardsContainer.appendChild(card);
