@@ -122,10 +122,10 @@
     </script>
   
     <script>
-        const API_URL = 'https://api.airtable.com/v0/app6t87a0rcY2FkP5/Registrations';
+        const API_URL = 'https://api.airtable.com/v0/appj4wPGcujATtwED/Registrations';
         const API_HEADERS = {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer patGC60OTRHCreqrY.c56880aa4f1a952915cd4c795373bb589df2f2436992ee5301953ee2f12a4342'
+            'Authorization': 'Bearer patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e'
         };
 
         let allRecords = [];
@@ -136,11 +136,11 @@
             cardsContainer.innerHTML = '<p>Loading...</p>';
 
             try {
-                let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Category}="Delegate"`;
+                let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Gender}="Male"`;
 
                 // If search query is entered, apply the name filter too
                 if (searchQuery) {
-                    url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND({Category}="Delegate",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
+                    url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND({Gender}="Male",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
                 }
 
                 const response = await fetch(url, {
@@ -179,14 +179,14 @@
                 card.className = 'card';
 
                 // Set the background image from the "Business Card" field
-                const imageUrl = record.fields['Business Card'] || ''; // Use a default placeholder if no image exists
+                const imageUrl = record.fields['Pic'] || ''; // Use a default placeholder if no image exists
 
                 card.innerHTML = `
                     <div class="profile-header">
                         <p>${record.fields.Name}</p>
                         <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
                     </div>
-                    <div class="subtitle">${record.fields['Short Bio'] || 'No bio available'}</div>
+                    <div class="subtitle">${"<b>Age: </b>" + record.fields['Age'] + " | <b>Education: </b>" + record.fields['Education'] + "<br>" + "<b>Location: </b>" + record.fields['Occupation Location']}</div>
                     <div class="business-card-image" style="background-image: url('${imageUrl}');"></div>
                 `;
 
