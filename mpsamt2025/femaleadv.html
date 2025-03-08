@@ -142,7 +142,7 @@
 </div>
 
     <div class="filter-container">
-        <label>Age Range (from - to):</label>
+        <label>Age Range (from - to):</label><br>
         <input type="number" id="age-min" value="18" min="18" max="50">
         <input type="number" id="age-max" value="50" min="18" max="50">
         <br>
@@ -154,8 +154,18 @@
             <label><input type="checkbox" name="education" value="Under Graduate" checked> Under Graduate</label>
         </div>
 		<br>
+        <label>Job:</label>
+<div class="checkbox-group income-group">
+    <label><input type="checkbox" name="job" value="Business" checked> Business</label>
+    <label><input type="checkbox" name="job" value="Profession" checked> Profession</label>
+    <label><input type="checkbox" name="job" value="Service" checked> Service</label>
+    <label><input type="checkbox" name="job" value="Not Working" checked> Not Working</label>
+</div>
+
+        
         <label>Income:</label>
         <div class="checkbox-group income-group">
+        	<label><input type="checkbox" name="income" value="NA" checked> NA</label>
             <label><input type="checkbox" name="income" value="Below 5 Lacs" checked> Below 5 Lacs</label>
             <label><input type="checkbox" name="income" value="5 - 10 Lacs" checked> 5 - 10 Lacs</label>
             <label><input type="checkbox" name="income" value="10 - 15 Lacs" checked> 10 - 15 Lacs</label>
@@ -163,6 +173,16 @@
             <label><input type="checkbox" name="income" value="20 - 25 Lacs" checked> 20 - 25 Lacs</label>
             <label><input type="checkbox" name="income" value="Above 25 Lacs" checked> Above 25 Lacs</label>
         </div>
+        
+        <br><label>Others / Special :</label>
+<div class="checkbox-group income-group">
+<label><input type="checkbox" name="others" value="None" checked> None</label>
+    <label><input type="checkbox" name="others" value="Manglik"> Manglik</label>
+    <label><input type="checkbox" name="others" value="Widower"> Widower</label>
+    <label><input type="checkbox" name="others" value="Divyang"> Divyang</label>
+    <label><input type="checkbox" name="others" value="Divorcee"> Divorcee</label>
+</div>
+
 
         <button onclick="fetchAndDisplayData()">Apply Filters</button>
     </div>
@@ -206,37 +226,47 @@
         };
 
         async function fetchAndDisplayData() {
-                toggleFilters(); // Collapse filters when applied
+    toggleFilters(); // Collapse filters when applied
 
-            const ageMin = document.getElementById('age-min').value;
-            const ageMax = document.getElementById('age-max').value;
-            const selectedEducation = Array.from(document.querySelectorAll('input[name="education"]:checked')).map(e => `"${e.value}"`).join(',');
-            const selectedIncome = Array.from(document.querySelectorAll('input[name="income"]:checked')).map(e => `"${e.value}"`).join(',');
+    const ageMin = document.getElementById('age-min').value;
+    const ageMax = document.getElementById('age-max').value;
+    const selectedEducation = Array.from(document.querySelectorAll('input[name="education"]:checked')).map(e => `"${e.value}"`).join(',');
+    const selectedIncome = Array.from(document.querySelectorAll('input[name="income"]:checked')).map(e => `"${e.value}"`).join(',');
+    const selectedOthers = Array.from(document.querySelectorAll('input[name="others"]:checked')).map(e => e.value);
+    const selectedJob = Array.from(document.querySelectorAll('input[name="job"]:checked')).map(e => `"${e.value}"`).join(',');
 
-            let filterFormula = '{Gender}="Female"';
+    let filterFormula = '{Gender}="Female"';
 
-            if (ageMin && ageMax) {
-                filterFormula += `,AND({Age}>=${ageMin},{Age}<=${ageMax})`;
-            }
-            if (selectedEducation) {
-                filterFormula += `,OR(${selectedEducation.split(',').map(edu => `{Education}=${edu}`).join(',')})`;
-            }
-            if (selectedIncome) {
-                filterFormula += `,OR(${selectedIncome.split(',').map(inc => `{Income}=${inc}`).join(',')})`;
-            }
+    if (ageMin && ageMax) {
+        filterFormula += `,AND({Age}>=${ageMin},{Age}<=${ageMax})`;
+    }
+    if (selectedEducation) {
+        filterFormula += `,OR(${selectedEducation.split(',').map(edu => `{Education}=${edu}`).join(',')})`;
+    }
+    if (selectedIncome) {
+        filterFormula += `,OR(${selectedIncome.split(',').map(inc => `{Income}=${inc}`).join(',')})`;
+    }
+    if (selectedOthers.length > 0) {
+        const othersFilter = selectedOthers.map(value => `FIND("${value}", {Others}) > 0`).join(',');
+        filterFormula += `,OR(${othersFilter})`;
+    }
+    if (selectedJob) {
+        filterFormula += `,OR(${selectedJob.split(',').map(job => `{Job}=${job}`).join(',')})`;
+    }
 
-            const url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND(${filterFormula})`;
+    const url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND(${filterFormula})`;
 
-            try {
-                const response = await fetch(url, { headers: API_HEADERS });
-                if (!response.ok) throw new Error('Failed to fetch data');
-                const data = await response.json();
-                displayCards(data.records);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('cards-container').innerHTML = '<p>Error loading data.</p>';
-            }
-        }
+    try {
+        const response = await fetch(url, { headers: API_HEADERS });
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const data = await response.json();
+        displayCards(data.records);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('cards-container').innerHTML = '<p>Error loading data.</p>';
+    }
+}
+
         
         function send(id) {
             ThunkableWebviewerExtension.postMessage(id);
@@ -257,8 +287,9 @@
                 card.innerHTML = `<p><b>Name:</b> ${record.fields.Name}</p>
                                   <p><b>Age:</b> ${record.fields.Age}</p>
                                   <p><b>Education:</b> ${record.fields.Education}</p>
+                                  <p><b>Income:</b> ${record.fields.Income}</p>
                                   <div class="income-container">
-        <p><b>Income:</b> ${record.fields.Income}</p>
+        <p>Registration ID:<b> ${record.fields.ID}</b></p>
         <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
     </div>`;
                 container.appendChild(card);
