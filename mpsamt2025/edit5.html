@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 80%;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: navy;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 16px;
+            border: 2px solid #007aff;
+            border-radius: 5px;
+            display: block;
+        }
+        button {
+            width: 100%;
+            background-color: #007aff;
+            color: white;
+            font-size: 20px;
+        }
+        #imagePreview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+            margin-top: 10px;
+        }
+        /* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px; /* Adjusted the font-size */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+    </style>
+</head>
+<body>
+    <form id="editProfileForm">
+    
+        <h1 id="heading">Loading...</h1><br>
+        <label>Edit Name:</label>
+        <input type="text" name="Name" required>
+        
+        <label>Edit Age:</label>
+        <input type="number" name="Age" required>
+        
+        <label>Edit DOB (dd/mm/yyyy):</label>
+        <input type="text" name="DOB" pattern="\d{2}/\d{2}/\d{4}" required>
+        
+        <label>Edit Time Of Birth (hh:mm):</label>
+        <input type="text" name="Time Of Birth" pattern="\d{2}:\d{2}" required>
+        
+        <label>Edit Place Of Birth:</label>
+        <input type="text" name="Place Of Birth">
+        
+        <label>Current Profile Picture:</label>
+        <img id="imagePreview" src="" alt="Profile Image">
+        
+        <label>Upload New Picture:</label>
+        <input type="file" id="picUpload" accept="image/*">
+        <input type="hidden" name="Pic" id="picUrl">
+        
+        <label>Edit Gotra:</label>
+        <input type="text" name="Gotra">
+        
+        <label>Edit Height:</label>
+        <input type="text" name="Height">
+        
+        <label>Edit Weight:</label>
+        <input type="text" name="Weight">
+        
+        <label>Edit Complexion:</label>
+        <input type="text" name="Complexion">
+        
+        <label>Edit Blood Group:</label>
+        <input type="text" name="Blood Group">
+        
+        <label>Edit Education:</label>
+        <select name="Education">
+            <option>Graduate</option>
+            <option>Post Graduate</option>
+            <option>Diploma</option>
+            <option>Under Graduate</option>
+        </select>
+        
+        <label>Edit Qualification:</label>
+        <input type="text" name="Qualification">
+        
+        <label>Edit Job:</label>
+        <select name="Job">
+            <option>Service</option>
+            <option>Business</option>
+            <option>Profession</option>
+            <option>Not Working</option>
+        </select>
+        
+        <label>Edit Occupation:</label>
+        <input type="text" name="Occupation">
+        
+        <label>Edit Occupation Location:</label>
+        <input type="text" name="Occupation Location">
+        
+        <label>Edit Income:</label>
+        <select name="Income">
+            <option>NA</option>
+            <option>Below 5 Lacs</option>
+            <option>5 - 10 Lacs</option>
+            <option>10 - 15 Lacs</option>
+            <option>15 - 20 Lacs</option>
+            <option>20 - 25 Lacs</option>
+            <option>Above 25 Lacs</option>
+        </select>
+        
+        <label>Edit Father Name:</label>
+        <input type="text" name="Father Name">
+        
+        <label>Edit Mother Name:</label>
+        <input type="text" name="Mother Name">
+        
+        <label>Edit Family Business:</label>
+        <input type="text" name="Family Business">
+        
+        <label>Edit Family Income:</label>
+        <input type="text" name="Family Income">
+        
+        <label>Edit Nanihal:</label>
+        <input type="text" name="Nanihal">
+        
+        <label>Edit Address:</label>
+        <input type="text" name="Address">
+        
+        <label>Edit Social Media:</label>
+        <input type="text" name="Social Media">
+        
+        <label>Edit About Me:</label>
+        <input type="text" name="About Me">
+        
+        <label>Edit Others:</label>
+        <div id="othersCheckboxes">
+  <label class="container">None
+    <input type="checkbox" value="None">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Manglik
+    <input type="checkbox" value="Manglik">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Divorcee
+    <input type="checkbox" value="Divorcee">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Widow / Widower
+    <input type="checkbox" value="Widow / Widower">
+    <span class="checkmark"></span>
+  </label>
+  <label class="container">Handicap
+    <input type="checkbox" value="Handicap">
+    <span class="checkmark"></span>
+  </label>
+</div>
+      <br>
+        <button type="submit">Tap to Update Profile</button>
+    </form>
+
+  <script type="text/javascript">
+    var ThunkableWebviewerExtension = (function () {
+    const postMessageToWebview = (message) => {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(message);
+      } else {
+        window.parent.postMessage(message, '*');
+      }
+    };
+
+    const getReceiveMessageCallback = (fxn, hasReturnValue) => (event) => {
+      if (typeof fxn === 'function') {
+        if (event.data) {
+          let dataObject;
+          try {
+            dataObject = JSON.parse(event.data);
+          } catch (e) {
+            // message is not valid json
+          }
+          if (dataObject && dataObject.type === 'ThunkablePostMessage' && hasReturnValue) {
+            fxn(dataObject.message, (returnValue) => {
+              const returnMessageObject = { type: 'ThunkablePostMessageReturnValue', uuid: dataObject.uuid, returnValue };
+              postMessageToWebview(JSON.stringify(returnMessageObject));
+            });
+          } else if (!hasReturnValue && (!dataObject || dataObject.type !== 'ThunkablePostMessage')) {
+            fxn(event.data);
+          }
+        }
+      }
+    };
+
+    return {
+      postMessage: postMessageToWebview,
+      receiveMessage: function(fxn) {
+        const callbackFunction = getReceiveMessageCallback(fxn, false);
+        document.addEventListener('message', callbackFunction, false);
+        window.addEventListener('message', callbackFunction, false);
+      },
+      receiveMessageWithReturnValue: function(fxn) {
+        const callbackFunction = getReceiveMessageCallback(fxn, true);
+        document.addEventListener('message', callbackFunction, false);
+        window.addEventListener('message', callbackFunction, false);
+      },
+    };
+  })();
+  </script>
+
+  <script type="text/javascript">
+    function SHA1(msg) {
+      function rotate_left(n,s) {
+       var t4 = ( n<<s ) | (n>>>(32-s));
+       return t4;
+       };
+       function lsb_hex(val) {
+       var str='';
+       var i;
+       var vh;
+       var vl;
+       for( i=0; i<=6; i+=2 ) {
+       vh = (val>>>(i*4+4))&0x0f;
+       vl = (val>>>(i*4))&0x0f;
+       str += vh.toString(16) + vl.toString(16);
+       }
+       return str;
+       };
+       function cvt_hex(val) {
+       var str='';
+       var i;
+       var v;
+       for( i=7; i>=0; i-- ) {
+       v = (val>>>(i*4))&0x0f;
+       str += v.toString(16);
+       }
+       return str;
+       };
+       function Utf8Encode(string) {
+       string = string.replace(/\r\n/g,'\n');
+       var utftext = '';
+       for (var n = 0; n < string.length; n++) {
+       var c = string.charCodeAt(n);
+       if (c < 128) {
+       utftext += String.fromCharCode(c);
+       }
+       else if((c > 127) && (c < 2048)) {
+       utftext += String.fromCharCode((c >> 6) | 192);
+       utftext += String.fromCharCode((c & 63) | 128);
+       }
+       else {
+       utftext += String.fromCharCode((c >> 12) | 224);
+       utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+       utftext += String.fromCharCode((c & 63) | 128);
+       }
+       }
+       return utftext;
+       };
+       var blockstart;
+       var i, j;
+       var W = new Array(80);
+       var H0 = 0x67452301;
+       var H1 = 0xEFCDAB89;
+       var H2 = 0x98BADCFE;
+       var H3 = 0x10325476;
+       var H4 = 0xC3D2E1F0;
+       var A, B, C, D, E;
+       var temp;
+       msg = Utf8Encode(msg);
+       var msg_len = msg.length;
+       var word_array = new Array();
+       for( i=0; i<msg_len-3; i+=4 ) {
+       j = msg.charCodeAt(i)<<24 | msg.charCodeAt(i+1)<<16 |
+       msg.charCodeAt(i+2)<<8 | msg.charCodeAt(i+3);
+       word_array.push( j );
+       }
+       switch( msg_len % 4 ) {
+       case 0:
+       i = 0x080000000;
+       break;
+       case 1:
+       i = msg.charCodeAt(msg_len-1)<<24 | 0x0800000;
+       break;
+       case 2:
+       i = msg.charCodeAt(msg_len-2)<<24 | msg.charCodeAt(msg_len-1)<<16 | 0x08000;
+       break;
+       case 3:
+       i = msg.charCodeAt(msg_len-3)<<24 | msg.charCodeAt(msg_len-2)<<16 | msg.charCodeAt(msg_len-1)<<8 | 0x80;
+       break;
+       }
+       word_array.push( i );
+       while( (word_array.length % 16) != 14 ) word_array.push( 0 );
+       word_array.push( msg_len>>>29 );
+       word_array.push( (msg_len<<3)&0x0ffffffff );
+       for ( blockstart=0; blockstart<word_array.length; blockstart+=16 ) {
+       for( i=0; i<16; i++ ) W[i] = word_array[blockstart+i];
+       for( i=16; i<=79; i++ ) W[i] = rotate_left(W[i-3] ^ W[i-8] ^ W[i-14] ^ W[i-16], 1);
+       A = H0;
+       B = H1;
+       C = H2;
+       D = H3;
+       E = H4;
+       for( i= 0; i<=19; i++ ) {
+       temp = (rotate_left(A,5) + ((B&C) | (~B&D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
+       E = D;
+       D = C;
+       C = rotate_left(B,30);
+       B = A;
+       A = temp;
+       }
+       for( i=20; i<=39; i++ ) {
+       temp = (rotate_left(A,5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
+       E = D;
+       D = C;
+       C = rotate_left(B,30);
+       B = A;
+       A = temp;
+       }
+       for( i=40; i<=59; i++ ) {
+       temp = (rotate_left(A,5) + ((B&C) | (B&D) | (C&D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
+       E = D;
+       D = C;
+       C = rotate_left(B,30);
+       B = A;
+       A = temp;
+       }
+       for( i=60; i<=79; i++ ) {
+       temp = (rotate_left(A,5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
+       E = D;
+       D = C;
+       C = rotate_left(B,30);
+       B = A;
+       A = temp;
+       }
+       H0 = (H0 + A) & 0x0ffffffff;
+       H1 = (H1 + B) & 0x0ffffffff;
+       H2 = (H2 + C) & 0x0ffffffff;
+       H3 = (H3 + D) & 0x0ffffffff;
+       H4 = (H4 + E) & 0x0ffffffff;
+       }
+       var temp = cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4);
+
+       return temp.toLowerCase();
+    }
+  </script>
+
+    <script>
+        const airtableAPIKey = "patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e";
+        const baseId = "appj4wPGcujATtwED";
+        const tableName = "Registrations";
+        //const recordId = "recDmO3pFZmvXewEW";
+        var recordId = "";
+        const cloudinaryUrl = "https://api.cloudinary.com/v1_1/kartik14/image/upload";
+        
+        ThunkableWebviewerExtension.receiveMessage(function(message) {
+          if (message) {
+            document.getElementById("heading").innerHTML = "Loading...";
+            recordId = message;
+            console.log(recordId);
+
+            doit(recordId);
+          }
+        });
+		
+        /*var recordId = "recDmO3pFZmvXewEW";
+		doit(recordId);*/
+        
+        function doit(recid) {
+            $.getJSON({
+              url: `https://api.airtable.com/v0/${baseId}/${tableName}/${recid}`,
+              headers: {
+                "Authorization": `Bearer ${airtableAPIKey}`,
+                "Content-Type": "application/json"
+              }
+            }).done(function(data) {
+              Object.keys(data.fields).forEach(key => {
+                $(`[name='${key}']`).val(data.fields[key]);
+              });
+              if (data.fields.Pic) {
+                $("#imagePreview").attr("src", data.fields.Pic);
+              }
+              let othersValues = (data.fields.Others || "").split(";");
+              othersValues.forEach(value => {
+                $(`#othersCheckboxes input[value='${value}']`).prop("checked", true);
+              });
+              document.getElementById("heading").innerHTML = "Registration ID - " + data.fields.ID;
+            }).fail(function(jqxhr, textStatus, error) {
+              console.error("Error fetching data:", textStatus, error);
+            });
+        }
+
+        function cloudupload(base64data, callback) {
+            const timestamp = Date.now();
+            const signature = SHA1('timestamp=' + timestamp + 'C2Ppj_3y4W5H8PbCmfQzXt7U6X8');
+
+            const form = new FormData();
+            form.append("file", base64data);
+            form.append("timestamp", timestamp);
+            form.append("api_key", "399286988426639");
+            form.append("signature", signature);
+
+            fetch("https://api.cloudinary.com/v1_1/kartik14/image/upload", {
+                method: "POST",
+                body: form
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.secure_url) {
+                    callback(null, data.secure_url);
+                } else {
+                    callback("Image upload failed", null);
+                }
+            })
+            .catch(error => {
+                callback(error, null);
+            });
+        }
+
+        // Handle Image Preview
+        $('#picUpload').change(function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        function updateAirtable(formData) {
+            console.log("Updating Airtable with:", formData);
+
+            $.ajax({
+                url: `https://api.airtable.com/v0/${baseId}/${tableName}/${recordId}`,
+                type: "PATCH",
+                headers: { "Authorization": `Bearer ${airtableAPIKey}`, "Content-Type": "application/json" },
+                data: JSON.stringify({ fields: formData }),
+                success: function() {
+                    alert("Profile updated successfully!");
+                    location.reload();  // 🔄 Reloads the page after successful update
+                },
+                error: function(xhr, status, error) {
+                    console.error("Airtable Update Error:", error);
+                    alert("Profile update failed. Please try again.");
+                }
+            });
+        }
+
+        $("#editProfileForm").submit(function(event) {
+            event.preventDefault();
+
+            let formData = {};
+            $(this).serializeArray().forEach(field => {
+                formData[field.name] = field.value;
+            });
+
+            let selectedOthers = [];
+            $("#othersCheckboxes input:checked").each(function() {
+                selectedOthers.push($(this).val());
+            });
+            formData["Others"] = selectedOthers.join(";");
+
+            let newPlaceOfBirth = formData["Place Of Birth"];
+            let oldPlaceOfBirth = $("#placeOfBirth").data("original"); // Store original place on load
+
+            if (newPlaceOfBirth !== oldPlaceOfBirth) {
+                getCoordinates(newPlaceOfBirth, function(coords) {
+                    if (coords) {
+                        formData["Latitude"] = coords.lat.toString();
+                        formData["Longitude"] = coords.lng.toString();
+                        //console.log(coords);
+                    }
+                    uploadImageAndUpdate(formData);
+                });
+            } else {
+                uploadImageAndUpdate(formData);
+            }
+        });
+
+        function getCoordinates(place, callback) {
+            const apiKey = "134024e924e445f2828403a744898f34";  // 🔑 Replace with your OpenCage API key
+            $.getJSON(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(place)}&key=${apiKey}`, function(data) {
+                if (data.results.length > 0) {
+                    callback(data.results[0].geometry);
+                } else {
+                    callback(null);
+                }
+            }).fail(function() {
+                console.error("Geocoding failed");
+                callback(null);
+            });
+        }
+
+        function uploadImageAndUpdate(formData) {
+            if ($("#picUpload")[0].files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    cloudupload(base64Image, function(error, imageUrl) {
+                        if (error) {
+                            console.error("Cloudinary Upload Error:", error);
+                            alert("Image upload failed. Please try again.");
+                            return;
+                        }
+                        formData["Pic"] = imageUrl;
+                        updateAirtable(formData);
+                    });
+                };
+                reader.readAsDataURL($("#picUpload")[0].files[0]);
+            } else {
+                updateAirtable(formData);
+            }
+        }
+        
+    </script>
+</body>
+</html>
