@@ -114,7 +114,10 @@
     <form id="editProfileForm">
     
         <h1 id="heading">Loading...</h1><br>
-                
+        
+        <label>Registration ID:</label>
+        <input type="text" name="ID" required disabled style="font-size: 25px;">
+        
         <label>Current Profile Picture:</label>
         <img id="imagePreview" src="" alt="Profile Image">
         
@@ -452,7 +455,7 @@
               console.error("Error fetching data:", textStatus, error);
             });
           }
-        });
+        });*/
 
         function cloudupload(base64data, callback) {
             const timestamp = Date.now();
