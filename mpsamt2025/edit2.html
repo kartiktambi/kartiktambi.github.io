@@ -428,6 +428,7 @@
           if (message) {
             document.getElementById("heading").innerHTML = "Loading...";
             const recordId = message;
+            console.log(recordId);
             
             $.getJSON({
               url: `https://api.airtable.com/v0/${baseId}/${tableName}/${recordId}`,
