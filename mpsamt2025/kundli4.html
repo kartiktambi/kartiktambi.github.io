@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+         .form-container {
+        display: flex;
+        gap: 20px; /* Adds spacing between inputs */
+        align-items: center; /* Aligns elements vertically */
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input {
+        padding: 8px;
+        width: 50%; /* Adjust width as needed */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+        .container {
+            max-width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 95%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #42094F;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #42094F;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #6a1b9a;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid #42094F;
+            border-radius: 5px;
+        }
+        /*
+        .raw-response {
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }*/
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Match Kundli</h2>
+<div class="form-container">
+    <div class="form-group">
+        <label for="male-id">Male Registration ID:</label>
+        <input type="text" id="male-id" placeholder="Enter Male ID">
+    </div>
+
+    <div class="form-group">
+        <label for="female-id">Female Registration ID:</label>
+        <input type="text" id="female-id" placeholder="Enter Female ID">
+    </div>
+</div>
+    
+    <button id="submit" onclick="fetchDetails()">Submit</button>
+
+    <div class="result-container" id="details"></div>
+    <div class="score-container">
+        <h3>Score: <span id="total-score">-</span></h3>
+        <h3>Bot Response: <span id="bot-response">-</span></h3>
+    </div>
+    <h3>Ashtakoot Points</h3>
+    <div class="raw-response" id="raw-response"></div>
+</div>
+
+<script>
+    const API_URL = 'https://api.airtable.com/v0/appj4wPGcujATtwED/Registrations';
+    const API_HEADERS = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e'
+    };
+    
+
+    async function fetchDetails() {
+        const maleId = document.getElementById('male-id').value.trim();
+        const femaleId = document.getElementById('female-id').value.trim();
+        if (!maleId || !femaleId) {
+            alert('Please enter both IDs.');
+            return;
+        }
+
+        try {
+            const maleRecord = await fetchAirtableRecord(maleId);
+            const femaleRecord = await fetchAirtableRecord(femaleId);
+
+            if (!maleRecord || !femaleRecord) {
+                document.getElementById('details').innerHTML = "<p>Records not found. Check IDs and try again.</p>";
+                return;
+            }
+
+            displayDetails(maleRecord, femaleRecord);
+            callAstrologyAPI(maleRecord, femaleRecord);
+
+        } catch (error) {
+            console.error('Error fetching details:', error);
+            document.getElementById('details').innerHTML = "<p>Error fetching data.</p>";
+        }
+    }
+
+    async function fetchAirtableRecord(id) {
+        const url = `${API_URL}?filterByFormula={ID}="${id}"`;
+        const response = await fetch(url, { headers: API_HEADERS });
+        const data = await response.json();
+        return data.records.length > 0 ? data.records[0].fields : null;
+    }
+
+    function displayDetails(male, female) {
+        document.getElementById('details').innerHTML = `
+            <h3>Male Details</h3>
+            <p><b>Name:</b> ${male.Name}</p>
+            <p><b>DOB:</b> ${male.DOB}</p>
+            <p><b>Time of Birth:</b> ${male['Time Of Birth']}</p>
+            <p><b>Place of Birth:</b> ${male['Place Of Birth']}</p>
+            <p><b>Gotra:</b> ${male.Gotra}</p>
+            <p><b>Nanihal:</b> ${male.Nanihal}</p>
+      <br>
+            <h3>Female Details</h3>
+            <p><b>Name:</b> ${female.Name}</p>
+            <p><b>DOB:</b> ${female.DOB}</p>
+            <p><b>Time of Birth:</b> ${female['Time Of Birth']}</p>
+            <p><b>Place of Birth:</b> ${female['Place Of Birth']}</p>
+            <p><b>Gotra:</b> ${female.Gotra}</p>
+            <p><b>Nanihal:</b> ${female.Nanihal}</p>
+        `;
+    }
+    
+    function updateScoreAndResponse(data) {
+        document.getElementById('total-score').innerText = data.response.score || '-';
+        document.getElementById('bot-response').innerText = data.response.bot_response || '-';
+    }
+
+
+function generateMatchTable(data) {
+    const table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.borderCollapse = "collapse";
+    table.style.margin = "20px 0";
+    table.style.fontSize = "15px";
+    table.style.textAlign = "left";
+    
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const headers = ["#", "Guna", "Boy", "Girl", "Obtained Point", "Maximum Point", "Area Of Life"];
+    
+    headers.forEach(headerText => {
+        const th = document.createElement("th");
+        th.textContent = headerText;
+        th.style.padding = "12px";
+        th.style.border = "1px solid #ddd";
+        th.style.backgroundColor = "#f8f9fa";
+        th.style.fontWeight = "bold";
+        headerRow.appendChild(th);
+    });
+    
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    const tbody = document.createElement("tbody");
+    let totalScore = 0;
+    let totalMaxScore = 0;
+    let index = 1;
+    
+    const gunaData = [
+        { key: "tara", label: "Tara", boyKey: "boy_tara", girlKey: "girl_tara" },
+        { key: "gana", label: "Gana", boyKey: "boy_gana", girlKey: "girl_gana" },
+        { key: "yoni", label: "Yoni", boyKey: "boy_yoni", girlKey: "girl_yoni" },
+        { key: "bhakoot", label: "Rasi", boyKey: "boy_rasi_name", girlKey: "girl_rasi_name" },
+        { key: "grahamaitri", label: "Rasi AdhiPathi", boyKey: "boy_lord", girlKey: "girl_lord" },
+        { key: "vasya", label: "Vasya", boyKey: "boy_vasya", girlKey: "girl_vasya" },
+        { key: "nadi", label: "Nadi", boyKey: "boy_nadi", girlKey: "girl_nadi" },
+        { key: "varna", label: "Varna", boyKey: "boy_varna", girlKey: "girl_varna" }
+    ];
+    
+    gunaData.forEach(item => {
+        const attr = data.response[item.key];
+        if (attr) {
+            const row = document.createElement("tr");
+            row.style.borderBottom = "1px solid #ddd";
+            
+            const values = [
+                index++,
+                attr.name,
+                attr[item.boyKey] || "-",
+                attr[item.girlKey] || "-",
+                attr[item.key] || "0",
+                attr.full_score || "0",
+                attr.description || "-"
+            ];
+            
+            values.forEach(text => {
+                const td = document.createElement("td");
+                td.textContent = text;
+                td.style.padding = "12px";
+                td.style.border = "1px solid #ddd";
+                row.appendChild(td);
+            });
+            
+            totalScore += attr[item.key] || 0;
+            totalMaxScore += attr.full_score || 0;
+            
+            tbody.appendChild(row);
+        }
+    });
+    
+    // Add total row
+    const totalRow = document.createElement("tr");
+    totalRow.style.backgroundColor = "#f1f1f1";
+    totalRow.style.fontWeight = "bold";
+    
+    const totalValues = ["Total Guna Milan Points", "", totalScore, 36, ""];
+    totalValues.forEach((text, index) => {
+        const td = document.createElement("td");
+        td.textContent = text;
+        td.style.padding = "12px";
+        td.style.border = "1px solid #ddd";
+        if (index === 0) td.colSpan = 3;
+        totalRow.appendChild(td);
+    });
+
+    tbody.appendChild(totalRow);
+    table.appendChild(tbody);
+    
+    document.getElementById('raw-response').appendChild(table);
+}
+
+
+    function callAstrologyAPI(male, female) {
+        const apiUrl = `https://api.vedicastroapi.com/v3-json/matching/ashtakoot?boy_dob=${male.DOB}&boy_tob=${male['Time Of Birth']}&boy_tz=5.5&boy_lat=${male.Latitude}&boy_lon=${male.Longitude}&girl_dob=${female.DOB}&girl_tob=${female['Time Of Birth']}&girl_tz=5.5&girl_lat=${female.Latitude}&girl_lon=${female.Longitude}&api_key=091da7ec-d3b9-57e3-b02b-6a14fa16fd58&lang=en`;
+
+        fetch(apiUrl, { method: 'GET' })
+            .then(response => response.text())
+            .then(result => {
+              console.log(result);
+              generateMatchTable(JSON.parse(result));
+                updateScoreAndResponse(JSON.parse(result));
+                document.getElementById('submit').innerHTML = "Match Details Ready! 🔽";
+                document.getElementById('submit').disabled = true;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('raw-response').innerText = 'Error fetching astrology data.';
+            });
+    }
+    
+    
+</script>
+
+</body>
+</html>
