@@ -123,80 +123,84 @@
   
     <script>
         const API_URL = 'https://api.airtable.com/v0/appj4wPGcujATtwED/Registrations';
-        const API_HEADERS = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e'
-        };
+const API_HEADERS = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer patwgFFGMHhF0EKSi.5d7a761eb6948ffdc2a5fa6abb697acd5c80e7dd86eaed2ce4e119060c1ece2e'
+};
 
-        let allRecords = [];
+let allRecords = [];
 
-        async function fetchAndDisplayData() {
-            const searchQuery = document.getElementById('search-box').value.toLowerCase();
-            const cardsContainer = document.getElementById('cards-container');
-            cardsContainer.innerHTML = '<p>Loading...</p>';
+async function initialLoad() {
+	document.getElementById('search-box').placeholder = 'Loading...';
+    let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Gender}="Female"`;
+    let allFetchedRecords = [];
+    let hasMore = true;
 
-            try {
-                let url = `${API_URL}?sort[0][field]=ID&filterByFormula={Gender}="Female"`;
-
-                // If search query is entered, apply the name filter too
-                if (searchQuery) {
-                    url = `${API_URL}?sort[0][field]=ID&filterByFormula=AND({Gender}="Female",FIND("${searchQuery.toLowerCase()}", LOWER({Name})))`;
-                }
-
-                const response = await fetch(url, {
-                    headers: API_HEADERS
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-
-                const data = await response.json();
-                allRecords = data.records;
-
-                displayCards(allRecords);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                cardsContainer.innerHTML = '<p>Error loading data. Please try again later.</p>';
+    try {
+        while (hasMore) {
+            const response = await fetch(url, { headers: API_HEADERS });
+            if (!response.ok) throw new Error('Failed to fetch data');
+            
+            const data = await response.json();
+            allFetchedRecords = [...allFetchedRecords, ...data.records];
+            
+            if (data.offset) {
+                url = `${API_URL}?sort[0][field]=ID&filterByFormula={Gender}="Female"&offset=${data.offset}`;
+            } else {
+                hasMore = false;
             }
         }
+        
+        allRecords = allFetchedRecords;
+        displayCards(allRecords);
+        document.getElementById('search-box').placeholder = 'Search by Name';
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('cards-container').innerHTML = '<p>Error loading data. Please try again later.</p>';
+    }
+}
 
-        function send(id) {
-            ThunkableWebviewerExtension.postMessage(id);
-        }
+async function fetchAndDisplayData() {
+    const searchQuery = document.getElementById('search-box').value.toLowerCase();
+    const filteredRecords = allRecords.filter(record => 
+        record.fields.Name.toLowerCase().includes(searchQuery)
+    );
+    displayCards(filteredRecords);
+}
 
-        function displayCards(records) {
-            const cardsContainer = document.getElementById('cards-container');
-            cardsContainer.innerHTML = '';
+function displayCards(records) {
+    const cardsContainer = document.getElementById('cards-container');
+    cardsContainer.innerHTML = '';
 
-            if (records.length === 0) {
-                cardsContainer.innerHTML = '<p>No records found.</p>';
-                return;
-            }
+    if (records.length === 0) {
+        cardsContainer.innerHTML = '<p>No records found.</p>';
+        return;
+    }
 
-            records.forEach(record => {
-                const card = document.createElement('div');
-                card.className = 'card';
+    records.forEach(record => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const imageUrl = record.fields['Pic'] || '';
 
-                // Set the background image from the "Business Card" field
-                const imageUrl = record.fields['Pic'] || ''; // Use a default placeholder if no image exists
+        card.innerHTML = `
+            <div class="profile-header">
+                <p>${record.fields.Name}</p>
+                <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
+            </div>
+            <p style="margin-top: -5px; margin-bottom: -2px;">${"<b>Registration ID : </b>" + record.fields['ID']}</p>
+            <div class="subtitle">${"<br><b>Age: </b>" + record.fields['Age'] + " | <b>Education: </b>" + record.fields['Education'] + "<br>" + "<b>Occupation: </b>" + record.fields['Job'] + "<br>" + "<b>Work Location: </b>" + record.fields['Occupation Location']}</div>
+        `;
 
-                card.innerHTML = `
-                    <div class="profile-header">
-                        <p>${record.fields.Name}</p>
-                        <button class="open-profile-button" onclick="send('${record.id}')">Open Profile</button>
-                    </div>
-                    <p style="margin-top: -5px; margin-bottom: -2px;">${"<b>Registration ID : </b>" + record.fields['ID']}</p>
-                    <div class="subtitle">${"<br><b>Age: </b>" + record.fields['Age'] + " | <b>Education: </b>" + record.fields['Education'] + "<br>" + "<b>Occupation: </b>" + record.fields['Job'] + "<br>" + "<b>Work Location: </b>" + record.fields['Occupation Location']}</div>
-                    
-                `;
+        cardsContainer.appendChild(card);
+    });
+}
 
-                cardsContainer.appendChild(card);
-            });
-        }
+function send(id) {
+    ThunkableWebviewerExtension.postMessage(id);
+}
 
-        // Initial fetch to display all records (category filter only)
-        fetchAndDisplayData();
+document.addEventListener("DOMContentLoaded", initialLoad);
+
     </script>
 
 </body>
