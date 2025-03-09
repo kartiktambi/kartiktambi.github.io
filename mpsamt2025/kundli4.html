@@ -79,14 +79,16 @@
 
 <div class="container">
     <h2>Match Kundli</h2>
+    <label>Enter Candidate Registration IDs:</label><br><br>
 <div class="form-container">
+	
     <div class="form-group">
-        <label for="male-id">Male Registration ID:</label>
+        <label for="male-id">Male ID:</label>
         <input type="text" id="male-id" placeholder="Enter Male ID">
     </div>
 
     <div class="form-group">
-        <label for="female-id">Female Registration ID:</label>
+        <label for="female-id">Female ID:</label>
         <input type="text" id="female-id" placeholder="Enter Female ID">
     </div>
 </div>
@@ -111,30 +113,42 @@
     
 
     async function fetchDetails() {
-        const maleId = document.getElementById('male-id').value.trim();
-        const femaleId = document.getElementById('female-id').value.trim();
-        if (!maleId || !femaleId) {
-            alert('Please enter both IDs.');
+    const maleId = document.getElementById('male-id').value.trim();
+    const femaleId = document.getElementById('female-id').value.trim();
+
+    if (!maleId || !femaleId) {
+        alert('Please enter both IDs.');
+        return;
+    }
+
+    if (!maleId.startsWith('M')) {
+        alert('Male ID must start with "M".');
+        return;
+    }
+
+    if (!femaleId.startsWith('F')) {
+        alert('Female ID must start with "F".');
+        return;
+    }
+
+    try {
+        const maleRecord = await fetchAirtableRecord(maleId);
+        const femaleRecord = await fetchAirtableRecord(femaleId);
+
+        if (!maleRecord || !femaleRecord) {
+            document.getElementById('details').innerHTML = "<p>Records not found. Check IDs and try again.</p>";
             return;
         }
 
-        try {
-            const maleRecord = await fetchAirtableRecord(maleId);
-            const femaleRecord = await fetchAirtableRecord(femaleId);
+        displayDetails(maleRecord, femaleRecord);
+        callAstrologyAPI(maleRecord, femaleRecord);
 
-            if (!maleRecord || !femaleRecord) {
-                document.getElementById('details').innerHTML = "<p>Records not found. Check IDs and try again.</p>";
-                return;
-            }
-
-            displayDetails(maleRecord, femaleRecord);
-            callAstrologyAPI(maleRecord, femaleRecord);
-
-        } catch (error) {
-            console.error('Error fetching details:', error);
-            document.getElementById('details').innerHTML = "<p>Error fetching data.</p>";
-        }
+    } catch (error) {
+        console.error('Error fetching details:', error);
+        document.getElementById('details').innerHTML = "<p>Error fetching data.</p>";
     }
+}
+
 
     async function fetchAirtableRecord(id) {
         const url = `${API_URL}?filterByFormula={ID}="${id}"`;
