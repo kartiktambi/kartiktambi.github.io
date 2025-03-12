@@ -278,7 +278,7 @@ function generateMatchTable(data) {
 
 
     function callAstrologyAPI(male, female) {
-        const apiUrl = `https://api.vedicastroapi.com/v3-json/matching/ashtakoot?boy_dob=${male.DOB}&boy_tob=${male['Time Of Birth']}&boy_tz=5.5&boy_lat=${male.Latitude}&boy_lon=${male.Longitude}&girl_dob=${female.DOB}&girl_tob=${female['Time Of Birth']}&girl_tz=5.5&girl_lat=${female.Latitude}&girl_lon=${female.Longitude}&api_key=091da7ec-d3b9-57e3-b02b-6a14fa16fd58&lang=en`;
+        const apiUrl = `https://api.vedicastroapi.com/v3-json/matching/ashtakoot?boy_dob=${male.DOB}&boy_tob=${male['Time Of Birth']}&boy_tz=5.5&boy_lat=${male.Latitude}&boy_lon=${male.Longitude}&girl_dob=${female.DOB}&girl_tob=${female['Time Of Birth']}&girl_tz=5.5&girl_lat=${female.Latitude}&girl_lon=${female.Longitude}&api_key=4dc79d23-1852-5db1-8dd3-3fdbd16a5eb3&lang=en`;
 
         fetch(apiUrl, { method: 'GET' })
             .then(response => response.text())
