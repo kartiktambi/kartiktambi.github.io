@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow-x: auto;
+            border-bottom: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        .tab {
+            padding: 12.5px 20px;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .tab.active {
+            background-color: #006F91;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .content {
+            padding: 20px;
+        }
+        .section-heading {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #006F91; /* Changed section heading color */
+        }
+        .tab-heading {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #000000; /* Changed section heading color */
+        }
+        .tab-location {
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: 400;
+            color: #000000; /* Changed section heading color */
+        }
+        .card {
+            border: 3px solid #006F91; /* Changed border color and width */
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #ffffff; /* Changed card background color */
+            position: relative;
+        }
+        .card h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .card p {
+            margin: 5px 0;
+            white-space: pre-line; /* to handle the new line characters */
+        }
+    /* Add this CSS to your existing styles */
+    .card .info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card button {
+        margin-left: -10px;
+        padding: 5px 7.5px;
+        font-size: 16px;
+        background-color: #006F91;
+        color: #fff;
+        height: 40px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+        .divider {
+            border-top: 3px solid #ccc;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .redirect-button {
+        display: block;
+        width: 90%;
+        font-size: 1.2em;
+        height: 75px;
+        line-height: 30px;
+        background-color: #006F91;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 20px auto; /* Center the button */
+    }
+    /* Subtabs Container */
+.subtabs {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Individual Subtab */
+.subtab {
+    padding: 10px 20px;
+    cursor: pointer;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.subtab.active {
+    background-color: #005F80;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="tabs" id="tabs"></div>
+    <div id="content" class="content"></div>
+
+    <script>
+    var ThunkableWebviewerExtension = (function () {
+      const postMessageToWebview = (message) => {
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(message);
+        } else {
+          window.parent.postMessage(message, '*');
+        }
+      };
+    
+      return {
+        postMessage: postMessageToWebview
+      };
+    })();
+    </script>
+
+    <script>
+        async function fetchData() {
+            const url = 'https://docs.google.com/spreadsheets/d/1GiUc5uN9ERLr9gDEYzTt8oNxVp-dqmkPjjxEfNZ-9IQ/gviz/tq?sheet=Schedule&tq=SELECT%20K,B,C,D,G,H,J';
+            const response = await fetch(url);
+            let text = await response.text();
+
+            // Remove unwanted prefix and suffix
+            text = text.replace("/*O_o*/\ngoogle.visualization.Query.setResponse(", "").slice(0, -2);
+
+            const json = JSON.parse(text);
+            return json.table.rows;
+        }
+
+        function processData(rows) {
+    const processedData = {};
+
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i].c.map(cell => cell && cell.v ? cell.v.toString() : '');
+        const [tabName, programSection, type, title, dateTimeLoc, speakers, shortTime] = row;
+
+        // Split tabName into main tab and subtab if applicable
+        const [mainTabName, subTabName] = tabName.includes('|') ? tabName.split(' | ').map(s => s.trim()) : [tabName.trim(), null];
+        const subTabKey = subTabName || 'Main';
+
+        // Initialize data structures if they don't exist
+        if (!processedData[mainTabName]) {
+            processedData[mainTabName] = {};
+        }
+        if (!processedData[mainTabName][subTabKey]) {
+            processedData[mainTabName][subTabKey] = [];
+        }
+
+        // Prepare formatted data
+        const formattedDateTimeLoc = dateTimeLoc.replace(/\\n/g, '\n');
+        let formattedSpeakers = speakers.replace(/\\n/g, '<br>');
+        formattedSpeakers = formattedSpeakers.replace('Moderator: ', '<b>Moderator: </b>');
+        formattedSpeakers = formattedSpeakers.replace('Panelists: ', '<b>Panelists: </b>');
+
+        // Add the session to the appropriate category
+        processedData[mainTabName][subTabKey].push({
+            programSection,
+            type,
+            title,
+            dateTimeLoc: formattedDateTimeLoc,
+            speakers: formattedSpeakers,
+            shortTime
+        });
+    }
+
+    return processedData;
+}
+
+
+    function generateHTML(data) {
+    const tabsContainer = document.getElementById('tabs');
+    const contentContainer = document.getElementById('content');
+
+    const tabNames = Object.keys(data);
+    tabNames.forEach((tabName, index) => {
+        const tab = document.createElement('div');
+        tab.className = 'tab' + (index === 0 ? ' active' : '');
+        tab.textContent = tabName;
+        tab.onclick = () => {
+            document.querySelector('.tab.active').classList.remove('active');
+            tab.classList.add('active');
+            showContent(tabName);
+        };
+        tabsContainer.appendChild(tab);
+    });
+
+    function showContent(activeTabName) {
+        contentContainer.innerHTML = '';
+
+        const subTabsData = data[activeTabName];
+        const subTabNames = Object.keys(subTabsData);
+
+        if (subTabNames.length > 1) {
+            // Create subtabs for Days with more than one category
+            const subTabsContainer = document.createElement('div');
+            subTabsContainer.className = 'subtabs';
+
+            subTabNames.forEach((subTabName, index) => {
+                const subTab = document.createElement('div');
+                subTab.className = 'subtab' + (index === 0 ? ' active' : '');
+                subTab.textContent = subTabName;
+                subTab.onclick = () => {
+                    document.querySelector('.subtab.active').classList.remove('active');
+                    subTab.classList.add('active');
+                    displaySessions(subTabsData[subTabName]);
+                };
+                subTabsContainer.appendChild(subTab);
+            });
+
+            contentContainer.appendChild(subTabsContainer);
+            displaySessions(subTabsData[subTabNames[0]]); // Display sessions for the first subtab by default
+        } else {
+            // Display sessions directly if there's only one subtab (e.g., Day 1)
+            displaySessions(subTabsData[subTabNames[0]]);
+        }
+    }
+
+    function displaySessions(sessions) {
+        // Clear any existing sessions
+        const existingSessionsContainer = document.querySelector('.sessions-container');
+        if (existingSessionsContainer) {
+            existingSessionsContainer.remove();
+        }
+
+        const sessionsContainer = document.createElement('div');
+        sessionsContainer.className = 'sessions-container';
+        contentContainer.appendChild(sessionsContainer);
+
+        const sections = {};
+
+        sessions.forEach(item => {
+            const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
+            if (!sections[programSection]) {
+                sections[programSection] = [];
+            }
+            sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
+        });
+
+        for (const [section, items] of Object.entries(sections)) {
+            const divider = document.createElement('div');
+            divider.className = 'divider';
+            sessionsContainer.appendChild(divider);
+
+            const sectionHeading = document.createElement('div');
+            sectionHeading.className = 'section-heading';
+            sectionHeading.textContent = section;
+            sessionsContainer.appendChild(sectionHeading);
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Session Type
+                const typeLabel = document.createElement('p');
+                typeLabel.textContent = item.type;
+                card.appendChild(typeLabel);
+
+                // Session Title
+                const cardTitle = document.createElement('h3');
+                cardTitle.textContent = item.title;
+                card.appendChild(cardTitle);
+
+                const gap = document.createElement('div');
+                gap.style.height = '7px';
+                card.appendChild(gap);
+
+                // Date, Time, Location, and Button
+                const infoRow = document.createElement('div');
+                infoRow.className = 'info';
+
+                const cardDateTimeLoc2 = document.createElement('p');
+                const myArray = item.dateTimeLoc.split("Time : ");
+                const newval = myArray[1].split("Location");
+                const from = newval[0].split(" to ")[0];
+                const to = newval[0].split(" to ")[1];
+                cardDateTimeLoc2.textContent = "From: " + from + "\n" + "To: " + to;
+                cardDateTimeLoc2.style.fontWeight = "Bold";
+
+                infoRow.appendChild(cardDateTimeLoc2);
+
+                const button = document.createElement('button');
+                button.textContent = 'Add to Agenda';
+                button.onclick = () => {
+                    const tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, section, item.shortTime];
+                    ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
+                };
+                infoRow.appendChild(button);
+                card.appendChild(infoRow);
+
+                const gap2 = document.createElement('div');
+                gap2.style.height = '7px';
+                card.appendChild(gap2);
+
+                // Speakers
+                const cardSpeakers = document.createElement('p');
+                cardSpeakers.innerHTML = item.speakers;
+                card.appendChild(cardSpeakers);
+
+                sessionsContainer.appendChild(card);
+            });
+        }
+    }
+
+    // Display content for the first main tab by default
+    showContent(tabNames[0]);
+}
+
+
+    async function init() {
+        const rows = await fetchData();
+        const data = processData(rows);
+        generateHTML(data);
+    }
+
+    init();
+    </script>
+</body>
+</html>
