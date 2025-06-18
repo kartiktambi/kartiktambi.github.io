@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Speakers</title>
+    <script>
+	var ThunkableWebviewerExtension = (function () {
+	  const postMessageToWebview = (message) => {
+	    if (window.ReactNativeWebView) {
+	      window.ReactNativeWebView.postMessage(message);
+	    } else {
+	      window.parent.postMessage(message, '*');
+	    }
+	  };
+	
+	  return {
+	    postMessage: postMessageToWebview
+	  };
+	})();
+	</script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            margin: 0;
+            background-color: #fafafa;
+        }
+        .img {
+        	border-radius: 50px;
+        }
+        .category-title {
+            font-size: 1.4em;
+            margin: 20px 0 10px;
+            color: #80003A;
+            font-weight: bold;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            border: 3px solid #80003A;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+        }
+        .card-header img {
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            margin-right: 10px;
+        }
+        .card-header div {
+            display: flex;
+            flex-direction: column;
+        }
+        .card-header div span:first-child {
+            font-weight: bold;
+            margin-bottom: 7.5px;
+            font-size: 22px;
+        }
+        .card-header div span:nth-child(2) {
+            margin-bottom: 3px;
+            font-size: 17px;
+        }
+        .card-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        .card-buttons button {
+            background-color: #80003A;
+            color: white;
+            border: none;
+            font-size: 18px;
+            border-radius: 5px;
+            padding: 10px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .card-buttons button:hover {
+            background-color: #a00050;
+        }
+        .section-break {
+            margin: 30px 0;
+            border-top: 1px solid #80003A;
+        }
+    </style>
+</head>
+<body>
+    <div id="speakers-container"></div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('https://docs.google.com/spreadsheets/d/1GiUc5uN9ERLr9gDEYzTt8oNxVp-dqmkPjjxEfNZ-9IQ/gviz/tq?sheet=Speakers&tq=SELECT A,B,C,E,G,H');
+            let text = await response.text();
+            text = text.replace(`/*O_o*/`+'\n'+`google.visualization.Query.setResponse(`, "").slice(0, -2);
+            const json = JSON.parse(text);
+            return json.table.rows;
+        }
+
+        function createCard(speaker) {
+            return `
+                <div class="card">
+                    <div class="card-header">
+                        <img src="${speaker[0].v}" alt="${speaker[1].v}">
+                        <div>
+                            <span>${speaker[1].v}</span>
+                            <span>${speaker[2].v}</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            `;
+		//<button onclick="ThunkableWebviewerExtension.postMessage('${speaker[5].v}')">Profile</button>
+        }
+
+        function renderSpeakers(speakers) {
+            const container = document.getElementById('speakers-container');
+            let currentCategory = '';
+            let html = '';
+
+            for (let i = 1; i < speakers.length; i++) {
+                const speaker = speakers[i].c;
+                const category = speaker[3].v;
+
+                if (category !== currentCategory) {
+                    if (currentCategory !== '') {
+                        html += '<div class="section-break"></div>';
+                    }
+                    html += `<div class="category-title">${category}</div>`;
+                    currentCategory = category;
+                }
+
+                html += createCard(speaker);
+            }
+
+            container.innerHTML = html;
+        }
+
+        fetchData().then(speakers => renderSpeakers(speakers));
+    </script>
+</body>
+</html>
