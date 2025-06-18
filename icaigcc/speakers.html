@@ -161,12 +161,16 @@
                             <span>${speaker[2].v}</span>
                         </div>
                     </div>
-                    <div class="card-buttons">
-                        <button onclick="ThunkableWebviewerExtension.postMessage('${speaker[5]?.v || ''}')">View Profile</button>
-                    </div>
+                    
                 </div>
             `;
         }
+
+        /*
+        <div class="card-buttons">
+            <button onclick="ThunkableWebviewerExtension.postMessage('${speaker[5]?.v || ''}')">View Profile</button>
+        </div>
+        */
 
         function renderSpeakers(speakers) {
             const container = document.getElementById('speakers-container');
