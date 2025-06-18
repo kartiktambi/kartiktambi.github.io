@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>AI Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    p {
+      font-size: 18px;
+    }
+    #search-form {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: calc(100% - 120px); /* Adjusted width for button */
+      margin-right: 10px;
+      border: 3px solid #007aff;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    button[type="submit"] {
+      padding: 12px 20px;
+      border: none;
+      background-color: #007aff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    #results {
+      display: grid;
+      gap: 20px;
+    }
+    card {
+      border: 2px solid #007aff;
+      border-radius: 10px;
+      padding: 15px;
+      position: relative;
+    }
+    card p {
+      margin: 5px 0;
+    }
+    card p:first-child {
+      font-size: 20px; /* Increased font size for name */
+      font-weight: bold;
+    }
+    .open-profile-button {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #007aff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <form id="search-form">
+    <input type="text" id="query" name="query" placeholder="Enter your query">
+    <button type="submit">Search</button>
+  </form>
+  <p id="label">Query Examples - <br>- I am looking for Accountants<br>- I am looking for GST Services, etc.</p>
+  <div id="results"></div>
+
+  <script>
+  var ThunkableWebviewerExtension = (function () {
+    const postMessageToWebview = (message) => {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(message);
+      } else {
+        window.parent.postMessage(message, '*');
+      }
+    };
+  
+    return {
+      postMessage: postMessageToWebview
+    };
+  })();
+  </script>
+
+  <script>
+    function showProfile(sr, category) {
+      ThunkableWebviewerExtension.postMessage(`${sr} || ${category} || Name`);
+    }
+
+    function randomIntFromInterval(min, max) { // min and max included 
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    const SUPABASE_URL = 'https://rlsqxzzvxzxppyygmzez.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsc3F4enp2eHp4cHB5eWdtemV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc3OTQ3NDgsImV4cCI6MjA1MzM3MDc0OH0.s1ZMM9auwtC4QUd1-sdcoWlTBtT8GnWKWOVtWW1J04o';
+    const aikey = 'YzJzdGNISnZhaTFzVkdJeVgydElkMUZLZUhoM1owdzBVR3A0UmpSamFXNXJlVmR5YkZwM2RtZElhelExVmtsNFkxbDRkVUl3WDNOTFFUSnFOVk50Y20xaVlWQnpiRWhEYmxGcU1UbGtURGt4VGxRelFteGlhMFpLYUY5SlJuTXdhMWt3YTFwU1IxTnNVblJQVjNkNGMxUTFXRU4wVG00eWRGSjVTRkkxZW1Zd2JHUkhWRWx3WldWSE1uTlhNelZZYTJGWlNXRjZWRXAxVFd0SGMxSnVZVTV4V1VFPQ==';
+    const actualkey = atob(atob(aikey));
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.getElementById('search-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const query = document.getElementById('query').value;
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = 'Searching...';
+      label.innerHTML = 'Please wait...';
+
+      try {
+        // Step 2: Get the embedding for the query
+        const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${actualkey}`
+          },
+          body: JSON.stringify({
+            input: query,
+            model: 'text-embedding-3-small'  // Ensure this model is correct
+          })
+        });
+
+        if (!embeddingResponse.ok) {
+          throw new Error(`Embedding API response not OK: ${embeddingResponse.statusText}`);
+        }
+
+        const embeddingResult = await embeddingResponse.json();
+        const queryEmbedding = embeddingResult.data[0].embedding;
+
+        // Step 3: Fetch profiles with embeddings
+        const { data: profiles, error } = await supabase
+          .from('Database')
+          .select('ID, Vectors')
+          .not('Vectors', 'is', null);
+
+        if (error) {
+          throw new Error(`Supabase error: ${error.message}`);
+        }
+        
+        
+
+        // Step 4: Calculate cosine similarity
+        const cosineSimilarity = (vecA, vecB) => {
+          const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+          const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+          const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+          return dotProduct / (magnitudeA * magnitudeB);
+        };
+
+        const similarities = profiles.map(profile => {
+          const vectors = JSON.parse(profile.Vectors);
+          return {
+            sr: profile.ID,
+            similarity: cosineSimilarity(queryEmbedding, vectors)
+          };
+        });
+
+        similarities.sort((a, b) => b.similarity - a.similarity);
+        const topProfiles = similarities.slice(0, 5).map(profile => profile.sr);
+
+        // Step 5: Fetch profile details
+        const { data: topProfileDetails, error: profileError } = await supabase
+          .from('Database')
+          .select('*')
+          .in('ID', topProfiles);
+
+        if (profileError) {
+          throw new Error(`Profile fetch error: ${profileError.message}`);
+        }
+
+        var randid = randomIntFromInterval(100000, 999999) + randomIntFromInterval(1000, 9999) + randomIntFromInterval(100000, 999999);
+                
+        const { error2 } = await supabase
+          .from('AI Search')
+          .insert({ id: randid, name: query });
+
+        const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.ID === sr));
+
+        // Step 6: Display results
+        resultsDiv.innerHTML = '';
+        sortedTopProfileDetails.forEach(profile => {
+          const profileDiv = document.createElement('card');
+          profileDiv.innerHTML = `
+            <p style="font-size: 20px">${profile.Name}</p>
+            <p><strong>Category:</strong> ${profile.Category}</p>
+            <p><strong>Company:</strong> ${profile.Company}</p>
+            <p><strong>Professional Industry:</strong> ${profile['Professional Industry']}</p>
+            <p><strong>Work Location:</strong> ${profile['Work Location']}</p>
+            <p><strong>Services Offered:</strong> ${profile['Services Offered']}</p>
+            <p><strong>Interested In:</strong> ${profile['Interested In']}</p>
+            <p><strong><br>More details >>></strong></p>
+            <br>
+            <button class="open-profile-button" onclick="showProfile('${profile.ID}', '${profile.Category}')">Open Profile</button>
+          `;
+          resultsDiv.appendChild(profileDiv);
+        });
+        label.innerHTML = 'Top Results - ';
+      } catch (error) {
+        resultsDiv.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Webpage</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            height: 100vh;
+        }
+
+        .box {
+            width: 70%;
+            aspect-ratio: 16 / 9;
+            border: 3px solid #333;
+            margin: 30px;
+            display: flex;
+            padding: 25px;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .box img {
+            max-width: 100%;
+            max-height: 100%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="https://i.ibb.co/rwvdNvM/WOFA-Logo.png" alt="Box 2">
+    </div>
+    <h1>Coming Soon!</h1>
+</body>
+</html>
+-->
