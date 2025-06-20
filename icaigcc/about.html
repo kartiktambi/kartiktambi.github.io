@@ -157,7 +157,58 @@
             .summit-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
-        
+.developer-card {
+    background-color: #ffffff;
+    padding: 20px 0 0 0; /* Top padding only, removed bottom/right/left */
+    border-radius: 8px;
+    margin: 16px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #f7b731; /* Yellow to align with Mumbai card */
+    text-align: center;
+    transition: transform 0.2s;
+}
+.developer-card:hover {
+    transform: translateY(-4px);
+}
+.developer-card h2 {
+    font-size: 16px; /* As per previous request */
+    color: #1a3c34;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+.developer-links {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.link-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #444;
+    background-color: #f0f4f8; /* Light background for links */
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.link-item:hover {
+    background-color: #e0e8f0;
+}
+.link-item .icon {
+    font-size: 16px;
+    color: #ff6f61; /* Coral for icons */
+}
+.business-card-image {
+    width: 100%; /* Static full width */
+    height: auto;
+    border-radius: 8px;
+    display: block; /* Ensures no gaps */
+}
+
     </style>
 </head>
 <body>
@@ -229,6 +280,19 @@
                 <p>Promote India—particularly centres like GIFT City—as a prime destination for finance-driven GCCs</p>
             </div>
         </div>
+<!-- App Designed & Developed By -->
+<div class="developer-card">
+    <h2>App Designed & Developed By -</h2>
+    <div class="developer-links">
+        <a href="https://wa.me/917972341581" class="link-item" target="_blank">
+            <span class="icon">📞</span> Contact
+        </a>
+        <a href="https://about.me/kartiktambi" class="link-item" target="_blank">
+            <span class="icon">🌐</span>Profile Link
+        </a>
+    </div>
+    <img src="https://i.ibb.co/67J3M04G/Kartik-Tambi-Business-Card.png" alt="Kartik Tambi Business Card" class="business-card-image">
+</div>
     </div>
 </body>
 </html>
