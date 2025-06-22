@@ -137,6 +137,8 @@
 
         const embeddingResult = await embeddingResponse.json();
         const queryEmbedding = embeddingResult.data[0].embedding;
+        
+        console.log(queryEmbedding);
 
         // Step 3: Fetch profiles with embeddings
         const { data: profiles, error } = await supabase
@@ -148,7 +150,21 @@
           throw new Error(`Supabase error: ${error.message}`);
         }
         
+        console.log('Fetched Profiles:', profiles);
         
+        // Fetch all rows and all columns
+        const { data: profiles, error } = await supabase
+          .from('Database')
+          .select('*');
+
+        if (error) {
+          throw new Error(`Supabase error: ${error.message}`);
+        }
+
+        // Log the full result
+        console.log('All Profiles:', profiles);
+
+
 
         // Step 4: Calculate cosine similarity
         const cosineSimilarity = (vecA, vecB) => {
@@ -168,6 +184,8 @@
 
         similarities.sort((a, b) => b.similarity - a.similarity);
         const topProfiles = similarities.slice(0, 5).map(profile => profile.sr);
+        
+        console.log(topProfiles);
 
         // Step 5: Fetch profile details
         const { data: topProfileDetails, error: profileError } = await supabase
@@ -186,6 +204,8 @@
           .insert({ id: randid, name: query });
 
         const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.ID === sr));
+
+		console.log(sortedTopProfileDetails);
 
         // Step 6: Display results
         resultsDiv.innerHTML = '';
