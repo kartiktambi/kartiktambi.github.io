@@ -1,124 +1,217 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <title>AI Search</title>
+  <title>AI Search - GCC Summit Series</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
     }
-    h1 {
+    .container {
+      max-width: 100%;
+      padding: 16px;
+      margin: 0 auto;
+    }
+    .marquee {
+      background-color: #007ADF; /* Changed from #65409D */
+      padding: 12px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-right: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee span:hover {
+      animation-play-state: paused;
+    }
+    .color1 { color: #ff6f61; } /* Coral */
+    .color2 { color: #4a90e2; } /* Blue */
+    .color3 { color: #f7b731; } /* Yellow */
+    .color4 { color: #2ecc71; } /* Green */
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .search-header {
       text-align: center;
+      margin-bottom: 20px;
     }
-    p {
-      font-size: 18px;
+    .search-header h1 {
+      font-size: 22px; /* Smaller for mobile */
+      color: #1a3c34;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
     #search-form {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
-    input[type="text"] {
+    #query {
       padding: 10px;
-      width: calc(100% - 120px); /* Adjusted width for button */
-      margin-right: 10px;
-      border: 3px solid #007aff;
-      border-radius: 5px;
-      font-size: 18px;
+      width: calc(100% - 100px); /* Adjusted for mobile */
+      border: 2px solid #4a90e2;
+      border-radius: 6px;
+      font-size: 15px; /* Smaller for mobile */
+      background-color: #ffffff;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
     }
-    button[type="submit"] {
-      padding: 12px 20px;
+    #query:focus {
+      border-color: #ff6f61;
+    }
+    #search-form button {
+      padding: 10px 20px;
       border: none;
-      background-color: #007aff;
-      color: white;
-      border-radius: 5px;
+      background-color: #ff6f61;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 18px;
+      transition: background-color 0.2s, transform 0.2s;
+      margin-left: 8px;
+    }
+    #search-form button:hover {
+      background-color: #e55a50;
+      transform: scale(1.05);
+    }
+    #label {
+      font-size: 16px; /* Increased from 14px */
+      color: #666;
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.5;
     }
     #results {
       display: grid;
-      gap: 20px;
+      gap: 16px;
     }
-    card {
-      border: 2px solid #007aff;
-      border-radius: 10px;
-      padding: 15px;
-      position: relative;
+    .profile-card {
+      background-color: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #2ecc71; /* Green for profile cards */
+      transition: transform 0.2s;
     }
-    card p {
-      margin: 5px 0;
+    .profile-card:hover {
+      transform: translateY(-4px);
     }
-    card p:first-child {
-      font-size: 20px; /* Increased font size for name */
-      font-weight: bold;
+    .profile-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .profile-card p {
+      font-size: 15px; /* Increased from 14px */
+      color: #444;
+      margin: 6px 0;
+    }
+    .profile-card p:first-child {
+      font-size: 20px; /* Increased from 18px */
+      font-weight: 700;
+      color: #1a3c34;
+      margin: 0;
+    }
+    .profile-card p strong {
+      color: #1a3c34;
     }
     .open-profile-button {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border: none;
-      background-color: #007aff;
-      color: white;
-      border-radius: 5px;
+      background-color: #4a90e2;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 16px;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .open-profile-button:hover {
+      background-color: #3a80d2;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
-  <form id="search-form">
-    <input type="text" id="query" name="query" placeholder="Enter your query">
-    <button type="submit">Search</button>
-  </form>
-  <p id="label">Query Examples - <br>- I am looking for Accountants<br>- I am looking for GST Services, etc.</p>
-  <div id="results"></div>
+  <!-- Marquee -->
+  <div class="marquee">
+    <span class="color1">Discover Top Professionals with ICAI’s AI Search ★ </span>
+    <span class="color2">Connect with Experts for Your GCC Needs ★ </span>
+    <span class="color3">Find Accountants, GST Specialists, and More ★ </span>
+    <span class="color4">Powered by ICAI’s Global Capability Centres Initiative ★ </span>
+  </div>
+
+  <div class="container">
+    <div class="search-header">
+      <h1>AI-Powered Professional Search</h1>
+    </div>
+    <form id="search-form">
+      <input type="text" id="query" name="query" placeholder="Enter your query (e.g., Accountants, GST Services)">
+      <button type="submit">Search</button>
+    </form>
+    <p id="label">Query Examples:<br>- I am looking for Accountants<br>- I am looking for GST Services<br>- I need Cyber Security Experts</p>
+    <div id="results"></div>
+  </div>
 
   <script>
-  var ThunkableWebviewerExtension = (function () {
-    const postMessageToWebview = (message) => {
-      if (window.ReactNativeWebView) {
-        window.ReactNativeWebView.postMessage(message);
-      } else {
-        window.parent.postMessage(message, '*');
-      }
-    };
-  
-    return {
-      postMessage: postMessageToWebview
-    };
-  })();
-  </script>
+    var ThunkableWebviewerExtension = (function () {
+      const postMessageToWebview = (message) => {
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(message);
+        } else {
+          window.parent.postMessage(message, '*');
+        }
+      };
+      return {
+        postMessage: postMessageToWebview
+      };
+    })();
 
-  <script>
     function showProfile(sr, category) {
       ThunkableWebviewerExtension.postMessage(`${sr} || ${category} || Name`);
     }
 
-    function randomIntFromInterval(min, max) { // min and max included 
+    function randomIntFromInterval(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    const SUPABASE_URL = 'https://phrodryahfummgektaot.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocm9kcnlhaGZ1bW1nZWt0YW90Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDMyMjIwNCwiZXhwIjoyMDY1ODk4MjA0fQ.ZLvzY3tCKIeR5Eo7_HTG3hexdhyuRZhKdDeK68p2Xp0';
+    const supa_url = 'https://phrodryahfummgektaot.supabase.co';
+    const supa_key = 'WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuQmpNMDFwVDJsS2VtUllRbWhaYlVaNldsTkpjMGx1U214YWFVazJTVzVDYjJOdE9XdGpibXhvWVVkYU1XSlhNVzVhVjNRd1dWYzVNRWxwZDJsamJUbHpXbE5KTmtsdVRteGpibHB3V1RKV1ptTnRPWE5hVTBselNXMXNhR1JEU1RaTlZHTXhUVVJOZVUxcVNYZE9RM2RwV2xob2QwbHFiM2xOUkZreFQwUnJORTFxUVRCbVVTNWFUSFo2V1ROMFEwdEpaVkkxUlc4M1gwaFVSek5vWlhoa2FIbDFVbHBvUzJSRVpVczJPSEF5V0hBdw==';
     const aikey = 'YzJzdGNISnZhaTFEVlVnNFFsVk1ObWxSWm0xdVJtaGpWMVl3V0U5WWJuUXpWR2MzU1RoaFRVOWZTWGM0TkRkMFRFMTJVM0Z1VlVKUFZFWjBiSFk0TkZrMFltRlBTbTFvTlhaeWVXUkVOM1JqZVZRelFteGlhMFpLUkhSMlgwMTBURlJVWTI1NVRGTlRPVzgwWmpGQ2VHdEZVbkl5UzFWVmNYUXdUbEUzY25kVE1rMXJhazk2TlhoVFJVOHdSekl4TjBZeGJ6RmlVVFJMUTNoeFdYQm9TVXhrV1VFPQ==';
     const actualkey = atob(atob(aikey));
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.supabase.createClient(supa_url, atob(atob(supa_key)));
 
     document.getElementById('search-form').addEventListener('submit', async (event) => {
       event.preventDefault();
       const query = document.getElementById('query').value;
       const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = 'Searching...';
-      label.innerHTML = 'Please wait...';
+      resultsDiv.innerHTML = '<p style="color: #666; text-align: center;">Searching...</p>';
+      document.getElementById('label').innerHTML = 'Please wait...';
 
       try {
-        // Step 2: Get the embedding for the query
         const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
           method: 'POST',
           headers: {
@@ -127,7 +220,7 @@
           },
           body: JSON.stringify({
             input: query,
-            model: 'text-embedding-3-small'  // Ensure this model is correct
+            model: 'text-embedding-3-small'
           })
         });
 
@@ -137,8 +230,7 @@
 
         const embeddingResult = await embeddingResponse.json();
         const queryEmbedding = embeddingResult.data[0].embedding;
-        
-        // Step 3: Fetch profiles with embeddings
+
         const { data: profiles, error } = await supabase
           .from('Database')
           .select('ID, Vectors')
@@ -147,9 +239,7 @@
         if (error) {
           throw new Error(`Supabase error: ${error.message}`);
         }
-        
 
-        // Step 4: Calculate cosine similarity
         const cosineSimilarity = (vecA, vecB) => {
           const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
           const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
@@ -167,8 +257,7 @@
 
         similarities.sort((a, b) => b.similarity - a.similarity);
         const topProfiles = similarities.slice(0, 5).map(profile => profile.sr);
-        
-        // Step 5: Fetch profile details
+
         const { data: topProfileDetails, error: profileError } = await supabase
           .from('Database')
           .select('*')
@@ -178,35 +267,38 @@
           throw new Error(`Profile fetch error: ${profileError.message}`);
         }
 
-        var randid = randomIntFromInterval(100000, 999999) + randomIntFromInterval(1000, 9999) + randomIntFromInterval(100000, 999999);
-                
-        const { error2 } = await supabase
+        const randid = randomIntFromInterval(100000, 999999) + randomIntFromInterval(1000, 9999) + randomIntFromInterval(100000, 999999);
+
+        const { error: insertError } = await supabase
           .from('AI Search')
           .insert({ id: randid, name: query });
 
+        if (insertError) {
+          console.warn(`Insert error: ${insertError.message}`);
+        }
+
         const sortedTopProfileDetails = topProfiles.map(sr => topProfileDetails.find(profile => profile.ID === sr));
 
-        // Step 6: Display results
         resultsDiv.innerHTML = '';
         sortedTopProfileDetails.forEach(profile => {
-          const profileDiv = document.createElement('card');
+          const profileDiv = document.createElement('div');
+          profileDiv.className = 'profile-card';
           profileDiv.innerHTML = `
-            <p style="font-size: 20px">${profile.Name}</p>
+            <div class="profile-card-header">
+              <p>${profile.Name}</p>
+              <button class="open-profile-button" onclick="showProfile('${profile.ID}', '${profile.Category}')">Open Profile</button>
+            </div>
             <p><strong>Category:</strong> ${profile.Category}</p>
             <p><strong>Company:</strong> ${profile.Company}</p>
             <p><strong>Professional Industry:</strong> ${profile['Professional Industry']}</p>
             <p><strong>Work Location:</strong> ${profile['Work Location']}</p>
             <p><strong>Services Offered:</strong> ${profile['Services Offered']}</p>
-            <p><strong>Interested In:</strong> ${profile['Interested In']}</p>
-            <p><strong><br>More details >>></strong></p>
-            <br>
-            <button class="open-profile-button" onclick="showProfile('${profile.ID}', '${profile.Category}')">Open Profile</button>
           `;
           resultsDiv.appendChild(profileDiv);
         });
-        label.innerHTML = 'Top Results - ';
+        document.getElementById('label').innerHTML = 'Top Results:';
       } catch (error) {
-        resultsDiv.textContent = `Error: ${error.message}`;
+        resultsDiv.innerHTML = `<p style="color: #ff6f61; text-align: center;">Error: ${error.message}</p>`;
       }
     });
   </script>
