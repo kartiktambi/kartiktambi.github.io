@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Delegates List - GCC Summit Series</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      max-width: 100%;
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .marquee {
+      background-color: #007ADF;
+      padding: 12px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-right: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee span:hover {
+      animation-play-state: paused;
+    }
+    .color1 { color: #ff6f61; }
+    .color2 { color: #4a90e2; }
+    .color3 { color: #f7b731; }
+    .color4 { color: #2ecc71; }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .search-container {
+      position: sticky;
+      top: 0;
+      background-color: #f0f4f8;
+      padding: 12px 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-container input {
+      padding: 12px;
+      width: calc(100% - 48px);
+      border: 2px solid #4a90e2;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #ffffff;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+      height: 44px;
+    }
+    .search-container input:focus {
+      border-color: #ff6f61;
+    }
+    .search-container button {
+      padding: 0;
+      border: none;
+      background-color: #ff8a80;
+      color: #333;
+      border-radius: 6px;
+      font-size: 18px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .search-container button:hover {
+      background-color: #ff7b73;
+      transform: scale(1.05);
+    }
+    .cards-container {
+      flex: 1;
+      overflow-y: auto;
+      display: grid;
+      gap: 16px;
+      padding-bottom: 60px;
+    }
+    .delegate-card {
+      background-color: #ffffff;
+      padding: 12px; /* Reduced from 16px */
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #2ecc71;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .delegate-card:hover {
+      transform: translateY(-4px);
+    }
+    .profile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .profile-header p {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a3c34;
+      margin: 0;
+    }
+    .profile-header .open-profile-button {
+      padding: 8px 16px;
+      border: none;
+      background-color: #4a90e2;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .profile-header .open-profile-button:hover {
+      background-color: #3a80d2;
+      transform: scale(1.05);
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .business-card-image {
+      width: 100%;
+      height: 180px; /* Increased from 160px */
+      border-radius: 4px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .pagination {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #f0f4f8;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      z-index: 10;
+      border-top: 1px solid #e0e0e0;
+    }
+    .pagination button {
+      padding: 8px 16px;
+      border: none;
+      background-color: #4a90e2;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .pagination button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    .pagination button:not(:disabled):hover {
+      background-color: #3a80d2;
+    }
+    .loading, .error, .no-results {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin: 20px 0;
+    }
+    .error {
+      color: #ff6f61;
+    }
+  </style>
+</head>
+<body>
+  <!-- Marquee -->
+  <div class="marquee">
+    <span class="color1">Explore Delegates at GCC Summit Series ★ </span>
+    <span class="color2">Connect with Industry Leaders & Professionals ★ </span>
+    <span class="color3">Find Networking Opportunities with ICAI ★ </span>
+    <span class="color4">Join the Global Capability Centres Ecosystem ★ </span>
+  </div>
+
+  <div class="container">
+    <div class="search-container">
+      <input type="text" id="search-box" placeholder="Search by Name">
+      <button onclick="fetchAndDisplayData()">🔍</button>
+    </div>
+    <div class="cards-container" id="cards-container"></div>
+    <div class="pagination" id="pagination">
+      <button id="prev-page" disabled>Prev Page</button>
+      <button id="next-page" disabled>Next Page</button>
+    </div>
+  </div>
+
+  <script>
+    var ThunkableWebviewerExtension = (function () {
+      const postMessageToWebview = (message) => {
+        if (window.ReactNativeWebView) {
+          window.ReactNativeWebView.postMessage(message);
+        } else {
+          window.parent.postMessage(message, '*');
+        }
+      };
+      return {
+        postMessage: postMessageToWebview
+      };
+    })();
+
+    const SUPABASE_URL = 'https://phrodryahfummgektaot.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocm9kcnlhaGZ1bW1nZWt0YW90Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDMyMjIwNCwiZXhwIjoyMDY1ODk4MjA0fQ.ZLvzY3tCKIeR5Eo7_HTG3hexdhyuRZhKdDeK68p2Xp0';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentPage = 1;
+    const resultsPerPage = 20;
+    let totalRecords = 0;
+    let currentSearchQuery = '';
+
+    async function fetchAndDisplayData(page = 1) {
+      const searchQuery = document.getElementById('search-box').value.trim().toLowerCase();
+      const cardsContainer = document.getElementById('cards-container');
+      const prevButton = document.getElementById('prev-page');
+      const nextButton = document.getElementById('next-page');
+
+      cardsContainer.innerHTML = '<p class="loading">Loading...</p>';
+
+      try {
+        let query = supabase
+          .from('Database')
+          .select('*', { count: 'exact' })
+          .range((page - 1) * resultsPerPage, page * resultsPerPage - 1);
+
+        if (searchQuery) {
+          query = query.ilike('Name', `%${searchQuery}%`);
+          currentSearchQuery = searchQuery;
+        } else {
+          currentSearchQuery = '';
+        }
+
+        const { data: records, count, error } = await query;
+        
+        console.log(records);
+
+        if (error) {
+          throw new Error(`Supabase error: ${error.message}`);
+        }
+
+        totalRecords = count || 0;
+        currentPage = page;
+
+        // Sort records: non-empty Last Login first, empty or null last
+const sortedRecords = records.sort((a, b) => {
+  const aLogin = a['Last Login'];
+  const bLogin = b['Last Login'];
+
+  const aHasLogin = aLogin !== null && aLogin !== '' && aLogin !== undefined;
+  const bHasLogin = bLogin !== null && bLogin !== '' && bLogin !== undefined;
+
+  if (aHasLogin && !bHasLogin) return -1; // a comes first
+  if (!aHasLogin && bHasLogin) return 1;  // b comes first
+  return 0; // no change if both have or both lack Last Login
+});
+
+
+        displayCards(sortedRecords);
+        updatePagination();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        cardsContainer.innerHTML = '<p class="error">Error loading data. Please try again later.</p>';
+      }
+
+      prevButton.disabled = currentPage === 1;
+      nextButton.disabled = currentPage * resultsPerPage >= totalRecords;
+    }
+
+    function send(id, category) {
+      ThunkableWebviewerExtension.postMessage(`${id} || ${category}`);
+    }
+
+    function displayCards(records) {
+      const cardsContainer = document.getElementById('cards-container');
+      cardsContainer.innerHTML = '';
+
+      if (!records || records.length === 0) {
+        cardsContainer.innerHTML = '<p class="no-results">No delegates found.</p>';
+        return;
+      }
+
+      records.forEach(record => {
+        const card = document.createElement('div');
+        card.className = 'delegate-card';
+
+        const imageUrl = record['Business Card'] || 'https://i.ibb.co/39JdNmHM/image.png';
+
+        card.innerHTML = `
+          <div class="profile-header">
+            <p>${record.Name}</p>
+            <button class="open-profile-button" onclick="send('${record.ID}', '${record['Category']}')">Open Profile</button>
+          </div>
+          <div class="subtitle">${record['Short Bio'] || 'No bio available'}</div>
+          <div class="business-card-image" style="background-image: url('${imageUrl}');"></div>
+        `;
+
+        cardsContainer.appendChild(card);
+      });
+    }
+
+    function updatePagination() {
+      const prevButton = document.getElementById('prev-page');
+      const nextButton = document.getElementById('next-page');
+
+      prevButton.disabled = currentPage === 1;
+      nextButton.disabled = currentPage * resultsPerPage >= totalRecords;
+
+      prevButton.onclick = () => {
+        if (currentPage > 1) {
+          fetchAndDisplayData(currentPage - 1);
+          cardsContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+
+      nextButton.onclick = () => {
+        if (currentPage * resultsPerPage < totalRecords) {
+          fetchAndDisplayData(currentPage + 1);
+          cardsContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+    }
+
+    // Initial fetch
+    fetchAndDisplayData();
+  </script>
+</body>
+</html>
