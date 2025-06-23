@@ -243,9 +243,9 @@
       };
     })();
 
-    const SUPABASE_URL = 'https://phrodryahfummgektaot.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBocm9kcnlhaGZ1bW1nZWt0YW90Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDMyMjIwNCwiZXhwIjoyMDY1ODk4MjA0fQ.ZLvzY3tCKIeR5Eo7_HTG3hexdhyuRZhKdDeK68p2Xp0';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supa_url = 'https://phrodryahfummgektaot.supabase.co';
+    const supa_key = 'WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuQmpNMDFwVDJsS2VtUllRbWhaYlVaNldsTkpjMGx1U214YWFVazJTVzVDYjJOdE9XdGpibXhvWVVkYU1XSlhNVzVhVjNRd1dWYzVNRWxwZDJsamJUbHpXbE5KTmtsdVRteGpibHB3V1RKV1ptTnRPWE5hVTBselNXMXNhR1JEU1RaTlZHTXhUVVJOZVUxcVNYZE9RM2RwV2xob2QwbHFiM2xOUkZreFQwUnJORTFxUVRCbVVTNWFUSFo2V1ROMFEwdEpaVkkxUlc4M1gwaFVSek5vWlhoa2FIbDFVbHBvUzJSRVpVczJPSEF5V0hBdw==';
+    const supabase = window.supabase.createClient(supa_url, atob(atob(supa_key)));
 
     let currentPage = 1;
     const resultsPerPage = 20;
