@@ -49,50 +49,57 @@
       100% { transform: translateX(-100%); }
     }
     .search-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .search-header h1 {
-      font-size: 22px; /* Smaller for mobile */
-      color: #1a3c34;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    #search-form {
-      display: flex;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    #query {
-      padding: 10px;
-      width: calc(100% - 100px); /* Adjusted for mobile */
-      border: 2px solid #4a90e2;
-      border-radius: 6px;
-      font-size: 15px; /* Smaller for mobile */
-      background-color: #ffffff;
-      color: #333;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    #query:focus {
-      border-color: #ff6f61;
-    }
-    #search-form button {
-      padding: 10px 20px;
-      border: none;
-      background-color: #ff6f61;
-      color: #ffffff;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.2s;
-      margin-left: 8px;
-    }
-    #search-form button:hover {
-      background-color: #e55a50;
-      transform: scale(1.05);
-    }
+  text-align: center;
+  margin-bottom: 20px;
+}
+.search-header h1 {
+  font-size: 22px;
+  color: #1a3c34;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.search-subtext {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+#search-form {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center;
+  margin-bottom: 20px;
+}
+#query {
+  padding: 12px; /* Increased from 10px */
+  width: 100%; /* Full width for mobile */
+  border: 2px solid #4a90e2;
+  border-radius: 6px;
+  font-size: 16px; /* Increased from 15px */
+  background-color: #ffffff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px; /* Space below input */
+}
+#query:focus {
+  border-color: #ff6f61;
+}
+#search-form button {
+  padding: 12px 24px; /* Increased from 10px 20px */
+  border: none;
+  background-color: #ff6f61;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 16px; /* Increased from 15px */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  width: 160px; /* Fixed width for button */
+}
+#search-form button:hover {
+  background-color: #e55a50;
+  transform: scale(1.05);
+}
     #label {
       font-size: 16px; /* Increased from 14px */
       color: #666;
@@ -165,12 +172,13 @@
 
   <div class="container">
     <div class="search-header">
-      <h1>AI-Powered Professional Search</h1>
-    </div>
-    <form id="search-form">
-      <input type="text" id="query" name="query" placeholder="Enter your query (e.g., Accountants, GST Services)">
-      <button type="submit">Search</button>
-    </form>
+  <h1>AI-Powered Professional Search</h1>
+  <p class="search-subtext">Use Natural English Queries to find profiles for Networking.</p>
+</div>
+<form id="search-form">
+  <input type="text" id="query" name="query" placeholder="Search for Accountants, GST Services...">
+  <button type="submit">Search</button>
+</form>
     <p id="label">Query Examples:<br>- I am looking for Accountants<br>- I am looking for GST Services<br>- I need Cyber Security Experts</p>
     <div id="results"></div>
   </div>
