@@ -139,6 +139,64 @@
       background-color: #2196f3;
       color: white;
     }
+
+    #camera-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #camera-modal video {
+      max-width: 90%;
+      max-height: 70%;
+      border-radius: 10px;
+    }
+
+    #capture-button {
+      position: absolute;
+      bottom: 20px;
+      background-color: #4caf50;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    /* Existing styles remain unchanged */
+
+/* Processing indicator styles */
+#processing-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.loading-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #4caf50;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
   </style>
 </head>
 <body>
@@ -150,9 +208,9 @@
     <div id="upload-text">Upload your Picture -</div>
 
     <div class="upload-buttons" id="upload-buttons">
-      <label>
+      <label id="camera-label">
         Click from Camera
-        <input type="file" accept="image/*" capture="environment" id="camera-input">
+        <input type="file" accept="image/*" capture="environment" id="camera-input" style="display: none;">
       </label>
       <label>
         Select from Gallery
@@ -160,14 +218,27 @@
       </label>
     </div>
 
+    <div id="camera-modal">
+      <video id="video" autoplay></video>
+      <button id="capture-button">Capture Photo</button>
+    </div>
 
     <img id="image-preview" src="" alt="Preview"/>
     <input type="text" id="name-input" placeholder="Enter your name"/>
 
-    <div class="action-buttons" id="action-buttons" style="display: none;">
-      <button class="edit-button" id="edit-button">← Edit Image</button>
-      <button class="proceed-button" id="proceed-button">Proceed →</button>
-    </div>
+    <!-- Existing action buttons -->
+<div class="action-buttons" id="action-buttons" style="display: none;">
+  <button class="edit-button" id="edit-button">← Edit Image</button>
+  <button class="proceed-button" id="proceed-button">Proceed →</button>
+</div>
+
+<!-- New processing indicator -->
+<div id="processing-indicator" style="display: none; margin-top: 20px;">
+  <span class="loading-icon"></span>
+  <span>Please Wait...</span>
+</div>
+
+<!-- Rest of the HTML remains unchanged -->
 
     <div class="result-section" id="result-section">
       <h2>Share your "I am Attending" image on Social Media and tag us! 🎉</h2>
@@ -180,7 +251,7 @@
   </div>
 
   <script>
-  function SHA1(msg) {
+    function SHA1(msg) {
       function rotate_left(n, s) { return (n << s) | (n >>> (32 - s)); }
       function cvt_hex(val) {
         let str = '';
@@ -257,6 +328,7 @@
   
     const cameraInput = document.getElementById('camera-input');
     const galleryInput = document.getElementById('gallery-input');
+    const cameraLabel = document.getElementById('camera-label');
     const imagePreview = document.getElementById('image-preview');
     const nameInput = document.getElementById('name-input');
     const actionButtons = document.getElementById('action-buttons');
@@ -269,9 +341,18 @@
     const shareButton = document.getElementById('share-button');
     const sampleImage = document.getElementById('sample-image');
     const uploadText = document.getElementById('upload-text');
+    const cameraModal = document.getElementById('camera-modal');
+    const video = document.getElementById('video');
+    const captureButton = document.getElementById('capture-button');
 
     let base64Image = '';
     let generatedImageURL = '';
+    let stream = null;
+
+    // Device detection
+    function isMobile() {
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
 
     function handleFile(event) {
       const file = event.target.files[0];
@@ -287,23 +368,95 @@
         uploadButtons.style.display = 'none';
         uploadText.style.display = 'none';
         sampleImage.style.display = 'none';
+        cameraModal.style.display = 'none';
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
       };
       reader.readAsDataURL(file);
     }
 
+    // Camera button logic
+    cameraLabel.addEventListener('click', async (event) => {
+      if (!isMobile()) {
+        // Desktop: Use webcam modal
+        event.preventDefault(); // Prevent file picker
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert('Camera access is not supported on this browser.');
+          return;
+        }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+          video.srcObject = stream;
+          cameraModal.style.display = 'flex';
+        } catch (err) {
+          alert('Unable to access the camera. Please ensure it is connected and permissions are granted.');
+        }
+      }
+      // Mobile: Let the input with capture="environment" handle camera access
+    });
+
+    // Capture photo from webcam (desktop)
+    captureButton.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      base64Image = canvas.toDataURL('image/jpeg');
+      imagePreview.src = base64Image;
+      imagePreview.style.display = 'block';
+      nameInput.style.display = 'block';
+      actionButtons.style.display = 'flex';
+      uploadButtons.style.display = 'none';
+      uploadText.style.display = 'none';
+      sampleImage.style.display = 'none';
+      cameraModal.style.display = 'none';
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+    });
+
+    // Handle mobile camera and gallery input
     cameraInput.addEventListener('change', handleFile);
     galleryInput.addEventListener('change', handleFile);
 
-    editButton.addEventListener('click', () => location.reload());
-
-    proceedButton.addEventListener('click', () => {
-      const name = nameInput.value.trim();
-      if (!base64Image || !name) {
-        alert('Please select an image and enter your name.');
-        return;
+    editButton.addEventListener('click', () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
       }
-      uploadToCloudinary(base64Image, name);
+      location.reload();
     });
+
+    // Existing variable declarations remain unchanged
+const processingIndicator = document.getElementById('processing-indicator');
+
+// Existing code until proceedButton event listener
+proceedButton.addEventListener('click', () => {
+  const name = nameInput.value.trim();
+  if (!base64Image || !name) {
+    alert('Please select an image and enter your name.');
+    return;
+  }
+  // Hide action buttons and show processing indicator
+  actionButtons.style.display = 'none';
+  processingIndicator.style.display = 'flex';
+  uploadToCloudinary(base64Image, name);
+});
+
+function showResult(url) {
+  finalImage.src = url;
+  resultSection.style.display = 'block';
+  imagePreview.style.display = 'none';
+  uploadText.style.display = 'none';
+  nameInput.style.display = 'none';
+  actionButtons.style.display = 'none';
+  processingIndicator.style.display = 'none'; // Hide processing indicator
+}
+
+// Rest of the JavaScript remains unchanged
 
     function uploadToCloudinary(base64data, name) {
       const timestamp = Date.now();
@@ -331,14 +484,6 @@
       .catch(err => alert('Upload failed: ' + err));
     }
 
-    function showResult(url) {
-      finalImage.src = url;
-      resultSection.style.display = 'block';
-      imagePreview.style.display = 'none';
-      uploadText.style.display = 'none';
-      nameInput.style.display = 'none';
-      actionButtons.style.display = 'none';
-    }
 
     downloadButton.addEventListener('click', async () => {
       try {
