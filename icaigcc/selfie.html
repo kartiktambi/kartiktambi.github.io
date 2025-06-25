@@ -19,20 +19,36 @@
       padding: 20px;
     }
 
+    .sample-image {
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 15px 0;
+    }
+
+    .upload-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
     .upload-buttons label {
-      display: block;
+      flex: 1;
       background-color: #4caf50;
       color: white;
-      padding: 20px;
-      margin: 10px 0;
+      padding: 15px;
       border-radius: 10px;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
-      width:45%;
     }
 
     .upload-buttons input {
       display: none;
+    }
+
+    #upload-text {
+      margin-bottom: 10px;
+      font-weight: bold;
     }
 
     #image-preview {
@@ -45,7 +61,7 @@
     #name-input {
       display: none;
       width: 90%;
-      padding: 15px;
+      padding: 12px;
       font-size: 18px;
       margin: 20px auto;
       border-radius: 8px;
@@ -54,13 +70,16 @@
 
     .action-buttons {
       display: none;
-      margin-top: 20px;
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
     }
 
     .action-buttons button {
-      padding: 15px 25px;
-      margin: 10px;
-      font-size: 18px;
+      flex: 1;
+      padding: 14px;
+      font-size: 16px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -84,6 +103,7 @@
     .result-section img {
       width: 100%;
       border-radius: 10px;
+      margin-top: 10px;
     }
 
     .result-section h2 {
@@ -92,16 +112,22 @@
     }
 
     .result-buttons {
-      margin-top: 15px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .result-buttons button {
-      padding: 12px 20px;
-      margin: 8px;
+      flex: 1;
+      padding: 12px;
       font-size: 16px;
       border-radius: 6px;
       border: none;
       cursor: pointer;
+      min-width: 120px;
     }
 
     .download-button {
@@ -117,44 +143,44 @@
 </head>
 <body>
   <div class="container">
-      <h1 style="font-size: 24px;">Make your ICAI GCC Summit 2025 Selfie!</h1>
+    <h1 style="font-size: 24px;">Make your ICAI GCC Summit 2025 Selfie!</h1>
 
-    <img src="https://res.cloudinary.com/conf-main/image/upload/v1750827811/sample_jb5jku.png" style="width:100%" alt="Banner"/>
+    <img id="sample-image" class="sample-image" src="https://res.cloudinary.com/conf-main/image/upload/v1750827811/sample_jb5jku.png" alt="Sample"/>
 
-    <div class="upload-buttons" id="upload-buttons" style="display: flex; gap: 1rem;">
-  <label style="cursor: pointer;">
-    Capture from Camera
-    <input type="file" accept="image/*" capture="environment" id="camera-input" style="display: none;">
-  </label>
-  <label style="cursor: pointer;">
-    Upload from Gallery
-    <input type="file" accept="image/*" id="gallery-input" style="display: none;">
-  </label>
-</div>
+    <div id="upload-text">Upload your Picture -</div>
+
+    <div class="upload-buttons" id="upload-buttons">
+      <label>
+        Click from Camera
+        <input type="file" accept="image/*" capture="environment" id="camera-input">
+      </label>
+      <label>
+        Select from Gallery
+        <input type="file" accept="image/*" id="gallery-input">
+      </label>
+    </div>
 
 
     <img id="image-preview" src="" alt="Preview"/>
     <input type="text" id="name-input" placeholder="Enter your name"/>
 
-    <div class="action-buttons" id="action-buttons">
+    <div class="action-buttons" id="action-buttons" style="display: none;">
       <button class="edit-button" id="edit-button">← Edit Image</button>
       <button class="proceed-button" id="proceed-button">Proceed →</button>
     </div>
 
     <div class="result-section" id="result-section">
       <h2>Share your "I am Attending" image on Social Media and tag us! 🎉</h2>
-      <img id="final-image" src="" alt="Generated Selfie"/>
       <div class="result-buttons">
         <button class="download-button" id="download-button">Download Image</button>
         <button class="share-button" id="share-button">Share Image</button>
       </div>
+      <img id="final-image" src="" alt="Generated Selfie"/>
     </div>
   </div>
 
   <script>
-    // SHA1 function must be added here
-    // function SHA1(...) {}
-    function SHA1(msg) {
+  function SHA1(msg) {
       function rotate_left(n, s) { return (n << s) | (n >>> (32 - s)); }
       function cvt_hex(val) {
         let str = '';
@@ -228,7 +254,7 @@
 
       return (cvt_hex(H0) + cvt_hex(H1) + cvt_hex(H2) + cvt_hex(H3) + cvt_hex(H4)).toLowerCase();
     }
-
+  
     const cameraInput = document.getElementById('camera-input');
     const galleryInput = document.getElementById('gallery-input');
     const imagePreview = document.getElementById('image-preview');
@@ -241,6 +267,8 @@
     const finalImage = document.getElementById('final-image');
     const downloadButton = document.getElementById('download-button');
     const shareButton = document.getElementById('share-button');
+    const sampleImage = document.getElementById('sample-image');
+    const uploadText = document.getElementById('upload-text');
 
     let base64Image = '';
     let generatedImageURL = '';
@@ -255,8 +283,10 @@
         imagePreview.src = base64Image;
         imagePreview.style.display = 'block';
         nameInput.style.display = 'block';
-        actionButtons.style.display = 'block';
+        actionButtons.style.display = 'flex';
         uploadButtons.style.display = 'none';
+        uploadText.style.display = 'none';
+        sampleImage.style.display = 'none';
       };
       reader.readAsDataURL(file);
     }
@@ -305,32 +335,45 @@
       finalImage.src = url;
       resultSection.style.display = 'block';
       imagePreview.style.display = 'none';
+      uploadText.style.display = 'none';
       nameInput.style.display = 'none';
       actionButtons.style.display = 'none';
     }
 
-    downloadButton.addEventListener('click', () => {
-      const link = document.createElement('a');
-      link.href = generatedImageURL;
-      link.download = 'ICAI_GCC_Summit_Selfie.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    downloadButton.addEventListener('click', async () => {
+      try {
+        const response = await fetch(generatedImageURL);
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'ICAI_GCC_Summit_Selfie.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        alert('Failed to download image.');
+      }
     });
 
     shareButton.addEventListener('click', async () => {
-      if (navigator.share) {
-        try {
+      try {
+        const response = await fetch(generatedImageURL);
+        const blob = await response.blob();
+        const file = new File([blob], 'icai_selfie.jpg', { type: blob.type });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
           await navigator.share({
             title: 'ICAI GCC Summit 2025',
-            text: 'Check out my selfie for ICAI GCC Summit 2025! 🎉',
-            url: generatedImageURL
+            text: 'Check out my ICAI GCC Summit 2025 selfie!',
+            files: [file]
           });
-        } catch (err) {
-          alert('Sharing failed: ' + err);
+        } else {
+          alert('Sharing not supported on this device.');
         }
-      } else {
-        alert('Sharing not supported on this browser.');
+      } catch (err) {
+        alert('Failed to share image.');
       }
     });
   </script>
