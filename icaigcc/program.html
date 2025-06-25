@@ -101,7 +101,7 @@
         .card {
             background-color: #ffffff;
             border-radius: 8px;
-            padding: 16px;
+            padding: 12px;
             margin: 12px 0;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             border-left: 4px solid #f7b731;
@@ -109,6 +109,12 @@
         }
         .card:hover {
             transform: translateY(-4px);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
         .card h3 {
             font-size: 16px;
@@ -118,14 +124,15 @@
         .card p {
             font-size: 14px;
             color: #444;
-            margin-bottom: 8px;
+            margin-bottom: 0px;
         }
         .card .info {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
+            margin-bottom: 8px;
         }
         .card .info p {
             font-weight: 600;
@@ -140,9 +147,15 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
+            margin-left: auto;
         }
         .card button:hover {
             background-color: #e55a50;
+        }
+        .card .speakers-label {
+            font-weight: 600;
+            color: #1a3c34;
+            margin-bottom: 4px;
         }
         .divider {
             border-top: 2px solid #e0e0e0;
@@ -279,12 +292,28 @@
                     items.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'card';
+
+                        // Create header with type and button
+                        const header = document.createElement('div');
+                        header.className = 'card-header';
                         const typeLabel = document.createElement('p');
                         typeLabel.textContent = item.type;
-                        card.appendChild(typeLabel);
+                        header.appendChild(typeLabel);
+                        const button = document.createElement('button');
+                        button.textContent = 'Add to Agenda';
+                        button.onclick = () => {
+                            const tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, section, item.shortTime];
+                            ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
+                        };
+                        header.appendChild(button);
+                        card.appendChild(header);
+
+                        // Add title
                         const cardTitle = document.createElement('h3');
                         cardTitle.textContent = item.title;
                         card.appendChild(cardTitle);
+
+                        // Add date/time/location
                         const infoRow = document.createElement('div');
                         infoRow.className = 'info';
                         const cardDateTimeLoc = document.createElement('p');
@@ -294,18 +323,19 @@
                         const to = newval[0]?.split(" to ")[1] || '';
                         cardDateTimeLoc.textContent = `From: ${from}\nTo: ${to}`;
                         infoRow.appendChild(cardDateTimeLoc);
-                        const button = document.createElement('button');
-                        button.textContent = 'Add to Agenda';
-                        button.onclick = () => {
-                            const tosend = [item.type, item.title, item.dateTimeLoc, item.speakers, section, item.shortTime];
-                            //console.log(JSON.stringify(tosend));
-                            ThunkableWebviewerExtension.postMessage(JSON.stringify(tosend));
-                        };
-                        infoRow.appendChild(button);
                         card.appendChild(infoRow);
-                        const cardSpeakers = document.createElement('p');
-                        cardSpeakers.innerHTML = item.speakers;
-                        card.appendChild(cardSpeakers);
+
+                        // Add speakers label and content
+                        if (item.speakers) {
+                            const speakersLabel = document.createElement('p');
+                            speakersLabel.className = 'speakers-label';
+                            speakersLabel.textContent = 'Speakers / Panelists -';
+                            card.appendChild(speakersLabel);
+                            const cardSpeakers = document.createElement('p');
+                            cardSpeakers.innerHTML = item.speakers;
+                            card.appendChild(cardSpeakers);
+                        }
+
                         sessionsContainer.appendChild(card);
                     });
                 }
