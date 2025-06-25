@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e0e7ff, #e5e5e5);
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .stat-box h3 {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 1.2em;
+        }
+        .stat-box p {
+            font-size: 1.8em;
+            color: #2563eb;
+            margin: 10px 0 0;
+        }
+        .buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #2563eb, #1e40af);
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #1e40af, #1e3a8a);
+            transform: translateY(-2px);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .section.active {
+            display: block;
+        }
+        .back-btn {
+            display: block;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #dc2626, #b91c1c);
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg, #b91c1c, #991b1b);
+        }
+        select, input, textarea {
+            padding: 12px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f9f9f9;
+        }
+        select, input:focus, textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        input, textarea {
+            background: #ffffff;
+            box-shadow: inset 0 1px 1px 2px rgba(0,0,0,0,0.05);
+        }
+        textarea {
+            resize: 100%;
+            height: 150px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #f3f4f6;
+            color: #1e3a8a;
+        }
+        .message {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .btn {
+                display: block;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <!-- Stats Section -->
+        <div id="mainSection" class="section active">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>Total Registrations</h3>
+                    <p id="totalRegistrations">0</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Total Logins</h3>
+                    <p id="totalLogins">0</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Total Profile Fillups</h3>
+                    <p id="totalProfileFillups">0</p>
+                </div>
+            </div>
+            <div class="buttons">
+                <button class="btn" onclick="showSection('searchSection')">Find User</button>
+                <button class="btn" onclick="showSection('notificationSection')">Send Notification</button>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div id="searchSection" class="section">
+            <button class="btn back-btn" onclick="showSection('mainSection')">Back</button>
+            <h2>Find User</h2>
+            <select id="searchType">
+                <option value="Membership No.">Membership No.</option>
+                <option value="Email">Email</option>
+                <option value="Mobile">Mobile</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Enter search value">
+            <button class="btn" onclick="searchRecord()">Search</button>
+            <div id="searchResult"></div>
+        </div>
+
+        <!-- Notification Section -->
+        <div id="notificationSection" class="section">
+            <button class="btn back-btn" onclick="showSection('mainSection')">Back</button>
+            <h2>Send Push Notification</h2>
+            <input type="text" id="notificationTitle" placeholder="Notification Title">
+            <textarea id="notificationMessage" placeholder="Notification Message"></textarea>
+            <button class="btn" onclick="confirmNotification()">Send Notification</button>
+            <div id="notificationResult"></div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase
+        const supa_url = 'https://phrodryahfummgektaot.supabase.co';
+        const supa_key = 'WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuQmpNMDFwVDJsS2VtUllRbWhaYlVaNldsTkpjMGx1U214YWFVazJTVzVDYjJOdE9XdGpibXhvWVVkYU1XSlhNVzVhVjNRd1dWYzVNRWxwZDJsamJUbHpXbE5KTmtsdVRteGpibHB3V1RKV1ptTnRPWE5hVTBselNXMXNhR1JEU1RaTlZHTXhUVVJOZVUxcVNYZE9RM2RwV2xob2QwbHFiM2xOUkZreFQwUnJORTFxUVRCbVVTNWFUSFo2V1ROMFEwdEpaVkkxUlc4M1gwaFVSek5vWlhoa2FIbDFVbHBvUzJSRVpVczJPSEF5V0hBdw==';
+        const supabase = window.supabase.createClient(supa_url, atob(atob(supa_key)));
+
+        // Fetch Statistics
+        async function fetchStats() {
+            try {
+                const { data: allUsers, error: allError } = await supabase.from('Database').select('ID');
+                const { data: logins, error: loginError } = await supabase.from('Database').select('ID').not('Last Login', 'is', null);
+                const { data: profiles, error: profileError } = await supabase.from('Database').select('ID').not('Vectors', 'is', null);
+
+                if (allError) console.error('Registration error:', allError);
+                if (loginError) console.error('Login error:', loginError);
+                if (profileError) console.error('Profile error:', profileError);
+                if (allError || loginError || profileError) throw new Error('Error fetching stats');
+
+                document.getElementById('totalRegistrations').textContent = allUsers ? allUsers.length : 0;
+                document.getElementById('totalLogins').textContent = logins ? logins.length : 0;
+                document.getElementById('totalProfileFillups').textContent = profiles ? profiles.length : 0;
+            } catch (error) {
+                console.error('Error fetching stats:', error.message);
+            }
+        }
+
+        // Show Section
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Search Record
+        async function searchRecord() {
+            let searchType = document.getElementById('searchType').value;
+            const searchInput = document.getElementById('searchInput').value.trim();
+            const resultDiv = document.getElementById('searchResult');
+            resultDiv.innerHTML = '';
+
+            if (!searchInput) {
+                resultDiv.innerHTML = '<div class="message error">Please enter a search value.</div>';
+                return;
+            }
+
+            // Map display value to actual column name
+            if (searchType === 'Membership No.') {
+                searchType = 'Membership No.';
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('Database')
+                    .select('ID, Category, Name, Email, Mobile, City, "Last Login", Notes')
+					.eq(`"${searchType}"`, searchInput);
+
+                if (error) throw error;
+
+                if (data.length === 0) {
+                    resultDiv.innerHTML = '<div class="message error">No record found.</div>';
+                    return;
+                }
+
+                const user = data[0];
+                resultDiv.innerHTML = `
+                    <table>
+                        <tr><th>ID</th><td>${user.ID}</td></tr>
+                        <tr><th>Category</th><td>${user.Category || 'N/A'}</td></tr>
+                        <tr><th>Name</th><td>${user.Name || 'N/A'}</td></tr>
+                        <tr><th>Email</th><td>${user.Email || 'N/A'}</td></tr>
+                        <tr><th>Mobile</th><td>${user.Mobile || 'N/A'}</td></tr>
+                        <tr><th>City</th><td>${user.City || 'N/A'}</td></tr>
+                        <tr><th>Last Login</th><td>${user['Last Login'] || 'N/A'}</td></tr>
+                        <tr><th>Notes</th><td>${user.Notes || 'N/A'}</td></tr>
+                    </table>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="message error">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Confirm and Send Push Notification
+        function confirmNotification() {
+            const title = document.getElementById('notificationTitle').value;
+            const message = document.getElementById('notificationMessage').value;
+            const resultDiv = document.getElementById('notificationResult');
+            if (!title || !message) {
+                resultDiv.innerHTML = '<div class="message error">Please enter both title and message.</div>';
+                return;
+            }
+            if (confirm(`Are you sure you want to send the notification?\nTitle: ${title}\nMessage: ${message}`)) {
+                sendPushNotification();
+            }
+        }
+
+        async function sendPushNotification() {
+            const title = document.getElementById('notificationTitle').value;
+            const message = document.getElementById('notificationMessage').value;
+            const resultDiv = document.getElementById('notificationResult');
+            resultDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('https://onesignal.com/api/v1/notifications', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Basic os_v2_app_csnqmvdk5fhf3izpklrvjvncjflgtlu3fplutqei4cg6mtvu4gxfkpydrs7czqwosii6nr6ghk7beyuf3rcpj7ghnxj4aptv7urrpri'
+                    },
+                    body: JSON.stringify({
+                        app_id: '149b0654-6ae9-4e5d-a32f-52e354d5a249',
+                        included_segments: ['All'],
+                        headings: { en: title },
+                        contents: { en: message }
+                    })
+                });
+
+                if (response.ok) {
+                    resultDiv.innerHTML = '<div class="message success">Notification sent successfully!</div>';
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.errors?.[0] || 'Failed to send notification');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="message error">Error: ${error.message}</div>`;
+            }
+        }
+
+        // Load stats on page load
+        window.onload = fetchStats;
+    </script>
+</body>
+</html>
