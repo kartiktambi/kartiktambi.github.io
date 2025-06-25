@@ -139,6 +139,37 @@
       background-color: #2196f3;
       color: white;
     }
+
+    #camera-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #camera-modal video {
+      max-width: 90%;
+      max-height: 70%;
+      border-radius: 10px;
+    }
+
+    #capture-button {
+      position: absolute;
+      bottom: 20px;
+      background-color: #4caf50;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -150,14 +181,19 @@
     <div id="upload-text">Upload your Picture -</div>
 
     <div class="upload-buttons" id="upload-buttons">
-      <label>
+      <label id="camera-label">
         Click from Camera
-        <input type="file" accept="image/*" capture="user" id="camera-input">
+        <input type="file" accept="image/*" id="camera-input" style="display: none;">
       </label>
       <label>
         Select from Gallery
         <input type="file" accept="image/*" id="gallery-input">
       </label>
+    </div>
+
+    <div id="camera-modal">
+      <video id="video" autoplay></video>
+      <button id="capture-button">Capture Photo</button>
     </div>
 
     <img id="image-preview" src="" alt="Preview"/>
@@ -256,6 +292,7 @@
   
     const cameraInput = document.getElementById('camera-input');
     const galleryInput = document.getElementById('gallery-input');
+    const cameraLabel = document.getElementById('camera-label');
     const imagePreview = document.getElementById('image-preview');
     const nameInput = document.getElementById('name-input');
     const actionButtons = document.getElementById('action-buttons');
@@ -268,9 +305,13 @@
     const shareButton = document.getElementById('share-button');
     const sampleImage = document.getElementById('sample-image');
     const uploadText = document.getElementById('upload-text');
+    const cameraModal = document.getElementById('camera-modal');
+    const video = document.getElementById('video');
+    const captureButton = document.getElementById('capture-button');
 
     let base64Image = '';
     let generatedImageURL = '';
+    let stream = null;
 
     function handleFile(event) {
       const file = event.target.files[0];
@@ -290,26 +331,62 @@
       reader.readAsDataURL(file);
     }
 
-    // Check for camera availability before triggering input
-    cameraInput.addEventListener('click', async (event) => {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        alert('Camera access is not supported on this browser or device.');
-        event.preventDefault();
-        return;
+    // Check if the device is likely a desktop/laptop
+    function isDesktop() {
+      return !/Mobi|Android/i.test(navigator.userAgent);
+    }
+
+    // Handle camera capture for desktops
+    cameraLabel.addEventListener('click', async (event) => {
+      if (isDesktop()) {
+        event.preventDefault(); // Prevent file picker on desktops
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert('Camera access is not supported on this browser.');
+          return;
+        }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+          video.srcObject = stream;
+          cameraModal.style.display = 'flex';
+        } catch (err) {
+          alert('Unable to access the camera. Please ensure it is connected and permissions are granted.');
+        }
       }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop()); // Stop the stream immediately as we only need to verify access
-      } catch (err) {
-        alert('Unable to access the camera. Please ensure it is connected and permissions are granted.');
-        event.preventDefault();
+      // On mobile, the camera input will work as before
+    });
+
+    // Capture photo from webcam
+    captureButton.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      base64Image = canvas.toDataURL('image/jpeg');
+      imagePreview.src = base64Image;
+      imagePreview.style.display = 'block';
+      nameInput.style.display = 'block';
+      actionButtons.style.display = 'flex';
+      uploadButtons.style.display = 'none';
+      uploadText.style.display = 'none';
+      sampleImage.style.display = 'none';
+      cameraModal.style.display = 'none';
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
       }
     });
 
+    // Handle mobile camera input
     cameraInput.addEventListener('change', handleFile);
     galleryInput.addEventListener('change', handleFile);
 
-    editButton.addEventListener('click', () => location.reload());
+    editButton.addEventListener('click', () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      location.reload();
+    });
 
     proceedButton.addEventListener('click', () => {
       const name = nameInput.value.trim();
