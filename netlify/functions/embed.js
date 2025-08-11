@@ -16,7 +16,7 @@ export async function handler(event, context) {
 
   try {
     const body = JSON.parse(event.body);
-    const inputText = body.text;
+    const inputText = body.query;
 
     // Call OpenAI API
     const response = await fetch("https://api.openai.com/v1/embeddings", {
