@@ -324,8 +324,13 @@ const sortedRecords = records.sort((a, b) => {
         const card = document.createElement('div');
         card.className = 'delegate-card';
 
-        const imageUrl = record['Business Card'] || 'https://i.ibb.co/39JdNmHM/image.png';
+        let imageUrl = record['Business Card'] || 'https://i.ibb.co/39JdNmHM/image.png';
 
+        // If it's a Cloudinary URL with http://, replace with https://
+        if (imageUrl.includes('cloudinary.com') && imageUrl.startsWith('http://')) {
+          imageUrl = imageUrl.replace('http://', 'https://');
+        }
+        
         card.innerHTML = `
           <div class="profile-header">
             <p>${record.Name}</p>
