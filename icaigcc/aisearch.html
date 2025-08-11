@@ -218,7 +218,7 @@
       document.getElementById('label').innerHTML = 'Please wait...';
 
       try {
-        const embeddingResponse = await fetch('/.netlify/functions/embed', {
+        const embeddingResponse = await fetch('https://kartiktambi.netlify.app/.netlify/functions/embed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query })
