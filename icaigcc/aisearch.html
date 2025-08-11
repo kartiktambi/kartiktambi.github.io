@@ -207,8 +207,6 @@
 
     const supa_url = 'https://phrodryahfummgektaot.supabase.co';
     const supa_key = 'WlhsS2FHSkhZMmxQYVVwSlZYcEpNVTVwU1hOSmJsSTFZME5KTmtscmNGaFdRMG81TG1WNVNuQmpNMDFwVDJsS2VtUllRbWhaYlVaNldsTkpjMGx1U214YWFVazJTVzVDYjJOdE9XdGpibXhvWVVkYU1XSlhNVzVhVjNRd1dWYzVNRWxwZDJsamJUbHpXbE5KTmtsdVRteGpibHB3V1RKV1ptTnRPWE5hVTBselNXMXNhR1JEU1RaTlZHTXhUVVJOZVUxcVNYZE9RM2RwV2xob2QwbHFiM2xOUkZreFQwUnJORTFxUVRCbVVTNWFUSFo2V1ROMFEwdEpaVkkxUlc4M1gwaFVSek5vWlhoa2FIbDFVbHBvUzJSRVpVczJPSEF5V0hBdw==';
-    const aikey = 'YzJzdGNISnZhaTFEVlVnNFFsVk1ObWxSWm0xdVJtaGpWMVl3V0U5WWJuUXpWR2MzU1RoaFRVOWZTWGM0TkRkMFRFMTJVM0Z1VlVKUFZFWjBiSFk0TkZrMFltRlBTbTFvTlhaeWVXUkVOM1JqZVZRelFteGlhMFpLUkhSMlgwMTBURlJVWTI1NVRGTlRPVzgwWmpGQ2VHdEZVbkl5UzFWVmNYUXdUbEUzY25kVE1rMXJhazk2TlhoVFJVOHdSekl4TjBZeGJ6RmlVVFJMUTNoeFdYQm9TVXhrV1VFPQ==';
-    const actualkey = atob(atob(aikey));
 
     const supabase = window.supabase.createClient(supa_url, atob(atob(supa_key)));
 
@@ -220,16 +218,10 @@
       document.getElementById('label').innerHTML = 'Please wait...';
 
       try {
-        const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
+        const embeddingResponse = await fetch('/.netlify/functions/embed', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${actualkey}`
-          },
-          body: JSON.stringify({
-            input: query,
-            model: 'text-embedding-3-small'
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
         });
 
         if (!embeddingResponse.ok) {
