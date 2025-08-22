@@ -1,203 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GCC Summit Series - Partners</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-        body {
-            background-color: #f0f4f8;
-            color: #333;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 100%;
-            padding: 16px;
-            margin: 0 auto;
-        }
-        .marquee {
-            background-color: #65409D;
-            padding: 12px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .marquee span {
-            display: inline-block;
-            padding-right: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            animation: marquee 20s linear infinite;
-        }
-        .marquee span:hover {
-            animation-play-state: paused;
-        }
-        .color1 { color: #ff6f61; } /* Coral */
-        .color2 { color: #4a90e2; } /* Blue */
-        .color3 { color: #f7b731; } /* Yellow */
-        .color4 { color: #2ecc71; } /* Green */
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        .section-heading {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1a3c34;
-            text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #ff6f61;
-        }
-        .partner-grid {
-            display: grid;
-            gap: 16px;
-            margin: 16px 0;
-        }
-        .partner-card {
-            background-color: #fff;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            border-left: 4px solid #4a90e2;
-        }
-        .partner-card:hover {
-            transform: translateY(-4px);
-        }
-        .partner-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        .partner-card p {
-            font-size: 14px;
-            color: #444;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-        .media-partner {
-            border-left: 4px solid #f7b731;
-        }
-        @media (min-width: 768px) {
-            .container {
-                max-width: 720px;
-            }
-            .partner-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (min-width: 1024px) {
-            .partner-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GCC Summit Series - Partners</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 100%;
+      padding: 16px;
+      margin: 0 auto;
+    }
+    .marquee {
+      background-color: #65409D;
+      padding: 12px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-right: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee span:hover {
+      animation-play-state: paused;
+    }
+    .color1 { color: #ff6f61; }
+    .color2 { color: #4a90e2; }
+    .color3 { color: #f7b731; }
+    .color4 { color: #2ecc71; }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .section-heading {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a3c34;
+      text-align: center;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ff6f61;
+    }
+
+    .partner-grid {
+      display: grid;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .partner-card {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      border-left: 4px solid #4a90e2;
+    }
+    .partner-card:hover {
+      transform: translateY(-4px);
+    }
+    .partner-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .partner-card p {
+      font-size: 14px;
+      color: #444;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* Tier-specific styles */
+    .gold-sponsor img {
+      max-height: 120px;
+    }
+    .gold-sponsor h2 {
+      font-size: 18px;
+    }
+
+    .silver-sponsor img {
+      max-height: 100px;
+    }
+    .silver-sponsor h2 {
+      font-size: 16px;
+    }
+
+    .bronze-sponsor img {
+      max-height: 80px;
+    }
+    .bronze-sponsor h2 {
+      font-size: 14px;
+    }
+
+    .media-partner {
+      border-left: 4px solid #f7b731;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+      }
+      .partner-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .partner-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- Marquee -->
-        <div class="marquee">
-            <span class="phrase color1">Leading the Global Capability Centres Wave with ICAI Insights ★ </span>
-            <span class="phrase color2">ICAI Your Strategic Partner in Global Capability Centres Evolution ★ </span>
-            <span class="phrase color3">ICAI Elevating Global Capability Centres Strategy with Financial Leadership ★ </span>
-            <span class="phrase color4">ICAI at the Helm of the Global Capability Centres Growth Journey ★ </span>
-        </div>
-    <div class="container">
-        
-        <!-- Ecosystem Partners -->
-        <h2 class="section-heading">Ecosystem Partners</h2>
-        <div class="partner-grid">
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/mea.jpg" alt="MEA" loading="lazy">
-                <p>Ministry of External Affairs</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/mci.jpg" alt="MOE" loading="lazy">
-                <p>Ministry of Commerce & Industry</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/ifsca.jpg" alt="IFSCA" loading="lazy">
-                <p>International Financial Services Centres Authority</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/15-208x138.png" alt="IFSCA" loading="lazy">
-                <p>GIFT City</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/sepc.jpg" alt="SEPC" loading="lazy">
-                <p>Services Export Promotion Council</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/invest_india.jpg" alt="Invest India" loading="lazy">
-                <p>Invest India</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/nsdc.jpg" alt="NSDC" loading="lazy">
-                <p>National Skill Development Corporation</p>
-            </div>
-            <div class="partner-card">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/iim.jpg" alt="IIM" loading="lazy">
-                <p>Indian Institute of Management, Sambalpur</p>
-            </div>
-        </div>
-        
-		<!-- GCC Partners -->
-        <h2 class="section-heading">Gold Sponsors</h2>
-        <div class="partner-grid">
-            
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/1.png" alt="Media Partner" loading="lazy">
-                <h2>Ganesh Housing Corporation Limited</h2>
-            </div>
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/2.png" alt="Media Partner" loading="lazy">
-                <h2>Million Minds Tech City</h2>
-            </div>
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/2351.png" alt="Media Partner" loading="lazy">
-                <h2>Welspun GCC</h2>
-            </div>
-            <h2 class="section-heading">Silver Sponsors</h2>
-            <div class="partner-card media-partner">
-                <img src="https://i.ibb.co/k6skkMvN/ZOHO-logo-2023-svg.png" alt="Media Partner" loading="lazy">
-                <h2>Zoho</h2>
-            </div>
-	    <div class="partner-card media-partner">
-                <img src="https://i.ibb.co/Cp9zcwFB/image.png" alt="Media Partner" loading="lazy">
-                <h2>Quintes Global</h2>
-            </div>
-            <h2 class="section-heading">Bronze Sponsors</h2>
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/Goveva.png" alt="Media Partner" loading="lazy">
-                <h2>GovEVA</h2>
-            </div>
-	    	<div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/shlp.png" alt="Media Partner" loading="lazy">
-                <h2>Shilp</h2>
-            </div>
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/08/yesauto.png" alt="Media Partner" loading="lazy">
-                <h2>YesAutomate</h2>
-            </div>
-        </div>
+  <!-- Marquee -->
+  <div class="marquee">
+    <span class="phrase color1">Leading the Global Capability Centres Wave with ICAI Insights ★ </span>
+    <span class="phrase color2">ICAI Your Strategic Partner in Global Capability Centres Evolution ★ </span>
+    <span class="phrase color3">ICAI Elevating Global Capability Centres Strategy with Financial Leadership ★ </span>
+    <span class="phrase color4">ICAI at the Helm of the Global Capability Centres Growth Journey ★ </span>
+  </div>
 
-        
+  <div class="container">
 
-        <!-- Media Partner -->
-        <h2 class="section-heading">Media Partner</h2>
-        <div class="partner-grid">
-            <div class="partner-card media-partner">
-                <img src="https://gcc.icai.org/wp-content/uploads/2025/06/media-partner.jpg" alt="Media Partner" loading="lazy">
-                <p>Media Partner</p>
-            </div>
-        </div>
+    <!-- Ecosystem Partners -->
+    <h2 class="section-heading">Ecosystem Partners</h2>
+    <div class="partner-grid">
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/mea.jpg" alt="MEA" loading="lazy">
+        <p>Ministry of External Affairs</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/mci.jpg" alt="MOE" loading="lazy">
+        <p>Ministry of Commerce & Industry</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/ifsca.jpg" alt="IFSCA" loading="lazy">
+        <p>International Financial Services Centres Authority</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/15-208x138.png" alt="GIFT City" loading="lazy">
+        <p>GIFT City</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/sepc.jpg" alt="SEPC" loading="lazy">
+        <p>Services Export Promotion Council</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/invest_india.jpg" alt="Invest India" loading="lazy">
+        <p>Invest India</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/nsdc.jpg" alt="NSDC" loading="lazy">
+        <p>National Skill Development Corporation</p>
+      </div>
+      <div class="partner-card">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/iim.jpg" alt="IIM" loading="lazy">
+        <p>Indian Institute of Management, Sambalpur</p>
+      </div>
     </div>
+
+    <!-- GCC Partners -->
+    <h2 class="section-heading">Gold Sponsors</h2>
+    <div class="partner-grid">
+      <div class="partner-card media-partner gold-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/1.png" alt="Ganesh Housing" loading="lazy">
+        <h2>Ganesh Housing Corporation Limited</h2>
+      </div>
+      <div class="partner-card media-partner gold-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/2.png" alt="Million Minds" loading="lazy">
+        <h2>Million Minds Tech City</h2>
+      </div>
+      <div class="partner-card media-partner gold-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/2351.png" alt="Welspun GCC" loading="lazy">
+        <h2>Welspun GCC</h2>
+      </div>
+    </div>
+
+    <h2 class="section-heading">Silver Sponsors</h2>
+    <div class="partner-grid">
+      <div class="partner-card media-partner silver-sponsor">
+        <img src="https://i.ibb.co/k6skkMvN/ZOHO-logo-2023-svg.png" alt="Zoho" loading="lazy">
+        <h2>Zoho</h2>
+      </div>
+      <div class="partner-card media-partner silver-sponsor">
+        <img src="https://i.ibb.co/Cp9zcwFB/image.png" alt="Quintes Global" loading="lazy">
+        <h2>Quintes Global</h2>
+      </div>
+    </div>
+
+    <h2 class="section-heading">Bronze Sponsors</h2>
+    <div class="partner-grid">
+      <div class="partner-card media-partner bronze-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/Goveva.png" alt="GovEVA" loading="lazy">
+        <h2>GovEVA</h2>
+      </div>
+      <div class="partner-card media-partner bronze-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/shlp.png" alt="Shilp" loading="lazy">
+        <h2>Shilp</h2>
+      </div>
+      <div class="partner-card media-partner bronze-sponsor">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/08/yesauto.png" alt="YesAutomate" loading="lazy">
+        <h2>YesAutomate</h2>
+      </div>
+    </div>
+
+    <!-- Media Partner -->
+    <h2 class="section-heading">Media Partner</h2>
+    <div class="partner-grid">
+      <div class="partner-card media-partner">
+        <img src="https://gcc.icai.org/wp-content/uploads/2025/06/media-partner.jpg" alt="Media Partner" loading="lazy">
+        <p>Media Partner</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
