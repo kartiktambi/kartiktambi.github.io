@@ -76,7 +76,10 @@
   </div>
 
   <script>
-    const sheetURL = "https://docs.google.com/spreadsheets/d/1Uj1_IbrzA8TgaBHC0KRVE1m3MDxdGPhARBYHoY6-Pdg/gviz/tq?sheet=Sheet1";
+    var sheetURL = "https://docs.google.com/spreadsheets/d/1Uj1_IbrzA8TgaBHC0KRVE1m3MDxdGPhARBYHoY6-Pdg/gviz/tq?sheet=Sheet1";
+    
+    sheetURL = sheetURL + "&tq=" + encodeURIComponent("select * where K = 2025");
+
 
     let gvizReady = false;
     google.charts.load('current', { packages: ['corechart'] });
