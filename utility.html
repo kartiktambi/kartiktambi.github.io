@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3CD-MRL Email Helper</title>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f8fa;
+      padding: 30px;
+    }
+    .container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 820px;
+      margin: auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h2 { color: #0077cc; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea, button, select {
+      width: 100%; padding: 10px; margin-top: 5px;
+      border-radius: 6px; border: 1px solid #ccc; font-size: 15px;
+    }
+    textarea {
+      height: 120px;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+    button {
+      background: #0077cc;
+      color: white;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>3CD-MRL Utility Email Helper</h2>
+
+    <label>Search By:</label>
+    <select id="searchType">
+      <option value="email">Email</option>
+      <option value="mobile">Mobile Number</option>
+    </select>
+
+    <label>Enter Value:</label>
+    <input type="text" id="searchValue" placeholder="Enter email or mobile number">
+    <button id="fetchBtn">Fetch Details</button>
+
+    <label>Activation Key (Column A):</label>
+    <input type="text" id="codeBox" readonly>
+
+    <label>Name (Column B):</label>
+    <input type="text" id="nameBox" readonly>
+
+    <label>Mobile Number (Column C):</label>
+    <input type="text" id="mobileBox" readonly>
+
+    <label>Email (Column D):</label>
+    <input type="text" id="emailBox" readonly>
+
+    <label>Config File –</label>
+    <textarea id="colOBox" placeholder="Generated configuration will appear here..."></textarea>
+    <button id="downloadBtn">Download Config Files (ZIP)</button>
+
+    <button id="makeEmailBtn">Give Email Body</button>
+
+    <label>Email Body:</label>
+    <textarea id="emailBody" readonly></textarea>
+  </div>
+
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/1Uj1_IbrzA8TgaBHC0KRVE1m3MDxdGPhARBYHoY6-Pdg/gviz/tq?sheet=Sheet1";
+
+    let gvizReady = false;
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(() => {
+      gvizReady = true;
+      console.log("✅ Google GViz loaded successfully!");
+    });
+
+    // Format date like "26 Sep. 2026"
+    function formatDate(val) {
+      if (!(val instanceof Date)) return val || "";
+      const months = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+      const d = val.getDate().toString().padStart(2, "0");
+      const m = months[val.getMonth()];
+      const y = val.getFullYear();
+      return `${d} ${m} ${y}`;
+    }
+
+    function fetchDetails() {
+      if (!gvizReady) return alert("Please wait... data engine is still loading. Try again in a moment.");
+
+      const type = document.getElementById("searchType").value;
+      const value = document.getElementById("searchValue").value.trim().toLowerCase();
+      if (!value) return alert("Please enter a value to search.");
+
+      ["codeBox", "nameBox", "mobileBox", "emailBox", "colOBox", "emailBody"]
+        .forEach(id => document.getElementById(id).value = "");
+
+      const query = new google.visualization.Query(sheetURL);
+      query.send(response => {
+        if (response.isError()) return alert("Error loading data: " + response.getMessage());
+
+        const data = response.getDataTable();
+        const rows = data.getNumberOfRows();
+        let found = false;
+
+        for (let i = 0; i < rows; i++) {
+          const activation = data.getValue(i, 0);
+          const name = data.getValue(i, 1);
+          const mobile = data.getValue(i, 2);
+          const email = data.getValue(i, 3);
+          const colH = formatDate(data.getValue(i, 7));
+          const colI = formatDate(data.getValue(i, 8));
+          const colJ = formatDate(data.getValue(i, 9));
+          const colO = data.getValue(i, 14);
+
+          if (
+            (type === "email" && email && email.toString().trim().toLowerCase() === value) ||
+            (type === "mobile" && mobile && mobile.toString().trim().toLowerCase() === value)
+          ) {
+            found = true;
+            document.getElementById("codeBox").value = activation || "";
+            document.getElementById("nameBox").value = name || "";
+            document.getElementById("mobileBox").value = mobile || "";
+            document.getElementById("emailBox").value = email || "";
+
+            if (colO) {
+              const parts = colO.split("|").map(p => p.trim());
+              const firstFive = parts.slice(0, 5);
+              const newPart = `${colJ} | 0 | ${colH} | ${colI} | ${colJ} | 2025 | 1.0 | Activated | ${i + 2}`;
+              const modifiedO = [...firstFive, newPart].join(" | ") + "\n";
+              document.getElementById("colOBox").value = modifiedO;
+            }
+            break;
+          }
+        }
+
+        if (!found) alert("No matching record found for given " + type + ".");
+      });
+    }
+
+    function makeEmail() {
+      const name = document.getElementById("nameBox").value.trim();
+      const code = document.getElementById("codeBox").value.trim();
+      const mobile = document.getElementById("mobileBox").value.trim();
+      if (!name || !code) return alert("Please fetch details first.");
+
+      const body = `Respected ${name} Ji,
+
+Warm greetings.
+
+It is my privilege to share with you the latest version of the 3CD-MRL Utility for Assessment Year 2025-26. Please find below your personalized activation details:
+
+— ACTIVATION CODE —
+${code}
+
+User Name : ${name}
+Registered Mobile : ${mobile}
+Valid for Assessment Year : 2025-26
+
+You may kindly download the Utility (.xlsm file) from the following secure link:
+
+https://dl.dropboxusercontent.com/s/8ywcq53gejt6gbj7syf9m/3CD-MRL-Utility_AY2526_v1.xlsm?rlkey=tzzijojaq7quhzcdbbba4f9t1&st=u7ol8c6k
+
+After downloading, please open the file and click on the “Activate Utility” button (on the Instructions sheet). Paste your Activation Code when prompted to enable immediate access.
+
+I sincerely hope that this self-developed Utility proves valuable in your professional work. Your esteemed feedback and continued encouragement have been instrumental in refining and enhancing this tool for our fraternity.
+
+In case of any difficulty or suggestions, please write to me at lalittambi@live.com or WhatsApp me on 8983322027. I shall be honoured to assist personally.
+
+With warm regards and professional respect,
+
+CA Lalit Omprakash Tambi
+Developer – 3CD-MRL Utility`;
+
+      document.getElementById("emailBody").value = body;
+    }
+
+    async function downloadConfig() {
+      const configText = document.getElementById("colOBox").value;
+      const name = document.getElementById("nameBox").value.trim() || "Config";
+      if (!configText.trim()) return alert("No config data to download.");
+
+      const zip = new JSZip();
+      const folder = zip.folder("3CD-MRL Utility 2025");
+
+      folder.file(`${name}.txt`, configText);
+      folder.file("mrlconfig.txt", `${name}\n`);
+
+      const blob = await zip.generateAsync({ type: "blob" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${name}.zip`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // ✅ Attach functions globally for W3Schools sandbox
+    window.fetchDetails = fetchDetails;
+    window.makeEmail = makeEmail;
+    window.downloadConfig = downloadConfig;
+
+    // ✅ Bind buttons if using IDs (for better reliability)
+    document.getElementById("fetchBtn").addEventListener("click", fetchDetails);
+    document.getElementById("makeEmailBtn").addEventListener("click", makeEmail);
+    document.getElementById("downloadBtn").addEventListener("click", downloadConfig);
+  </script>
+</body>
+</html>
