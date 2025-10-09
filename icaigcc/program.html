@@ -52,7 +52,7 @@
             overflow-x: auto;
             background-color: #ffffff;
             border-bottom: 2px solid #ff6f61;
-            margin-bottom: 16px;
+            margin-bottom: 0;
         }
         .tab {
             padding: 12px 16px;
@@ -68,6 +68,27 @@
             background-color: #006F91;
             color: #ffffff;
         }
+
+        /* Live stream bar */
+        .livestream-links {
+            text-align: center;
+            background: #ffffff;
+            padding: 10px 0;
+            border-bottom: 2px solid #ff6f61;
+            display: none;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .livestream-links a {
+            color: #ff6f61;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .livestream-links a:hover {
+            text-decoration: underline;
+            color: #e55a50;
+        }
+
         .subtabs {
             display: flex;
             overflow-x: auto;
@@ -170,6 +191,12 @@
 </head>
 <body>
     <div class="tabs" id="tabs"></div>
+	<br>
+    <!-- Dynamic Live Stream Section -->
+    <div id="livestream" class="livestream-links">
+        <a id="livestream-link" href="#" target="_blank">🎥 Watch Live</a>
+    </div>
+
     <div class="container">
         <div id="content" class="content"></div>
     </div>
@@ -228,6 +255,7 @@
             const tabsContainer = document.getElementById('tabs');
             const contentContainer = document.getElementById('content');
             const tabNames = Object.keys(data);
+
             tabNames.forEach((tabName, index) => {
                 const tab = document.createElement('div');
                 tab.className = 'tab' + (index === 0 ? ' active' : '');
@@ -236,6 +264,7 @@
                     document.querySelector('.tab.active').classList.remove('active');
                     tab.classList.add('active');
                     showContent(tabName);
+                    updateLiveStream(tabName);
                 };
                 tabsContainer.appendChild(tab);
             });
@@ -267,33 +296,32 @@
 
             function displaySessions(sessions) {
                 const existingSessionsContainer = document.querySelector('.sessions-container');
-                if (existingSessionsContainer) {
-                    existingSessionsContainer.remove();
-                }
+                if (existingSessionsContainer) existingSessionsContainer.remove();
+
                 const sessionsContainer = document.createElement('div');
                 sessionsContainer.className = 'sessions-container';
                 contentContainer.appendChild(sessionsContainer);
+
                 const sections = {};
                 sessions.forEach(item => {
                     const { programSection, type, title, dateTimeLoc, speakers, shortTime } = item;
-                    if (!sections[programSection]) {
-                        sections[programSection] = [];
-                    }
+                    if (!sections[programSection]) sections[programSection] = [];
                     sections[programSection].push({ type, title, dateTimeLoc, speakers, shortTime });
                 });
+
                 for (const [section, items] of Object.entries(sections)) {
                     const divider = document.createElement('div');
                     divider.className = 'divider';
                     sessionsContainer.appendChild(divider);
+
                     const sectionHeading = document.createElement('div');
                     sectionHeading.className = 'section-heading';
                     sectionHeading.textContent = section;
                     sessionsContainer.appendChild(sectionHeading);
+
                     items.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'card';
-
-                        // Create header with type and button
                         const header = document.createElement('div');
                         header.className = 'card-header';
                         const typeLabel = document.createElement('p');
@@ -308,12 +336,10 @@
                         header.appendChild(button);
                         card.appendChild(header);
 
-                        // Add title
                         const cardTitle = document.createElement('h3');
                         cardTitle.textContent = item.title;
                         card.appendChild(cardTitle);
 
-                        // Add date/time/location
                         const infoRow = document.createElement('div');
                         infoRow.className = 'info';
                         const cardDateTimeLoc = document.createElement('p');
@@ -325,7 +351,6 @@
                         infoRow.appendChild(cardDateTimeLoc);
                         card.appendChild(infoRow);
 
-                        // Add speakers label and content
                         if (item.speakers) {
                             const speakersLabel = document.createElement('p');
                             speakersLabel.className = 'speakers-label';
@@ -342,6 +367,35 @@
             }
 
             showContent(tabNames[0]);
+            updateLiveStream(tabNames[0]);
+        }
+
+        function updateLiveStream(tabName) {
+            const livestreamDiv = document.getElementById('livestream');
+            const livestreamLink = document.getElementById('livestream-link');
+            const links = {
+                "Day 1": "https://www.youtube.com/live/7EEOv0ufLJA",
+                "Day 2": "https://www.youtube.com/live/2g8mPSnfb3U"
+            };
+
+            if (links[tabName]) {
+                livestreamDiv.style.display = 'block';
+                livestreamLink.href = links[tabName];
+                livestreamLink.textContent = `🎥 Watch ${tabName} Live`;
+
+                // Match active tab color theme
+                if (tabName === "Day 1") {
+                    livestreamDiv.style.backgroundColor = "#006F91";
+                    livestreamDiv.style.borderColor = "#006F91";
+                    livestreamLink.style.color = "#ffffff";
+                } else if (tabName === "Day 2") {
+                    livestreamDiv.style.backgroundColor = "#2ecc71";
+                    livestreamDiv.style.borderColor = "#2ecc71";
+                    livestreamLink.style.color = "#ffffff";
+                }
+            } else {
+                livestreamDiv.style.display = 'none';
+            }
         }
 
         async function init() {
