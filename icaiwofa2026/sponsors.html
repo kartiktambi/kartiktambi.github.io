@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sponsors</title>
+</head>
+<body>
+  <button onclick="sendLink('https://google.com')">Sponsor 1</button>
+  <button onclick="sendLink('https://bing.com')">Sponsor 2</button>
+
+  <script>
+    function sendLink(url) {
+      // This sends the link string to the React Native app
+      window.ReactNativeWebView.postMessage(url);
+    }
+  </script>
+</body>
+</html>
