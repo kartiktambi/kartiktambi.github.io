@@ -1,50 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Sponsors</title>
+  <meta charset="UTF-8">
+  <title>Sponsors - WOFA Conference App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #ffffff; /* white background */
-      font-family: 'Montserrat', sans-serif;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background-color: #f0f4f8;
       color: #333;
+      line-height: 1.6;
     }
-    .card {
-      border: 2px dashed #999;
-      padding: 40px 60px;
-      border-radius: 16px;
+    .container {
+      max-width: 720px;
+      padding: 16px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #bb5d1f;
+      color: #fff;
       text-align: center;
-      background: #fafafa;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 24px 16px;
+      border-radius: 0 0 12px 12px;
     }
-    .title {
-      font-size: 28px;
+    .header h1 {
+      font-size: 24px;
       font-weight: 700;
-      margin-bottom: 12px;
-      color: #222;
     }
-    .subtitle {
-      font-size: 16px;
-      font-weight: 400;
-      color: #555;
+    .sponsor-section {
+      margin: 24px 0;
+    }
+    .sponsor-section h2 {
+      font-size: 20px;
+      color: #bb5d1f;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .sponsor-card {
+      background-color: #fff;
+      padding: 10px;
+      padding-top: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .sponsor-card:hover {
+      transform: translateY(-4px);
+    }
+    .sponsor-card img {
+      max-width: 100%;
+      height: 100px;
+      object-fit: contain;
+      
+    }
+    .sponsor-card h3 {
+      font-size: 18px;
+      color: #1a3c34;
+    }
+    /* Titanium sponsor oval */
+    .titanium-card {
+      background-color: #bb5d1f;
+      padding: 20px 40px;
+      border-radius: 50px;
+      text-align: center;
+      margin: 0 auto;
+      display: inline-block;
+    }
+    .titanium-card h3 {
+      font-size: 18px;
+      color: #fff;
+      margin: 0;
     }
   </style>
 </head>
 <body>
-  <!--<button onclick="sendLink('https://google.com')">Sponsor 1</button>-->
-  <div class="card">
-    <div class="title">🚀 Coming Soon</div>
-    <div class="subtitle">Sponsor Details are coming soon!</div>
+
+  <div class="container">
+    <!-- Platinum Sponsors -->
+    <div class="sponsor-section">
+      <h2>Platinum Sponsors</h2>
+      <div class="sponsor-card" onclick="sendLink('https://www.adani.com/')">
+        <img src="https://wofa.icai.org/images/sponsors/Adani-Logo.jpg" alt="Adani Enterprises Logo">
+        <h3>Adani Enterprises Limited</h3>
+      </div>
+      <div class="sponsor-card" onclick="sendLink('https://www.ril.com/')">
+        <img src="https://wofa.icai.org/images/sponsors/RIL-Logo.jpg" alt="Reliance Industries Logo">
+        <h3>Reliance Industries Limited</h3>
+      </div>
+    </div>
+
+    <!-- Titanium Sponsor -->
+    <div class="sponsor-section" style="text-align:center;">
+      <h2>Titanium Sponsor</h2>
+      <div class="titanium-card">
+        <h3>S A R C & ASSOCIATES</h3>
+      </div>
+    </div>
   </div>
-</body>
-<script>
+
+  <script>
     function sendLink(url) {
       // This sends the link string to the React Native app
       window.ReactNativeWebView.postMessage(url);
     }
   </script>
+</body>
 </html>
