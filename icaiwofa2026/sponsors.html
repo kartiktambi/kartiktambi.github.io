@@ -2,16 +2,49 @@
 <html>
 <head>
   <title>Sponsors</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff; /* white background */
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+    }
+    .card {
+      border: 2px dashed #999;
+      padding: 40px 60px;
+      border-radius: 16px;
+      text-align: center;
+      background: #fafafa;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #222;
+    }
+    .subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <button onclick="sendLink('https://google.com')">Sponsor 1</button>
-  <button onclick="sendLink('https://bing.com')">Sponsor 2</button>
-
-  <script>
+  <!--<button onclick="sendLink('https://google.com')">Sponsor 1</button>-->
+  <div class="card">
+    <div class="title">🚀 Coming Soon</div>
+    <div class="subtitle">Sponsor Details are coming soon!</div>
+  </div>
+</body>
+<script>
     function sendLink(url) {
       // This sends the link string to the React Native app
       window.ReactNativeWebView.postMessage(url);
     }
   </script>
-</body>
 </html>
