@@ -1,50 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>About App</title>
+  <meta charset="UTF-8">
+  <title>About App - WOFA Conference App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      height: 100vh;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 720px;
+      padding: 16px;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #1447e6;
+      color: #fff;
+      text-align: center;
+      padding: 24px 16px;
+      border-radius: 0 0 12px 12px;
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .intro-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-left: 4px solid #1447e6;
+    }
+    .intro-card p {
+      font-size: 15px;
+      color: #444;
+      text-align: justify;
+    }
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .feature-card {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+    }
+    .feature-card .icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #65409D;
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      color: #1a3c34;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: #666;
+    }
+    /* Developer Card */
+    .developer-card {
+      background-color: #ffffff;
+      padding-top: 20px;
+      border-radius: 8px;
+      margin: 32px 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-left: 4px solid #1447e6;
+      text-align: center;
+      transition: transform 0.2s;
+      overflow:hidden;
+    }
+    .developer-card:hover {
+      transform: translateY(-4px);
+    }
+    .developer-card h3 {
+      font-size: 15px;
+      color: #1a3c34;
+      font-weight: 600;
+    }
+    .developer-card h2 {
+      font-size: 20px;
+      color: #1a3c34;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .developer-links {
       display: flex;
       justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .link-item {
+      display: flex;
       align-items: center;
-      background: #ffffff; /* white background */
-      font-family: 'Montserrat', sans-serif;
-      color: #333;
+      gap: 6px;
+      font-size: 14px;
+      color: #444;
+      background-color: #f0f4f8;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      cursor: pointer;
     }
-    .card {
-      border: 2px dashed #999;
-      padding: 40px 60px;
-      border-radius: 16px;
-      text-align: center;
-      background: #fafafa;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .link-item:hover {
+      background-color: #e0e8f0;
     }
-    .title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #222;
-    }
-    .subtitle {
+    .link-item .icon {
       font-size: 16px;
-      font-weight: 400;
-      color: #555;
+      color: #1447e6;
+    }
+    .business-card-image {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   </style>
 </head>
 <body>
-<!--  <button onclick="sendLink('https://about.me/kartiktambi')">About App</button>-->
-  <div class="card">
-    <div class="title">📱 Coming Soon</div>
-    <div class="subtitle">About App details will be revealed here shortly</div>
+
+  <div class="container">
+    <!-- Intro -->
+    <div class="intro-card">
+      <p>
+        Discover the ultimate event companion with our app, designed to maximise your experience at ICAI WOFA 2.0! Seamlessly log in with your registered Email ID to access a host of features tailored for professionals.<br><br>From creating your personalized profile to exploring delegate directories and scheduling meetings, our app offers everything you need to network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.
+      </p>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI Networking</h3>
+        <p>Smart recommendations to connect with peers, mentors, and industry leaders.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <h3>Chat & Meetings</h3>
+        <p>Engage in one-on-one chats or schedule meetings with fellow participants.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📅</div>
+        <h3>Personal Agenda</h3>
+        <p>Plan your sessions and track your schedule with a personalized agenda.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔔</div>
+        <h3>Live Notifications</h3>
+        <p>Stay updated with instant alerts on sessions, updates, and announcements.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🌐</div>
+        <h3>Connections</h3>
+        <p>Build lasting professional relationships with global Chartered Accountants.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>Insights</h3>
+        <p>Access curated content, speaker highlights, and event insights at your fingertips.</p>
+      </div>
+    </div>
+
+    <!-- Developer Card -->
+    <div class="developer-card">
+      <h3>App Designed & Developed By</h3><h2><span style="color:#1447e6;">Kartik Tambi</span></h2>
+      <div class="developer-links">
+        <div class="link-item" onclick="sendLink('https://wa.me/917972341581')">
+          <span class="icon">📞</span> Contact
+        </div>
+        <div class="link-item" onclick="sendLink('https://about.me/kartiktambi')">
+          <span class="icon">🌐</span> Profile
+        </div>
+      </div>
+      <img src="https://i.ibb.co/67J3M04G/Kartik-Tambi-Business-Card.png" alt="Kartik Tambi Business Card" class="business-card-image">
+    </div>
   </div>
-</body>
-<script>
+
+  <script>
     function sendLink(url) {
       // This sends the link string to the React Native app
       window.ReactNativeWebView.postMessage(url);
     }
   </script>
+</body>
 </html>
