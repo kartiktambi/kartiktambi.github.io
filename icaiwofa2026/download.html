@@ -56,6 +56,8 @@
     }
     
 function checkOS() {
+    setdata("and"); // or "ios", doesn’t matter, just sets badges
+
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     // Android
@@ -71,7 +73,6 @@ function checkOS() {
     }
 
     // Web/Other → show page content
-    setdata("and"); // or "ios", doesn’t matter, just sets badges
 }
     
     window.onload = checkOS;
