@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 
         p {
             font-family: Segoe UI, Arial, sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* Adjust font size */
         }
 
         a {
@@ -54,24 +55,24 @@
         }
     }
     
-    function checkOS() {
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+function checkOS() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-        if (/android/i.test(userAgent)) {
-            // Auto redirect to Play Store
-            window.location.href = "https://play.google.com/store/apps/details?id=com.icai.wofa2026";
-            return;
-        }
-
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            // Auto redirect to App Store
-            window.location.href = "https://apps.apple.com/us/app/icai-wofa-2-0/id6757933252";
-            return;
-        }
-
-        // Otherwise, just show the page with both links
-        setdata("and");
+    // Android
+    if (/android/i.test(userAgent)) {
+        window.location.href = "https://play.google.com/store/apps/details?id=com.icai.wofa2026";
+        return;
     }
+
+    // iOS
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        window.location.href = "https://apps.apple.com/us/app/icai-wofa-2-0/id6757933252";
+        return;
+    }
+
+    // Web/Other → show page content
+    setdata("and"); // or "ios", doesn’t matter, just sets badges
+}
     
     window.onload = checkOS;
     </script>
