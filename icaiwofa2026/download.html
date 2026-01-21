@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download ICAI WOFA 2.0 App</title>
+    <style>
+        body {
+            background-image: url('');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #myDIV {
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-family: Segoe UI, Arial, sans-serif;
+            font-size: 1.2rem;
+        }
+
+        a {
+            display: inline-block;
+        }
+    </style>
+    <script>
+    function setdata(mode) {
+        if(mode == "and") {
+            document.getElementById("firstimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png";
+            document.getElementById("firstlink").href = "https://play.google.com/store/apps/details?id=com.icai.wofa2026";
+            document.getElementById("secondimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png";
+            document.getElementById("secondlink").href = "https://apps.apple.com/us/app/icai-wofa-2-0/id6757933252";
+        } else {
+            document.getElementById("firstimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/320px-Download_on_the_App_Store_Badge.svg.png";
+            document.getElementById("firstlink").href = "https://apps.apple.com/us/app/icai-wofa-2-0/id6757933252";
+            document.getElementById("secondimg").src = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/320px-Google_Play_Store_badge_EN.svg.png";
+            document.getElementById("secondlink").href = "https://play.google.com/store/apps/details?id=com.icai.wofa2026";
+        }
+    }
+    
+    function checkOS() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        if (/android/i.test(userAgent)) {
+            // Auto redirect to Play Store
+            window.location.href = "https://play.google.com/store/apps/details?id=com.icai.wofa2026";
+            return;
+        }
+
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            // Auto redirect to App Store
+            window.location.href = "https://apps.apple.com/us/app/icai-wofa-2-0/id6757933252";
+            return;
+        }
+
+        // Otherwise, just show the page with both links
+        setdata("and");
+    }
+    
+    window.onload = checkOS;
+    </script>
+</head>
+<body>
+    <div id="myDIV">
+        <br>
+        <img src="https://i.ibb.co/352J4SBD/App-Icon.jpg" alt="App Icon" style="border-radius: 10%; width: 60%">
+        <br>
+        <p><b>Download "ICAI WOFA 2.0" App from<br>Google Play Store & iOS App Store</b></p>
+        <br>
+        <a id="firstlink" target="_blank" href=''> <img id="firstimg" src='' style="width: 60%; order: 1"></a>
+        <p style="font-family: Segoe UI, Arial, sans-serif; font-size: 1rem">-- OR --</p>
+        <a id="secondlink" target="_blank" href=''><img id="secondimg" src='' style="width: 60%; order: 2"></a>
+        <br><br><br>
+    </div>
+</body>
+</html>
