@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Admin Dashboard</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        h1 { margin: 0; font-size: 28px; }
+        .refresh-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .refresh-btn:hover { opacity: 0.9; }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-sub);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        /* Stats Card */
+        .card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-label {
+            font-size: 14px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 8px;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-sub);
+        }
+        
+        /* Specific Colors for emphasis */
+        .highlight { color: var(--primary); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>App Overview</h1>
+        <button class="refresh-btn" onclick="fetchStats()">Refresh Data</button>
+    </header>
+
+    <div id="content">
+        <div class="loader">Loading stats...</div>
+    </div>
+</div>
+
+<script>
+    // CONFIGURATION
+    // You can hardcode these for yourself if you keep this file local/safe
+    let SUPABASE_URL = 'https://xiupbzpiqlkgvgavanfl.supabase.co';
+
+    const FUNCTION_URL = `${SUPABASE_URL}/functions/v1/get-dashboard-stats`;
+
+    async function fetchStats() {
+        const container = document.getElementById('content');
+        container.innerHTML = '<div class="loader">Fetching latest data...</div>';
+
+        try {
+            const response = await fetch(FUNCTION_URL, {
+                method: 'POST',
+                headers: {
+                    //'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) throw new Error("Failed to fetch");
+            const data = await response.json();
+            renderDashboard(data);
+
+        } catch (error) {
+            container.innerHTML = `<div style="color:red; text-align:center">Error: ${error.message}</div>`;
+        }
+    }
+
+    function renderDashboard(data) {
+        const html = `
+            <div class="section-title">User Base</div>
+            <div class="grid">
+                <div class="card">
+                    <span class="card-label">Total Profiles</span>
+                    <span class="card-value">${data.profiles.total}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Active Users (Logged In)</span>
+                    <span class="card-value highlight">${data.profiles.active_users}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Meaningful Profiles (Filled)</span>
+                    <span class="card-value">${data.profiles.meaningful_profiles}</span>
+                </div>
+            </div>
+
+            <div class="section-title">Profile Completeness</div>
+            <div class="grid">
+                 <div class="card">
+                    <span class="card-label">With Profile Pic</span>
+                    <span class="card-value">${data.profiles.with_profile_pic}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">With Business Card</span>
+                    <span class="card-value">${data.profiles.with_business_card}</span>
+                </div>
+            </div>
+
+            <div class="section-title">Engagement</div>
+            <div class="grid">
+                <div class="card">
+                    <span class="card-label">Connections Made</span>
+                    <span class="card-value">${data.engagement.connections}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Conversations Started</span>
+                    <span class="card-value">${data.engagement.conversations}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Meetings Scheduled</span>
+                    <span class="card-value">${data.engagement.meetings}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Bookmarks</span>
+                    <span class="card-value">${data.engagement.bookmarks}</span>
+                </div>
+            </div>
+
+            <div class="section-title">Content & Activity</div>
+            <div class="grid">
+                <div class="card">
+                    <span class="card-label">AI Queries Asked</span>
+                    <span class="card-value">${data.content.queries_asked}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Feedbacks Received</span>
+                    <span class="card-value">${data.content.feedbacks}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Gallery Images</span>
+                    <span class="card-value">${data.content.gallery_images}</span>
+                </div>
+                <div class="card">
+                    <span class="card-label">Photo Wall Posts</span>
+                    <span class="card-value">${data.content.photo_wall_posts}</span>
+                </div>
+            </div>
+        `;
+        document.getElementById('content').innerHTML = html;
+    }
+
+    // Load on start
+    fetchStats();
+</script>
+
+</body>
+</html>
