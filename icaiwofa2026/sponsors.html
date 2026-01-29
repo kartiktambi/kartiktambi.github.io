@@ -27,91 +27,302 @@
       text-align: center;
       padding: 24px 16px;
       border-radius: 0 0 12px 12px;
+      margin-bottom: 16px;
     }
     .header h1 {
       font-size: 24px;
       font-weight: 700;
     }
     .sponsor-section {
-      margin: 24px 0;
+      margin: 32px 0;
     }
     .sponsor-section h2 {
       font-size: 20px;
       color: #bb5d1f;
       margin-bottom: 16px;
       text-align: center;
+      font-weight: 600;
     }
     .sponsor-card {
       background-color: #fff;
-      padding: 10px;
-      padding-top: 15px;
-      border-radius: 8px;
+      padding: 16px;
+      border-radius: 10px;
       text-align: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: transform 0.15s ease;
       cursor: pointer;
-      margin-bottom: 20px;
-      width: 100%;
+      margin-bottom: 16px;
     }
     .sponsor-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
-
+    .sponsor-card img {
+      max-width: 100%;
+      max-height: 110px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
     .sponsor-card h3 {
-      font-size: 18px;
+      font-size: 17px;
       color: #1a3c34;
+      margin: 0;
     }
-    /* Titanium sponsor oval */
     .titanium-card {
       background-color: #bb5d1f;
-      padding: 20px 40px;
-      border-radius: 50px;
+      color: white;
+      padding: 24px 40px;
+      border-radius: 60px;
       text-align: center;
-      margin: 0 auto;
-      display: inline-block;
+      margin: 0 auto 24px;
+      max-width: 90%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
     }
-    .titanium-card h3 {
-      font-size: 18px;
-      color: #fff;
+    .titanium-card h2 {
+      font-size: 22px;
       margin: 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 500px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Platinum Sponsors -->
+
+    <!-- 1. Titanium Sponsor -->
     <div class="sponsor-section">
       <h2>Titanium Sponsor</h2>
-      <div class="sponsor-card" onclick="sendLink('85698b6e-6fa4-4f61-9a63-e0f91eff3639')"> <!-- App ID -->
-        <img src="https://wofa.icai.org/images/sponsors/bnw-developments.jpg" alt="BNW Developments" style="max-width: 100%; height: 150px; object-fit: contain;">
+      <div class="sponsor-card" onclick="sendLink('85698b6e-6fa4-4f61-9a63-e0f91eff3639')">
+        <img src="https://wofa.icai.org/images/sponsors/bnw-developments.jpg" alt="BNW Developments">
         <h3>BNW Developments</h3>
-      </div>
-      <h2>Platinum Sponsors</h2>
-      <div class="sponsor-card" onclick="sendLink('d633b7ac-ac15-47de-a5dc-42432c7c987f')">
-        <img src="https://wofa.icai.org/images/sponsors/Adani-Logo.jpg" alt="Adani Enterprises Logo" style="max-width: 100%; height: 80px; object-fit: contain;">
-        <h3>Adani Enterprises Limited</h3>
-      </div>
-      <div class="sponsor-card" onclick="sendLink('e788570a-c02a-42e8-ad23-c2da03ebae08')">
-        <img src="https://wofa.icai.org/images/sponsors/RIL-Logo.jpg" alt="Reliance Industries Logo" style="max-width: 100%; height: 80px; object-fit: contain;">
-        <h3>Reliance Industries Limited</h3>
       </div>
     </div>
 
-    <!-- Titanium Sponsor -->
-    <div class="sponsor-section" style="text-align:center;">
-      <h2>Titanium Sponsor</h2>
-      <div class="titanium-card">
-        <h3>S A R C & ASSOCIATES</h3>
+    <!-- 2. Platinum Sponsors -->
+    <div class="sponsor-section">
+      <h2>Platinum Sponsors</h2>
+      <div class="grid-2">
+        <div class="sponsor-card" onclick="sendLink('d633b7ac-ac15-47de-a5dc-42432c7c987f')">
+          <img src="https://wofa.icai.org/images/sponsors/Adani-Logo.jpg" alt="Adani">
+          <h3>Adani Enterprises Ltd</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('e788570a-c02a-42e8-ad23-c2da03ebae08')">
+          <img src="https://wofa.icai.org/images/sponsors/RIL-Logo.jpg" alt="Reliance">
+          <h3>Reliance Industries Limited</h3>
+        </div>
       </div>
     </div>
+
+    <!-- 3. CA Firm Titanium Sponsor (now clickable) -->
+    <div class="sponsor-section">
+      <h2>Titanium Sponsor - CA Firm</h2>
+      <div class="titanium-card" onclick="sendLink('8e96f98e-ce16-49c8-ae9b-ab7f2cea4fab')">
+        <h2 style="color: #fff">S A R C & ASSOCIATES</h2>
+      </div>
+    </div>
+
+    <!-- 4. Gold Sponsor -->
+    <div class="sponsor-section">
+      <h2>Gold Sponsor</h2>
+      <div class="sponsor-card" onclick="sendLink('7372a567-0271-401f-b8fb-76ade9a499f5')">
+        <img src="https://wofa.icai.org/images/sponsors/sbc-logo.png" alt="Steadfast">
+        <h3>Steadfast Business Consulting LLP</h3>
+      </div>
+    </div>
+
+    <!-- 5. Digital Transformation Partner -->
+    <div class="sponsor-section">
+      <h2>Digital Transformation Partner</h2>
+      <div class="sponsor-card" onclick="sendLink('216b0a75-6482-4a17-b409-6b56777dcbde')">
+        <img src="https://wofa.icai.org/images/sponsors/zoho-logo.png" alt="Zoho">
+        <h3>Zoho Corporation Pvt Ltd</h3>
+      </div>
+    </div>
+
+    <!-- 6. Banking Partner -->
+    <div class="sponsor-section">
+      <h2>Banking Partner</h2>
+      <div class="sponsor-card" onclick="sendLink('0c477520-57b3-4120-8e02-50d3c2cdf873')">
+        <img src="https://wofa.icai.org/images/sponsors/AU-logo.png" alt="AU Small Finance Bank">
+        <h3>AU Small Finance Bank Ltd</h3>
+      </div>
+    </div>
+
+    <!-- 7. Technology Partner -->
+    <div class="sponsor-section">
+      <h2>Technology Partner</h2>
+      <div class="sponsor-card" onclick="sendLink('4a5a0d95-e0d7-4d4e-8e36-48f71cc7fd4d')">
+        <img src="https://wofa.icai.org/images/sponsors/tally.jpg" alt="Tally">
+        <h3>Tally Solutions Pvt. Ltd</h3>
+      </div>
+    </div>
+
+    <!-- 8. Silver Sponsors -->
+    <div class="sponsor-section">
+      <h2>Silver Sponsors</h2>
+      <div class="grid-2">
+        <div class="sponsor-card" onclick="sendLink('10921dbd-379c-4998-a965-58e8c3bcff61')">
+          <img src="https://wofa.icai.org/images/sponsors/axis-bank.png" alt="Axis Bank">
+          <h3>Axis Bank Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('00d2013c-9f73-4c62-9ace-b9fd226fab4d')">
+          <img src="https://wofa.icai.org/images/sponsors/ISCA-brandsig.png" alt="ISCA">
+          <h3>Institute of Singapore Chartered Accountants</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('bbbe01fa-7664-4afd-bf43-5824b1e52c40')">
+          <img src="https://wofa.icai.org/images/sponsors/HSBC-logo.png" alt="HSBC">
+          <h3>HSBC (Collective Heads)</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('a5df514b-c4ab-489e-bd23-29eaffe79849')">
+          <img src="https://wofa.icai.org/images/sponsors/cpa-australia.png" alt="CPA Australia">
+          <h3>CPA Australia</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('460d5b80-6232-4d16-9f07-87806317f714')">
+          <img src="https://wofa.icai.org/images/sponsors/globe-capital.png" alt="Globe Capital">
+          <h3>Globe Capital Market Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('d79aeb26-2ec4-4f6d-acce-81b8c6612839')">
+          <img src="https://wofa.icai.org/images/sponsors/indian-oil.png" alt="Indian Oil">
+          <h3>Indian Oil Corporation Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('594d16c8-8452-449a-af32-cc3ca1713aa0')">
+          <img src="https://wofa.icai.org/images/sponsors/taxmann-logo.png" alt="Taxmann">
+          <h3>Taxmann</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Silver CA Firm Sponsors (now clickable) -->
+    <div class="sponsor-section">
+      <h2>Silver Sponsors - CA Firms</h2>
+      <div class="grid-2">
+        <div class="sponsor-card" onclick="sendLink('f0022b99-72dd-4222-9460-7febb93e38d4')">
+          <h3>Raghu Nath Rai & Co.</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('c273e238-2265-403a-b6cf-5ee5b9b7a41e')">
+          <h3>PL TANDON & CO</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Bronze Sponsors -->
+    <div class="sponsor-section">
+      <h2>Bronze Sponsors</h2>
+      <div class="grid-2">
+        <div class="sponsor-card" onclick="sendLink('e5f1182b-49f8-4659-821a-12eae3ff7979')">
+          <img src="https://wofa.icai.org/images/sponsors/tcs-logo.png" alt="TCS">
+          <h3>Tata Consultancy Services</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('497cb8b0-db81-43f7-980f-4328bd6d688c')">
+          <img src="https://wofa.icai.org/images/sponsors/bpcl-logo.jpg" alt="BPCL">
+          <h3>Bharat Petroleum Corporation Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('bb6c683c-132f-4810-87c5-0e84b388f9e9')">
+          <img src="https://wofa.icai.org/images/sponsors/ACE-insurance.png" alt="ACE Insurance">
+          <h3>Ace Insurance Brokers</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('0addd5ac-3411-42a7-985a-5cc2c34e5d1a')">
+          <h3>NPCI Bharat BillPay</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('165afa84-c6b8-4162-aed3-bf24a47a8ba2')">
+          <img src="https://wofa.icai.org/images/sponsors/ayana-logo.png" alt="Ayana">
+          <h3>Ayana Renewable Power</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('1ad6d1bb-f3f4-4ee5-a85a-1145093fdff2')">
+          <img src="https://wofa.icai.org/images/sponsors/NTPC-Green-Energy%C2%A0.png" alt="NTPC Green">
+          <h3>NTPC Green Energy Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('509e3e93-e5f0-457d-a60a-38d101ea0992')">
+          <img src="https://wofa.icai.org/images/sponsors/bharath-cloud.jpg" alt="Bharath Cloud">
+          <h3>Bharath Cloud</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('857b8f32-b1ba-42f1-bb9d-29a44cae12df')">
+          <img src="https://wofa.icai.org/images/sponsors/NHPC-logo.png" alt="NHPC">
+          <h3>NHPC Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('dbf0dac6-ef11-4669-8496-29d5d3aea81c')">
+          <img src="https://wofa.icai.org/images/sponsors/NTPC-50-years-logo.png" alt="NTPC">
+          <h3>NTPC Ltd</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('7da1e38c-b37b-4270-a48d-fb0212c8e725')">
+          <img src="https://wofa.icai.org/images/sponsors/new-assurance.jpg" alt="New India">
+          <h3>The New India Assurance Co. Ltd.</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('bfa42585-f5c5-470e-9e08-bf16afa1734b')">
+          <img src="https://wofa.icai.org/images/sponsors/SMC-logo.jpg" alt="SMC">
+          <h3>SMC Global Securities Ltd.</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('74b7ac04-23f5-430e-afa8-6ac6824a80a9')">
+          <img src="https://wofa.icai.org/images/sponsors/bharat--association.png" alt="Bharat InvITs">
+          <h3>Bharat InvITs Association</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('c8d4b0eb-411e-4f83-826d-21dcb1d23d60')">
+          <img src="https://wofa.icai.org/images/sponsors/LT-finance.png" alt="L&T Finance">
+          <h3>L & T Finance Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('a3328fab-6579-4845-ab37-74737e091dfe')">
+          <img src="https://wofa.icai.org/images/sponsors/pierag.png" alt="Pierag">
+          <h3>Pierag Consulting LLP</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('36121d5e-8cc0-478f-a993-49e73258cf6f')">
+          <img src="https://wofa.icai.org/images/sponsors/nse-logo.png" alt="NSE">
+          <h3>National Stock Exchange of India Limited</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('4c9f763b-10b4-4bae-adad-d0a70fb4bc23')">
+          <img src="https://wofa.icai.org/images/sponsors/xflow-logo.jpg" alt="Xflow">
+          <h3>Xflow Payments India</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('858c35de-b0f0-422d-923c-2517b7a20262')">
+          <img src="https://wofa.icai.org/images/sponsors/lexlegis-logo.png" alt="Lexlegis">
+          <h3>Lexlegis Solutions Pvt Ltd</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. Travel Partner -->
+    <div class="sponsor-section">
+      <h2>Travel Partner</h2>
+      <div class="sponsor-card" onclick="sendLink('01ab7eb0-e8a6-448e-bb7e-d81ad2608cf7')">
+        <img src="https://wofa.icai.org/images/sponsors/yatra-logo.png" alt="Yatra">
+        <h3>Yatra</h3>
+      </div>
+    </div>
+
+    <!-- 12. Pearl Sponsors -->
+    <div class="sponsor-section">
+      <h2>Pearl Sponsors</h2>
+      <div class="grid-2">
+        <div class="sponsor-card" onclick="sendLink('059e89df-75fa-4884-b8f8-a86595fd61e7')">
+          <img src="https://wofa.icai.org/images/sponsors/DG-logo.png" alt="Dhanguard">
+          <h3>Dhanguard Consultancy</h3>
+        </div>
+        <div class="sponsor-card" onclick="sendLink('68374fc8-d1af-46fe-94c7-e024172f03eb')">
+          <img src="https://wofa.icai.org/images/sponsors/dexit-global.png" alt="Dexit Global">
+          <h3>DEXIT GLOBAL Ltd</h3>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    function sendLink(url) {
-      // This sends the link string to the React Native app
-      window.ReactNativeWebView.postMessage(url);
+    function sendLink(id) {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(id);
+      } else {
+        console.log("Sponsor ID:", id);
+      }
     }
   </script>
+
 </body>
 </html>
