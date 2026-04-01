@@ -203,7 +203,7 @@
   <div class="container">
     <h1 style="font-size: 24px;">Make your ICAI GCC Summit 2025 Selfie!</h1>
 
-    <img id="sample-image" class="sample-image" src="https://res.cloudinary.com/conf-main/image/upload/v1750827811/sample_jb5jku.png" alt="Sample"/>
+    <img id="sample-image" class="sample-image" src="https://res.cloudinary.com/net-conf/image/upload/v1775034105/jpr_selfie_sample_wjtsbj.png" alt="Sample"/>
 
     <div id="upload-text">Upload your Picture -</div>
 
@@ -460,8 +460,8 @@ function showResult(url) {
 
     function uploadToCloudinary(base64data, name) {
       const timestamp = Date.now();
-      const apiKey = '651269121238963';
-      const apiSecret = 'BVOSEHXzQhim1kFt-0gbTwkmNIQ';
+      const apiKey = '924693913642819';
+      const apiSecret = 'rYXmnK4K8_PXGg28F8Dvud7VBFs';
       const signature = SHA1(`timestamp=${timestamp}${apiSecret}`);
 
       const formData = new FormData();
@@ -470,7 +470,7 @@ function showResult(url) {
       formData.append('api_key', apiKey);
       formData.append('signature', signature);
 
-      fetch('https://api.cloudinary.com/v1_1/conf-main/image/upload', {
+      fetch('https://api.cloudinary.com/v1_1/net-conf/image/upload', {
         method: 'POST',
         body: formData
       })
@@ -478,7 +478,8 @@ function showResult(url) {
       .then(data => {
         const publicId = data.public_id;
         const encodedName = encodeURIComponent(name);
-        generatedImageURL = `https://res.cloudinary.com/conf-main/image/upload/c_thumb,g_face,h_400,w_400,z_0.5/u_selfie_n2yok9/fl_layer_apply,g_north_west,x_-340,y_-775/l_text:Montserrat_65_bold:${encodedName},co_rgb:44A9C0,g_center,y_40/${publicId}`;
+        generatedImageURL = `https://res.cloudinary.com/net-conf/image/upload/c_thumb,g_face,h_385,w_390,z_0.5/u_jpr_selfie_template_cqcnsl/fl_layer_apply,g_north_west,x_-345,y_-795/l_text:Montserrat_60_bold:${encodedName},co_rgb:ffffff,g_center,y_80/${publicId}`;
+
         showResult(generatedImageURL);
       })
       .catch(err => alert('Upload failed: ' + err));
