@@ -2,162 +2,204 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About WOFA</title>
+  <title>About App - WOFA Conference App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #fffef0;
-      color: #333;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
-    .banner {
-      width: 100%;
-      height: auto;
-      display: block;
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
     }
     .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
+      max-width: 720px;
+      padding: 16px;
+      margin: 0 auto;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 16px;
-      color: #65409D;
+    .header {
+      background-color: #1447e6;
+      color: #fff;
       text-align: center;
+      padding: 24px 16px;
+      border-radius: 0 0 12px 12px;
     }
-    h3 {
-      font-size: 20px;
-      margin-top: 24px;
-      margin-bottom: 12px;
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .intro-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-left: 4px solid #1447e6;
+    }
+    .intro-card p {
+      font-size: 15px;
+      color: #444;
+      text-align: justify;
+    }
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .feature-card {
+      background-color: #fff;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+    }
+    .feature-card .icon {
+      font-size: 28px;
+      margin-bottom: 8px;
       color: #65409D;
     }
-    p {
-      text-align: justify;
-      margin-bottom: 16px;
+    .feature-card h3 {
+      font-size: 16px;
+      color: #1a3c34;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 13px;
+      color: #666;
+    }
+    /* Developer Card */
+    .developer-card {
+      background-color: #ffffff;
+      padding-top: 20px;
+      border-radius: 8px;
+      margin: 32px 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-left: 4px solid #1447e6;
+      text-align: center;
+      transition: transform 0.2s;
+      overflow:hidden;
+    }
+    .developer-card:hover {
+      transform: translateY(-4px);
+    }
+    .developer-card h3 {
       font-size: 15px;
+      color: #1a3c34;
+      font-weight: 600;
     }
-    @media (min-width: 768px) {
-      h1 { font-size: 32px; }
-      h3 { font-size: 24px; }
-      p { font-size: 16px; }
+    .developer-card h2 {
+      font-size: 20px;
+      color: #1a3c34;
+      margin-bottom: 16px;
+      font-weight: 600;
     }
-    .card {
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    .developer-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
-    footer {
-      background: #f5f5f5;
-      padding: 10px 20px;
-      margin-top: 40px;
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #444;
+      background-color: #f0f4f8;
+      padding: 8px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      cursor: pointer;
     }
-    .footertheme img {
+    .link-item:hover {
+      background-color: #e0e8f0;
+    }
+    .link-item .icon {
+      font-size: 16px;
+      color: #1447e6;
+    }
+    .business-card-image {
       width: 100%;
-      margin-bottom: -10px;
       height: auto;
       display: block;
-    }
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: auto;
-      /*gap: 20px;*/
-    }
-    .footermenu {
-      flex: 1;
-      min-width: 250px;
-    }
-    .footermenu p {
-      margin: 6px 0;
-      font-size: 14px;
-    }
-    .footermenu strong {
-      color: #65409D;
-    }
-    .social {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 12px;
-    }
-    .social li a {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      background: #42094F;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 28px;
-      color: #fff;
-      font-size: 14px;
-      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <!-- Banner -->
-  <img src="https://i.ibb.co/bRmfxMkH/about-banner.jpg" alt="WOFA Banner" class="banner">
 
-  <!-- Content -->
   <div class="container">
-    <div class="card">
-      <h1>About World Forum of Accountants (WOFA 2.0)</h1>
+    <!-- Intro -->
+    <div class="intro-card">
+      <p>
+        Discover the ultimate event companion with our app, designed to maximise your experience at ICAI WOFA 2.0! Seamlessly log in with your registered Email ID to access a host of features tailored for professionals.<br><br>From creating your personalized profile to exploring delegate directories and scheduling meetings, our app offers everything you need to network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.
+      </p>
+    </div>
 
-      <p><b>World Forum of Accountants</b><br>
-      The World Forum of Accountants (WOFA 2.0) is the leading global platform dedicated to celebrating and advancing the Chartered Accountancy profession. At the heart of economic growth and good governance, Chartered Accountants serve as architects of prosperity, guardians of financial transparency, and uncompromising stewards of integrity. WOFA 2.0 brings together these influential professionals from around the world, recognizing their vital contribution to economies, societies, and the greater good.</p>
+    <!-- Feature Cards -->
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI Networking</h3>
+        <p>Smart recommendations to connect with peers, mentors, and industry leaders.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <h3>Chat & Meetings</h3>
+        <p>Engage in one-on-one chats or schedule meetings with fellow participants.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📅</div>
+        <h3>Personal Agenda</h3>
+        <p>Plan your sessions and track your schedule with a personalized agenda.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔔</div>
+        <h3>Live Notifications</h3>
+        <p>Stay updated with instant alerts on sessions, updates, and announcements.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🌐</div>
+        <h3>Connections</h3>
+        <p>Build lasting professional relationships with global Chartered Accountants.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>Insights</h3>
+        <p>Access curated content, speaker highlights, and event insights at your fingertips.</p>
+      </div>
+    </div>
 
-      <p>More than a forum, WOFA 2.0 is a dynamic movement, highlighting the profession’s pivotal role in fostering responsible innovation, financial stability, and inclusive growth. It emphasizes the unwavering commitment of Chartered Accountants to ethical practices and transparency, strengthening the economic foundation of nations and ensuring public trust in financial systems.</p>
+    <!-- Developer Card -->
+    <div class="developer-card">
+      <h3>App Designed & Developed By</h3><h2><span style="color:#1447e6;">Kartik Tambi</span></h2>
+      <div class="developer-links">
+        <div class="link-item" onclick="sendLink('https://wa.me/917972341581')">
+          <span class="icon">📞</span> Contact
+        </div>
+        <div class="link-item" 
+     style="border-width: 2px; border-color: #007add; border-style: solid;" 
+     onclick="sendLink('https://about.me/kartiktambi')">
+  Profile
+</div>
 
-      <p>Furthermore, WOFA 2.0 is more than an event; it is a nexus for collaboration, lifelong learning, and shared advancement. The forum brings together thought leaders, policymakers, industry innovators, and young professionals, creating valuable opportunities for exchange, partnership, and inspiration. By nurturing dialogue and encouraging diverse perspectives, WOFA 2.0 empowers accountants to become catalysts for change, bridging the gap between governments, businesses, and communities.</p>
-
-      <p>At WOFA 2.0, we celebrate the extraordinary power of the profession to transform expertise into practical, global solutions. Through uplifting stories, insightful sessions, and unparalleled networking, WOFA 2.0 is shaping a future that is ethical, sustainable, and prosperous for all.</p>
-
-      <h3>WOFA 2.0 Theme:</h3>
-
-      <p>The theme of WOFA 2.0 reflects the journey of the Chartered Accountancy profession from being a cornerstone of nation building to becoming a vital force in global collaboration. Chartered Accountants have long safeguarded trust, upheld ethics, and enabled growth within national economies.</p>
-
-      <p>Today, as the world navigates rapid change driven by technology, artificial intelligence, and sustainability, the profession is expanding its role on a global stage. Chartered Accountants are not only guardians of financial integrity but also catalysts for innovation, inclusion, and responsible growth.</p>
-
-      <p>This theme underscores our shared mission: to Strengthen Trust in a rapidly changing environment, Enable Growth through ethical expertise and innovative solutions, and embrace opportunities that extend beyond national borders. Together, we are shaping a resilient, forward-looking profession that leads the way in building a more prosperous and sustainable future for all.</p>
+        <div class="link-item" style="border-width: 2px; border-color: #007add; border-style: solid;"  onclick="sendLink('https://www.linkedin.com/in/kartiktambi/')">
+          LinkedIn
+        </div>
+      </div>
+      <img src="https://i.ibb.co/67J3M04G/Kartik-Tambi-Business-Card.png" alt="Kartik Tambi Business Card" class="business-card-image">
     </div>
   </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footermenu">
-        <p><strong>Corporate and PAO Sponsorship Opportunities:</strong></p>
-        <p onclick="sendLink('mailto:wofasponsorship@icai.in')">wofasponsorship@icai.in</p>
-
-        <p><strong>CA Firm Participation:</strong></p>
-        <p onclick="sendLink('mailto:wofafp@icai.in')">wofafp@icai.in</p>
-
-        <p><strong>Registration Related Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofaregistrations@icai.in')">wofaregistrations@icai.in</p>
-
-        <p><strong>General Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofa@icai.in')">wofa@icai.in</p>
-      </div>
-
-      <div class="footermenu">
-        <p><strong>WOFA Secretariat</strong></p>
-        <p>
-          The Institute of Chartered Accountants of India<br>
-          ICAI Bhawan, Indraprastha Marg, New Delhi – 110002<br>
-          Ph: +91 11 3011 0487
-        </p>
-        
-          <section class="footertheme">
-    <img src="https://wofa.icai.org/images/footer_theme.png" alt="WOFA Theme">
-  </section>
-      </div>
-    </div>
-  </footer>
 
   <script>
     function sendLink(url) {
