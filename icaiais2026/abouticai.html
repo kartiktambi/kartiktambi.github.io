@@ -1,169 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About ICAI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #fffef0;
-      color: #333;
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
-    .banner {
-      width: 100%;
-      height: auto;
-      display: block;
+
+    :root{
+      --accent:#3b1d82;
+      --accent-light:#f4f0ff;
     }
-    .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.85;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 16px;
-      color: #65409D;
-      text-align: center;
+
+    .hero{
+      position:relative;
+      height:180px;
+      background:url('https://ai.icai.org/ais2026/images/hero_area/banner_bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
     }
-    h3 {
-      font-size: 20px;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      color: #65409D;
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
     }
-    p {
-      text-align: justify;
-      margin-bottom: 16px;
-      font-size: 15px;
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
     }
-    @media (min-width: 768px) {
-      h1 { font-size: 32px; }
-      h3 { font-size: 24px; }
-      p { font-size: 16px; }
+
+    .hero h1{
+      font-size:1.75rem;
+      font-weight:700;
+      line-height:1.4;
+      letter-spacing:0.3px;
     }
-    .card {
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      padding:20px 16px 50px;
     }
-    footer {
-      background: #f5f5f5;
-      padding: 10px 20px;
-      margin-top: 40px;
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:26px 20px 32px;
+      margin-top:-32px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
     }
-    .footertheme img {
-      width: 100%;
-      margin-bottom: -10px;
-      height: auto;
-      display: block;
+
+    .logo-wrap{
+      text-align:center;
+      margin-bottom:20px;
     }
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: auto;
-      /*gap: 20px;*/
+
+    .logo-wrap img{
+      width:210px;
+      max-width:100%;
     }
-    .footermenu {
-      flex: 1;
-      min-width: 250px;
+
+    p{
+      margin-bottom:20px;
+      text-align:justify;
+      color:#444;
+      font-size:1rem;
     }
-    .footermenu p {
-      margin: 6px 0;
-      font-size: 14px;
+
+    h3{
+      text-align:center;
+      margin-top:36px;
+      margin-bottom:20px;
+      font-size:1.35rem;
+      color:#111827;
     }
-    .footermenu strong {
-      color: #65409D;
+
+    /* Styled Key Functions List */
+
+    .function-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:10px;
     }
-    .social {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 12px;
+
+    .function-list li{
+      background:#faf8ff;
+      border:1px solid #ece7ff;
+      border-left:4px solid var(--accent);
+      padding:14px 16px;
+      border-radius:14px;
+      color:#444;
+      font-size:0.97rem;
+      line-height:1.7;
     }
-    .social li a {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      background: #42094F;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 28px;
-      color: #fff;
-      font-size: 14px;
-      text-decoration: none;
+
+    @media(max-width:480px){
+
+      .hero{
+        height:165px;
+      }
+
+      .hero h1{
+        font-size:1.45rem;
+      }
+
+      .main-card{
+        padding:24px 16px 30px;
+      }
+
+      p,
+      .function-list li{
+        font-size:0.96rem;
+      }
+
+      .logo-wrap img{
+        width:190px;
+      }
+
     }
+
   </style>
 </head>
+
 <body>
-  <!-- Banner -->
-  <img src="https://i.ibb.co/bRmfxMkH/about-banner.jpg" alt="WOFA Banner" class="banner">
 
-  <!-- Content -->
-  <div class="container">
-    <div class="card">
-      <h1>About World Forum of Accountants (WOFA 2.0)</h1>
+  <!-- HERO -->
 
-      <p><b>World Forum of Accountants</b><br>
-      The World Forum of Accountants (WOFA 2.0) is the leading global platform dedicated to celebrating and advancing the Chartered Accountancy profession. At the heart of economic growth and good governance, Chartered Accountants serve as architects of prosperity, guardians of financial transparency, and uncompromising stewards of integrity. WOFA 2.0 brings together these influential professionals from around the world, recognizing their vital contribution to economies, societies, and the greater good.</p>
-
-      <p>More than a forum, WOFA 2.0 is a dynamic movement, highlighting the profession’s pivotal role in fostering responsible innovation, financial stability, and inclusive growth. It emphasizes the unwavering commitment of Chartered Accountants to ethical practices and transparency, strengthening the economic foundation of nations and ensuring public trust in financial systems.</p>
-
-      <p>Furthermore, WOFA 2.0 is more than an event; it is a nexus for collaboration, lifelong learning, and shared advancement. The forum brings together thought leaders, policymakers, industry innovators, and young professionals, creating valuable opportunities for exchange, partnership, and inspiration. By nurturing dialogue and encouraging diverse perspectives, WOFA 2.0 empowers accountants to become catalysts for change, bridging the gap between governments, businesses, and communities.</p>
-
-      <p>At WOFA 2.0, we celebrate the extraordinary power of the profession to transform expertise into practical, global solutions. Through uplifting stories, insightful sessions, and unparalleled networking, WOFA 2.0 is shaping a future that is ethical, sustainable, and prosperous for all.</p>
-
-      <h3>WOFA 2.0 Theme:</h3>
-
-      <p>The theme of WOFA 2.0 reflects the journey of the Chartered Accountancy profession from being a cornerstone of nation building to becoming a vital force in global collaboration. Chartered Accountants have long safeguarded trust, upheld ethics, and enabled growth within national economies.</p>
-
-      <p>Today, as the world navigates rapid change driven by technology, artificial intelligence, and sustainability, the profession is expanding its role on a global stage. Chartered Accountants are not only guardians of financial integrity but also catalysts for innovation, inclusion, and responsible growth.</p>
-
-      <p>This theme underscores our shared mission: to Strengthen Trust in a rapidly changing environment, Enable Growth through ethical expertise and innovative solutions, and embrace opportunities that extend beyond national borders. Together, we are shaping a resilient, forward-looking profession that leads the way in building a more prosperous and sustainable future for all.</p>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        The Institute of Chartered<br>
+        Accountants of India (ICAI)
+      </h1>
     </div>
+  </section>
+
+  <!-- CONTENT -->
+
+  <div class="container">
+
+    <div class="main-card">
+
+      <div class="logo-wrap">
+        <img src="https://i.ibb.co/Y4MrhQxF/icai-logo.png" alt="ICAI Logo">
+      </div>
+
+      <p>
+        The Institute of Chartered Accountants of India (ICAI) is a statutory body established by an Act of Parliament, viz. The Chartered Accountants Act, 1949 (Act No.XXXVIII of 1949) for regulation and development of the profession of Chartered Accountants in the country. The Institute, functions under the administrative control of the Ministry of Corporate Affairs, Government of India. The ICAI is the largest professional body of Chartered Accountants in the world, with a strong tradition of service to the Indian economy in public interest.
+      </p>
+
+      <p>
+        The affairs of the ICAI are managed by a Council in accordance with the provisions of the Chartered Accountants Act, 1949 and the Chartered Accountants Regulations, 1988. The Council constitutes of 40 members of whom 32 are elected by the Chartered Accountants and remaining 8 are nominated by the Central Government generally representing the Comptroller and Auditor General of India, Securities and Exchange Board of India, Ministry of Corporate Affairs, Ministry of Finance and other stakeholders.
+      </p>
+
+      <p>
+        Over a period of time the ICAI has achieved recognition as a premier accounting body not only in the country but also globally, for maintaining highest standards in technical, ethical areas and for sustaining stringent examination and education standards. Since 1949, the profession has grown leaps and bounds in terms of members and student base.
+      </p>
+
+      <h3>Key Functions of ICAI</h3>
+
+      <ul class="function-list">
+        <li>Regulate the profession of Accountancy</li>
+        <li>Education and Examination of Chartered Accountancy Course</li>
+        <li>Continuing Professional Education of Members</li>
+        <li>Conducting Post Qualification Courses</li>
+        <li>Formulation of Accounting Standards</li>
+        <li>Prescription of Standard Auditing Procedures</li>
+        <li>Laying down Ethical Standards</li>
+        <li>Monitoring Quality through Peer Review</li>
+        <li>Ensuring Standards of performance of Members</li>
+        <li>Exercise Disciplinary Jurisdiction</li>
+        <li>Financial Reporting Review</li>
+        <li>Input on Policy matters to Government</li>
+      </ul>
+
+    </div>
+
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footermenu">
-        <p><strong>Corporate and PAO Sponsorship Opportunities:</strong></p>
-        <p onclick="sendLink('mailto:wofasponsorship@icai.in')">wofasponsorship@icai.in</p>
-
-        <p><strong>CA Firm Participation:</strong></p>
-        <p onclick="sendLink('mailto:wofafp@icai.in')">wofafp@icai.in</p>
-
-        <p><strong>Registration Related Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofaregistrations@icai.in')">wofaregistrations@icai.in</p>
-
-        <p><strong>General Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofa@icai.in')">wofa@icai.in</p>
-      </div>
-
-      <div class="footermenu">
-        <p><strong>WOFA Secretariat</strong></p>
-        <p>
-          The Institute of Chartered Accountants of India<br>
-          ICAI Bhawan, Indraprastha Marg, New Delhi – 110002<br>
-          Ph: +91 11 3011 0487
-        </p>
-        
-          <section class="footertheme">
-    <img src="https://wofa.icai.org/images/footer_theme.png" alt="WOFA Theme">
-  </section>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function sendLink(url) {
-      // This sends the link string to the React Native app
-      window.ReactNativeWebView.postMessage(url);
-    }
-  </script>
 </body>
 </html>
