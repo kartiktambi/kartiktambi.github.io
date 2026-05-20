@@ -1,169 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About AI in ICAI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #fffef0;
-      color: #333;
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
-    .banner {
-      width: 100%;
-      height: auto;
-      display: block;
+
+    :root{
+      --accent:#3b1d82;
+      --accent-light:#f5f1ff;
     }
-    .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.8;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 16px;
-      color: #65409D;
-      text-align: center;
+
+    .hero{
+      position:relative;
+      height:180px;
+      background:url('https://ai.icai.org/ais2026/images/hero_area/banner_bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
     }
-    h3 {
-      font-size: 20px;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      color: #65409D;
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
     }
-    p {
-      text-align: justify;
-      margin-bottom: 16px;
-      font-size: 15px;
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
     }
-    @media (min-width: 768px) {
-      h1 { font-size: 32px; }
-      h3 { font-size: 24px; }
-      p { font-size: 16px; }
+
+    .hero h1{
+      font-size:1.8rem;
+      font-weight:700;
+      line-height:1.4;
+      letter-spacing:0.3px;
     }
-    .card {
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    .container{
+      max-width:720px;
+      margin:auto;
+      padding:20px 16px 50px;
     }
-    footer {
-      background: #f5f5f5;
-      padding: 10px 20px;
-      margin-top: 40px;
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:26px 20px 32px;
+      margin-top:-32px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
     }
-    .footertheme img {
-      width: 100%;
-      margin-bottom: -10px;
-      height: auto;
-      display: block;
+
+    /* Section Heading */
+
+    .section-heading{
+      text-align:center;
+      margin-bottom:28px;
     }
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: auto;
-      /*gap: 20px;*/
+
+    .section-heading h2{
+      font-size:1.5rem;
+      color:#111827;
+      margin-bottom:10px;
     }
-    .footermenu {
-      flex: 1;
-      min-width: 250px;
+
+    .underline{
+      width:70px;
+      height:4px;
+      background:var(--accent);
+      margin:auto;
+      border-radius:20px;
     }
-    .footermenu p {
-      margin: 6px 0;
-      font-size: 14px;
+
+    /* Leaders Grid */
+
+    .leaders-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px 18px;
+      margin-bottom:40px;
     }
-    .footermenu strong {
-      color: #65409D;
+
+    .leader-card{
+      text-align:center;
     }
-    .social {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 12px;
+
+    .leader-card img{
+      width:145px;
+      height:145px;
+      object-fit:cover;
+      border-radius:50%;
+      border:5px solid #fff;
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
     }
-    .social li a {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      background: #42094F;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 28px;
-      color: #fff;
-      font-size: 14px;
-      text-decoration: none;
+
+    .leader-card h4{
+      margin-top:14px;
+      font-size:1rem;
+      color:#111827;
+      line-height:1.5;
     }
+
+    .leader-card p{
+      margin-top:4px;
+      font-size:0.92rem;
+      color:#666;
+      line-height:1.5;
+      text-align:center;
+    }
+
+    /* Titles */
+
+    h3{
+      text-align:center;
+      margin-top:34px;
+      margin-bottom:18px;
+      font-size:1.35rem;
+      color:#111827;
+    }
+
+    /* Compact Lists */
+
+    .member-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .member-list li{
+      position:relative;
+      padding-left:30px;
+      color:#444;
+      font-size:0.97rem;
+      line-height:1.7;
+    }
+
+    .member-list li i{
+      position:absolute;
+      left:0;
+      top:6px;
+      color:var(--accent);
+      font-size:0.95rem;
+    }
+
+    @media(max-width:480px){
+
+      .hero{
+        height:165px;
+      }
+
+      .hero h1{
+        font-size:1.55rem;
+      }
+
+      .main-card{
+        padding:24px 16px 30px;
+      }
+
+      .leaders-grid{
+        gap:24px 14px;
+      }
+
+      .leader-card img{
+        width:125px;
+        height:125px;
+      }
+
+      .member-list li{
+        font-size:0.95rem;
+      }
+
+      .section-heading h2{
+        font-size:1.35rem;
+      }
+
+    }
+
   </style>
 </head>
+
 <body>
-  <!-- Banner -->
-  <img src="https://i.ibb.co/bRmfxMkH/about-banner.jpg" alt="WOFA Banner" class="banner">
 
-  <!-- Content -->
-  <div class="container">
-    <div class="card">
-      <h1>About World Forum of Accountants (WOFA 2.0)</h1>
+  <!-- HERO -->
 
-      <p><b>World Forum of Accountants</b><br>
-      The World Forum of Accountants (WOFA 2.0) is the leading global platform dedicated to celebrating and advancing the Chartered Accountancy profession. At the heart of economic growth and good governance, Chartered Accountants serve as architects of prosperity, guardians of financial transparency, and uncompromising stewards of integrity. WOFA 2.0 brings together these influential professionals from around the world, recognizing their vital contribution to economies, societies, and the greater good.</p>
-
-      <p>More than a forum, WOFA 2.0 is a dynamic movement, highlighting the profession’s pivotal role in fostering responsible innovation, financial stability, and inclusive growth. It emphasizes the unwavering commitment of Chartered Accountants to ethical practices and transparency, strengthening the economic foundation of nations and ensuring public trust in financial systems.</p>
-
-      <p>Furthermore, WOFA 2.0 is more than an event; it is a nexus for collaboration, lifelong learning, and shared advancement. The forum brings together thought leaders, policymakers, industry innovators, and young professionals, creating valuable opportunities for exchange, partnership, and inspiration. By nurturing dialogue and encouraging diverse perspectives, WOFA 2.0 empowers accountants to become catalysts for change, bridging the gap between governments, businesses, and communities.</p>
-
-      <p>At WOFA 2.0, we celebrate the extraordinary power of the profession to transform expertise into practical, global solutions. Through uplifting stories, insightful sessions, and unparalleled networking, WOFA 2.0 is shaping a future that is ethical, sustainable, and prosperous for all.</p>
-
-      <h3>WOFA 2.0 Theme:</h3>
-
-      <p>The theme of WOFA 2.0 reflects the journey of the Chartered Accountancy profession from being a cornerstone of nation building to becoming a vital force in global collaboration. Chartered Accountants have long safeguarded trust, upheld ethics, and enabled growth within national economies.</p>
-
-      <p>Today, as the world navigates rapid change driven by technology, artificial intelligence, and sustainability, the profession is expanding its role on a global stage. Chartered Accountants are not only guardians of financial integrity but also catalysts for innovation, inclusion, and responsible growth.</p>
-
-      <p>This theme underscores our shared mission: to Strengthen Trust in a rapidly changing environment, Enable Growth through ethical expertise and innovative solutions, and embrace opportunities that extend beyond national borders. Together, we are shaping a resilient, forward-looking profession that leads the way in building a more prosperous and sustainable future for all.</p>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>About AI in ICAI</h1>
     </div>
+  </section>
+
+  <!-- CONTENT -->
+
+  <div class="container">
+
+    <div class="main-card">
+
+      <!-- LEADERS HEADING -->
+
+      <div class="section-heading">
+        <h2>Leaders of AI in ICAI</h2>
+        <div class="underline"></div>
+      </div>
+
+      <!-- LEADERS -->
+
+      <div class="leaders-grid">
+
+        <div class="leader-card">
+          <img src="https://ai.icai.org/assets/images/prasanna-kumar-d.jpg" alt="CA. Prasanna Kumar D">
+
+          <h4>CA. Prasanna Kumar D</h4>
+
+          <p>President, ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://ai.icai.org/assets/images/CA_Mangesh_Pandurang_Kinare.jpg" alt="CA. Mangesh Kinare">
+
+          <h4>CA. Mangesh Kinare</h4>
+
+          <p>Vice-President, ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://ai.icai.org/assets/images/charanjit_singh_nanda.jpg" alt="CA. Charanjot Singh Nanda">
+
+          <h4>CA. Charanjot Singh Nanda</h4>
+
+          <p>
+            Chairman, AI in ICAI<br>
+            Immediate Past President, ICAI
+          </p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://ai.icai.org/assets/images/ca_umesh_sharma1.jpg" alt="CA. Umesh Ramnarayan Sharma">
+
+          <h4>CA. Umesh Ramnarayan Sharma</h4>
+
+          <p>Vice-Chairman, AI in ICAI</p>
+        </div>
+
+      </div>
+
+      <!-- COMMITTEE MEMBERS -->
+
+      <h3>Committee Members</h3>
+
+      <ul class="member-list">
+
+        <li><i class="fas fa-check-circle"></i> CA. Charanjot Singh Nanda<br>Chairman, AI in ICAI & Immediate Past President, ICAI</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Umesh Ramnarayan Sharma<br>Vice Chairman, AI in ICAI</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Arpit Jagdish Kabra</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Chandrashekhar Vasant Chitale</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Durgesh Kumar Kabra</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Jay Chhaira</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Purushottamlal Hukamichand Khandelwal</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Dayaniwas Sharma</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Madhukar Narayan Hiregange</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Sripriya Kumar</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Sanjib Sanghi</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Sanjay Kumar Agarwal</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. (Dr.) Sanjeev Kumar Singhal</li>
+
+        <li><i class="fas fa-check-circle"></i> Shri Naveen Singhvi</li>
+
+      </ul>
+
+      <!-- CO-OPTED MEMBERS -->
+
+      <h3>Co-opted Members</h3>
+
+      <ul class="member-list">
+
+        <li><i class="fas fa-check-circle"></i> CA. Bhayya Arun Lal</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Vamsi Krishna Immadisetty</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Rachamadugu Veera Shanmukesh</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Ajay Kumar Narra</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Shivamallaiah Mekala</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Dheeraj Kumar Khandelwal</li>
+
+        <li><i class="fas fa-check-circle"></i> CA. Gaurav Kumar Mishra</li>
+
+      </ul>
+
+    </div>
+
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footermenu">
-        <p><strong>Corporate and PAO Sponsorship Opportunities:</strong></p>
-        <p onclick="sendLink('mailto:wofasponsorship@icai.in')">wofasponsorship@icai.in</p>
-
-        <p><strong>CA Firm Participation:</strong></p>
-        <p onclick="sendLink('mailto:wofafp@icai.in')">wofafp@icai.in</p>
-
-        <p><strong>Registration Related Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofaregistrations@icai.in')">wofaregistrations@icai.in</p>
-
-        <p><strong>General Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofa@icai.in')">wofa@icai.in</p>
-      </div>
-
-      <div class="footermenu">
-        <p><strong>WOFA Secretariat</strong></p>
-        <p>
-          The Institute of Chartered Accountants of India<br>
-          ICAI Bhawan, Indraprastha Marg, New Delhi – 110002<br>
-          Ph: +91 11 3011 0487
-        </p>
-        
-          <section class="footertheme">
-    <img src="https://wofa.icai.org/images/footer_theme.png" alt="WOFA Theme">
-  </section>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function sendLink(url) {
-      // This sends the link string to the React Native app
-      window.ReactNativeWebView.postMessage(url);
-    }
-  </script>
 </body>
 </html>
