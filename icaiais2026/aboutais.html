@@ -1,169 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>About AIS 2026</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Innovation Summit – AIS 2026</title>
+
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      line-height: 1.6;
-      background-color: #fffef0;
-      color: #333;
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
-    .banner {
-      width: 100%;
-      height: auto;
-      display: block;
+
+    :root{
+      --accent:#3b1d82;
+      --accent-light:#f4f0ff;
     }
-    .container {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.85;
     }
-    h1 {
-      font-size: 26px;
-      margin-bottom: 16px;
-      color: #65409D;
-      text-align: center;
+
+    .hero{
+      position:relative;
+      height:180px;
+      background:url('https://ai.icai.org/ais2026/images/hero_area/banner_bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
     }
-    h3 {
-      font-size: 20px;
-      margin-top: 24px;
-      margin-bottom: 12px;
-      color: #65409D;
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
     }
-    p {
-      text-align: justify;
-      margin-bottom: 16px;
-      font-size: 15px;
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
     }
-    @media (min-width: 768px) {
-      h1 { font-size: 32px; }
-      h3 { font-size: 24px; }
-      p { font-size: 16px; }
+
+    .hero h1{
+      font-size:1.9rem;
+      font-weight:700;
+      line-height:1.35;
+      letter-spacing:0.3px;
     }
-    .card {
-      background: #fafafa;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      padding:20px 16px 50px;
     }
-    footer {
-      background: #f5f5f5;
-      padding: 10px 20px;
-      margin-top: 40px;
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:26px 20px 32px;
+      margin-top:-32px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
     }
-    .footertheme img {
-      width: 100%;
-      margin-bottom: -10px;
-      height: auto;
-      display: block;
+
+    .logo-wrap{
+      text-align:center;
+      margin-bottom:18px;
     }
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1000px;
-      margin: auto;
-      /*gap: 20px;*/
+
+    .logo-wrap img{
+      width:240px;
+      max-width:100%;
     }
-    .footermenu {
-      flex: 1;
-      min-width: 250px;
+
+    p{
+      margin-bottom:20px;
+      text-align:justify;
+      color:#444;
+      font-size:1rem;
     }
-    .footermenu p {
-      margin: 6px 0;
-      font-size: 14px;
+
+    h3{
+      text-align:center;
+      margin-top:36px;
+      margin-bottom:18px;
+      font-size:1.35rem;
+      color:#111827;
     }
-    .footermenu strong {
-      color: #65409D;
+
+    .simple-list{
+      padding-left:22px;
+      margin-bottom:24px;
     }
-    .social {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 12px;
+
+    .simple-list li{
+      margin-bottom:12px;
+      color:#444;
+      text-align:justify;
     }
-    .social li a {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      background: #42094F;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 28px;
-      color: #fff;
-      font-size: 14px;
-      text-decoration: none;
+
+    /* Why Attend */
+
+    .why-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:8px;
     }
+
+    .why-item{
+      background:#ffffff;
+      border-radius:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--accent);
+      box-shadow:0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .why-item h4{
+      margin-bottom:4px;
+      color:var(--accent);
+      font-size:1rem;
+    }
+
+    .why-item p{
+      margin:0;
+      font-size:0.95rem;
+      color:#555;
+      text-align:justify;
+      line-height:1.7;
+    }
+
+    /* Final Highlight Box */
+
+    .final-box{
+      margin-top:36px;
+      background:var(--accent);
+      color:#fff;
+      padding:28px 22px;
+      border-radius:24px;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(59,29,130,0.25);
+    }
+
+    .final-box p{
+      color:rgba(255,255,255,0.95);
+      text-align:center;
+      margin:0;
+      font-size:1rem;
+      line-height:1.9;
+    }
+
+    @media(max-width:480px){
+
+      .hero{
+        height:165px;
+      }
+
+      .hero h1{
+        font-size:1.55rem;
+      }
+
+      .main-card{
+        padding:24px 16px 30px;
+      }
+
+      p,
+      .simple-list li{
+        font-size:0.96rem;
+      }
+
+      .logo-wrap img{
+        width:220px;
+      }
+
+      .why-item{
+        padding:13px 14px;
+      }
+
+    }
+
   </style>
 </head>
+
 <body>
-  <!-- Banner -->
-  <img src="https://i.ibb.co/bRmfxMkH/about-banner.jpg" alt="WOFA Banner" class="banner">
 
-  <!-- Content -->
-  <div class="container">
-    <div class="card">
-      <h1>About World Forum of Accountants (WOFA 2.0)</h1>
+  <!-- HERO -->
 
-      <p><b>World Forum of Accountants</b><br>
-      The World Forum of Accountants (WOFA 2.0) is the leading global platform dedicated to celebrating and advancing the Chartered Accountancy profession. At the heart of economic growth and good governance, Chartered Accountants serve as architects of prosperity, guardians of financial transparency, and uncompromising stewards of integrity. WOFA 2.0 brings together these influential professionals from around the world, recognizing their vital contribution to economies, societies, and the greater good.</p>
-
-      <p>More than a forum, WOFA 2.0 is a dynamic movement, highlighting the profession’s pivotal role in fostering responsible innovation, financial stability, and inclusive growth. It emphasizes the unwavering commitment of Chartered Accountants to ethical practices and transparency, strengthening the economic foundation of nations and ensuring public trust in financial systems.</p>
-
-      <p>Furthermore, WOFA 2.0 is more than an event; it is a nexus for collaboration, lifelong learning, and shared advancement. The forum brings together thought leaders, policymakers, industry innovators, and young professionals, creating valuable opportunities for exchange, partnership, and inspiration. By nurturing dialogue and encouraging diverse perspectives, WOFA 2.0 empowers accountants to become catalysts for change, bridging the gap between governments, businesses, and communities.</p>
-
-      <p>At WOFA 2.0, we celebrate the extraordinary power of the profession to transform expertise into practical, global solutions. Through uplifting stories, insightful sessions, and unparalleled networking, WOFA 2.0 is shaping a future that is ethical, sustainable, and prosperous for all.</p>
-
-      <h3>WOFA 2.0 Theme:</h3>
-
-      <p>The theme of WOFA 2.0 reflects the journey of the Chartered Accountancy profession from being a cornerstone of nation building to becoming a vital force in global collaboration. Chartered Accountants have long safeguarded trust, upheld ethics, and enabled growth within national economies.</p>
-
-      <p>Today, as the world navigates rapid change driven by technology, artificial intelligence, and sustainability, the profession is expanding its role on a global stage. Chartered Accountants are not only guardians of financial integrity but also catalysts for innovation, inclusion, and responsible growth.</p>
-
-      <p>This theme underscores our shared mission: to Strengthen Trust in a rapidly changing environment, Enable Growth through ethical expertise and innovative solutions, and embrace opportunities that extend beyond national borders. Together, we are shaping a resilient, forward-looking profession that leads the way in building a more prosperous and sustainable future for all.</p>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        AI Innovation Summit –<br>
+        AIS 2026
+      </h1>
     </div>
+  </section>
+
+  <!-- CONTENT -->
+
+  <div class="container">
+
+    <div class="main-card">
+
+      <div class="logo-wrap">
+        <img src="https://ai.icai.org/ais2026/images/ais2026.png" alt="AIS 2026 Logo">
+      </div>
+
+      <p>
+        The Institute of Chartered Accountants of India (ICAI), established under the Chartered Accountants Act, 1949, is the world’s largest professional body of Chartered Accountants, functioning under the administrative oversight of the Ministry of Corporate Affairs, Government of India. With a legacy of excellence and a commitment to nation-building, ICAI continues to lead the profession into the future by embracing innovation and emerging technologies.
+      </p>
+
+      <p>
+        AI Innovation Summit (AIS) 2026, scheduled on 26th & 27th June 2026 at Bharat Mandapam, New Delhi, is a flagship global platform that brings together the brightest minds in finance, technology, and governance. This two-day summit is designed to explore how Artificial Intelligence is redefining the future of the accounting profession and beyond.
+      </p>
+
+      <p>
+        With the theme “Transforming Accounting, Audit, Tax, and Governance”, AIS 2026 will showcase how AI is revolutionizing financial ecosystems—enabling smarter decision-making, enhancing compliance, driving efficiency, and unlocking new strategic possibilities. As businesses adapt to rapid technological shifts and evolving regulatory frameworks, this summit will serve as a catalyst for innovation and transformation.
+      </p>
+
+      <p>
+        Participants will experience a dynamic blend of insightful keynotes, high-impact panel discussions, real-world use cases, and live demonstrations, delivered by industry leaders, global experts, policymakers, and innovators. The summit will also host the much-awaited AI Hackathon Grand Finale, highlighting cutting-edge solutions developed by emerging talent.
+      </p>
+
+      <!-- WHO SHOULD ATTEND -->
+
+      <h3>Who Should Attend</h3>
+
+      <p style="margin-bottom:12px;">
+        AIS 2026 is ideal for:
+      </p>
+
+      <ul class="simple-list">
+        <li>Chartered Accountants and finance professionals</li>
+        <li>AI and technology practitioners</li>
+        <li>Regulators and policymakers</li>
+        <li>Academicians and researchers</li>
+        <li>Industry leaders, startups, and innovators</li>
+      </ul>
+
+      <!-- WHY ATTEND -->
+
+      <h3>Why Attend AIS 2026</h3>
+
+      <div class="why-list">
+
+        <div class="why-item">
+          <h4>Inspiring Keynotes & Power Panels</h4>
+          <p>
+            Hear from global leaders and pioneers shaping the AI-driven future of finance.
+          </p>
+        </div>
+
+        <div class="why-item">
+          <h4>AI Hackathon Grand Finale</h4>
+          <p>
+            Witness innovative, real-world AI solutions addressing critical challenges in finance and governance.
+          </p>
+        </div>
+
+        <div class="why-item">
+          <h4>Hands-on Learning & Use Cases</h4>
+          <p>
+            Gain practical insights into AI applications across accounting, audit, tax, and compliance.
+          </p>
+        </div>
+
+        <div class="why-item">
+          <h4>Unparalleled Networking</h4>
+          <p>
+            Connect with a diverse ecosystem of professionals, thought leaders, and technology providers.
+          </p>
+        </div>
+
+        <div class="why-item">
+          <h4>Innovation & Exhibition Zone</h4>
+          <p>
+            Explore next-gen AI tools, platforms, and solutions from leading organizations and startups.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- FINAL BOX -->
+
+      <div class="final-box">
+
+        <p>
+          AIS 2026 is not just a conference, it is a movement towards building an intelligent, future-ready financial ecosystem. Join us in New Delhi to be a part of this transformative journey.
+        </p>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-container">
-      <div class="footermenu">
-        <p><strong>Corporate and PAO Sponsorship Opportunities:</strong></p>
-        <p onclick="sendLink('mailto:wofasponsorship@icai.in')">wofasponsorship@icai.in</p>
-
-        <p><strong>CA Firm Participation:</strong></p>
-        <p onclick="sendLink('mailto:wofafp@icai.in')">wofafp@icai.in</p>
-
-        <p><strong>Registration Related Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofaregistrations@icai.in')">wofaregistrations@icai.in</p>
-
-        <p><strong>General Queries:</strong></p>
-        <p onclick="sendLink('mailto:wofa@icai.in')">wofa@icai.in</p>
-      </div>
-
-      <div class="footermenu">
-        <p><strong>WOFA Secretariat</strong></p>
-        <p>
-          The Institute of Chartered Accountants of India<br>
-          ICAI Bhawan, Indraprastha Marg, New Delhi – 110002<br>
-          Ph: +91 11 3011 0487
-        </p>
-        
-          <section class="footertheme">
-    <img src="https://wofa.icai.org/images/footer_theme.png" alt="WOFA Theme">
-  </section>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function sendLink(url) {
-      // This sends the link string to the React Native app
-      window.ReactNativeWebView.postMessage(url);
-    }
-  </script>
 </body>
 </html>
