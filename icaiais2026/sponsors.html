@@ -82,11 +82,25 @@
       margin-bottom:20px;
     }
 
-    .tier-heading h2{
-      font-size:1.45rem;
-      color:#111827;
-      margin-bottom:10px;
-    }
+    .tier-heading h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.tier-heading h2::before,
+.tier-heading h2::after {
+    content: "";
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #5a2ca0,
+        transparent
+    );
+}
 
     .underline{
       width:70px;
@@ -97,11 +111,16 @@
     }
 
     /* GRID */
-    .logo-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:16px;
-    }
+    .logo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.logo-card {
+    width: calc(50% - 8px);
+}
 
     /* CARD */
     .logo-card{
@@ -188,463 +207,772 @@
 
     <div class="main-card">
 
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Media Sponsor</h2>
-          <div class="underline"></div>
+<div class="row">
+  <div class="tier col-md-6" >
+  <div class="tier-heading">
+    <h2>Media Sponsors</h2>
+  </div>
+  <div class="logo-grid grid-3">
+  
+    <div class="logo-card featured">
+      <a href="https://economictimes.indiatimes.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/et-logo.png" alt="Economic Times" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
         </div>
-        <div class="single-grid">
-          <div class="logo-card">
-            <a href="https://economictimes.indiatimes.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/et-logo.png" alt="Economic Times">
-              </div>
-              <span class="logo-caption">Economic Times</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>AI-Ready Smartphone Partner</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="single-grid">
-          <div class="logo-card">
-            <a href="https://shivaamipixel.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/shivaamipixel.png" alt="The Shivaami">
-              </div>
-              <span class="logo-caption">The Shivaami</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Title Sponsors</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="logo-grid">
-          <div class="logo-card">
-            <a href="https://www.fairvaluation.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/fairvaluation.png" alt="Fair Valuation">
-              </div>
-              <span class="logo-caption">fairvaluation</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.finaceverse.io/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/finaceverse.png" alt="FinACE verse">
-              </div>
-              <span class="logo-caption">FinACE verse</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://tinyurl.com/aisjune2026" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/Tax-One-Logo.png" alt="Vyapar TaxOne">
-              </div>
-              <span class="logo-caption">Vyapar TaxOne</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://omnicard.in/spend-management" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/omnicard.png" alt="OmniCard">
-              </div>
-              <span class="logo-caption">OmniCard</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.kdksoftware.com" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/kdksoftware.jpeg" alt="KDK Software">
-              </div>
-              <span class="logo-caption">KDK Software</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.mastersindia.co/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/mastersindia.jpeg" alt="Masters India">
-              </div>
-              <span class="logo-caption">Masters India</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Gold Sponsors</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="logo-grid">
-          <div class="logo-card">
-            <a href="https://www.mileseducation.com/caira" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/caira_logo.jpeg" alt="CAIRA">
-              </div>
-              <span class="logo-caption">CAIRA</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.aalekh.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/AalekhAI.jpg" alt="Aalekh.AI">
-              </div>
-              <span class="logo-caption">Aalekh.AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://inspheresolutions.com" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/inspheresolutions.jpeg" alt="Insphere Solutions">
-              </div>
-              <span class="logo-caption">Insphere Solutions</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Content Partner</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="single-grid">
-          <div class="logo-card">
-            <a href="https://www.taxmann.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/taxmann.png" alt="TAXMANN">
-              </div>
-              <span class="logo-caption">TAXMANN</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Technology Partners</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="logo-grid">
-          <div class="logo-card">
-            <a href="https://mybizzerp.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/MyBizz.png" alt="My Bizz ERP">
-              </div>
-              <span class="logo-caption">My Bizz ERP</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.bizalys.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/bizalys-logo.png" alt="Bizalys Infosystems">
-              </div>
-              <span class="logo-caption">Bizalys Infosystems</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://techca.app/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/techca.png" alt="TechCA Pulse">
-              </div>
-              <span class="logo-caption">TechCA Pulse</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.finpera.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/finpera.png" alt="FinPera AI">
-              </div>
-              <span class="logo-caption">FinPera AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://simplifyte.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/simplifyte.png" alt="Simplifyte">
-              </div>
-              <span class="logo-caption">Simplifyte</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.foresightdigital.tech/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/foresightdigital.png" alt="Foresight Digital">
-              </div>
-              <span class="logo-caption">Foresight Digital</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://cadel.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/cadel-logo-full-black.png" alt="Cadel.AI">
-              </div>
-              <span class="logo-caption">Cadel.AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://tallysolutions.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/tally.jpeg" alt="Tally">
-              </div>
-              <span class="logo-caption">Tally</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://febi.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/febi.png" alt="Febi AI">
-              </div>
-              <span class="logo-caption">Febi AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://themunim.com/?source=ais2026" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/munimsite.svg" alt="The Munim">
-              </div>
-              <span class="logo-caption">The Munim</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.taxobuddy.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/taxobuddy.png" alt="Texo Buddy">
-              </div>
-              <span class="logo-caption">Texo Buddy</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="#" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/pnl.png" alt="P&L">
-              </div>
-              <span class="logo-caption">P&amp;L</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://webledger.in/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/webLedger-logo.png" alt="webLedger">
-              </div>
-              <span class="logo-caption">webLedger</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://nu-pie.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/nu-pie.png" alt="Nu-Pie">
-              </div>
-              <span class="logo-caption">Nu-Pie</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://figmentglobal.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/Figment-Logo.png" alt="Figment Global">
-              </div>
-              <span class="logo-caption">Figment Global Solutions</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://accomation.io/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/accomation-logo.png" alt="Accomation.io">
-              </div>
-              <span class="logo-caption">Accomation.io</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://giddh.com/in" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://giddh.com/img/giddh-logo.svg" alt="Giddh">
-              </div>
-              <span class="logo-caption">Giddh</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://astronfinancials.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/astronfinancials.png" alt="Astron Technologies">
-              </div>
-              <span class="logo-caption">Astron Technologies</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.microvistatech.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/microvistatech.png" alt="Microvista Technology">
-              </div>
-              <span class="logo-caption">Microvista Technology</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://shadobooks.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/logo_shadobooks.png" alt="Shado Books">
-              </div>
-              <span class="logo-caption">Shado Books ERP Solutions</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://bharatx.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/BharatX.png" alt="Bharat X">
-              </div>
-              <span class="logo-caption">Bharat X</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Partner Sponsors</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="logo-grid">
-          <div class="logo-card">
-            <a href="https://www.smartledger.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/smartledger.png" alt="SmartLedger.AI">
-              </div>
-              <span class="logo-caption">SmartLedger.AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://soxmate.com" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/Soxmate.jpeg" alt="Soxmate Consultants">
-              </div>
-              <span class="logo-caption">Soxmate Consultants</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://taxbotgpt.ai" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/tax_bat_gpt.jpeg" alt="TaxBotGPT">
-              </div>
-              <span class="logo-caption">TaxBotGPT</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.vaive.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/Vaive_ai_logo.png" alt="Vaive.AI">
-              </div>
-              <span class="logo-caption">Vaive.AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.finnect.org.in/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/finnect.png" alt="Finnect.ai">
-              </div>
-              <span class="logo-caption">Finnect.ai</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://serenvya.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/serenvya.jpeg" alt="Serenvya Consulting">
-              </div>
-              <span class="logo-caption">Serenvya Consulting</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.renxaa.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/renxaa.png" alt="ElevateOps">
-              </div>
-              <span class="logo-caption">ElevateOps Technologies</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.linkedin.com/in/kartiktambi/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/kartiktambi.png" alt="Kartik Studios">
-              </div>
-              <span class="logo-caption">Kartik Studios</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://mandpindia.com/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/mandpindia-logo.png" alt="M & P IP Protectors">
-              </div>
-              <span class="logo-caption">M &amp; P IP Protectors</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.portraiturebypari.com" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/logo_Portraiture.png" alt="Portraiture">
-              </div>
-              <span class="logo-caption">Portraiture</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.finspectors.ai/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/logo_finspectors.png" alt="Finspectors">
-              </div>
-              <span class="logo-caption">Finspectors</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="tier">
-        <div class="tier-heading">
-          <h2>Digital Partners</h2>
-          <div class="underline"></div>
-        </div>
-        <div class="logo-grid">
-          <div class="logo-card">
-            <a href="https://epitomesolutions.in" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/epitome.png" alt="EPITOME">
-              </div>
-              <span class="logo-caption">EPITOME</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://www.betelaudit.com" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/betalaudit.png" alt="Betel Audit">
-              </div>
-              <span class="logo-caption">Betel Audit</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://coraa.ai" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/coraa.png" alt="CORAA AI">
-              </div>
-              <span class="logo-caption">CORAA AI</span>
-            </a>
-          </div>
-          <div class="logo-card">
-            <a href="https://thelegalone.in/" target="_blank">
-              <div class="logo-img-wrap">
-                <img src="https://ai.icai.org/ais2026/images/sponsors/The_Legal_One.png" alt="The Legal One">
-              </div>
-              <span class="logo-caption">The Legal One</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
+        <span class="logo-caption">The Economic Times</span>
+      </a>
     </div>
+    
+  </div>
+  </div>
+
+  <div class="tier col-md-6" >
+    <div class="tier-heading">
+      <h2>AI-Ready Smartphone Partner</h2>
+    </div>
+    <div class="logo-grid grid-3" style="grid-template-columns: repeat(auto-fit, minmax(400px, 300px));">
+      
+     <div class="logo-card featured">
+        <a href="https://shivaamipixel.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+          <div class="logo-img-wrap">
+            <img src="https://ai.icai.org/ais2026/images/sponsors/shivaamipixel.png" alt="Shivaami" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" style="max-width: 100%;" />
+          <span class="logo-caption">shivaami X Google Pixel</span>
+        </a>
+      </div>
+      
+      <!--<div class="logo-card featured">
+        <a href="https://economictimes.indiatimes.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+          <div class="logo-img-wrap">
+            <img src="https://ai.icai.org/ais2026/images/sponsors/et-logo.png" alt="Economic Times" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            
+          </div>
+          <span class="logo-caption">Economic Times</span>
+        </a>
+      </div> -->
+      
+    </div>
+  </div>
+</div>
+
+<div class="tier">
+  <div class="tier-heading">
+    <h2>Title Sponsors</h2>
+  </div>
+  <div class="logo-grid grid-3">
+
+    <div class="logo-card featured">
+      <a href="https://www.fairvaluation.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/fairvaluation.png" alt="Economic-Times"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">fairvaluation</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.finaceverse.io/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/finaceverse.png" alt="FinACE verse"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">FinACE verse</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://tinyurl.com/aisjune2026" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/Tax-One-Logo.png" alt="Vyapar TaxOne"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Vyapar TaxOne</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://omnicard.in/spend-management" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/omnicard.png" alt="OmniCard"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">OmniCard</span>
+      </a>
+    </div>
+    
+    <div class="logo-card featured">
+      <a href="https://www.kdksoftware.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/kdksoftware.jpeg" alt="KDK Software"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">KDK Software</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.mastersindia.co/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/mastersindia.jpeg" alt="Masters India"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Masters India</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+       GOLD PARTNER
+  ============================================== -->
+  <div class="row">
+    <div class="tier col-md-6" >
+      <div class="tier-heading">
+        <h2>Gold Sponsors</h2>
+      </div>
+      <div class="logo-grid grid-3">
+
+        <div class="logo-card featured">
+          <a href="https://www.mileseducation.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+            <div class="logo-img-wrap">
+              <img src="https://ai.icai.org/ais2026/images/sponsors/miles_education.png" alt="Miles Education"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              
+            </div>
+            <span class="logo-caption">Miles Education</span>
+          </a>
+        </div>
+
+        <div class="logo-card featured">
+          <a href="https://www.aalekh.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+            <div class="logo-img-wrap">
+              <img src="https://ai.icai.org/ais2026/images/sponsors/AalekhAI.jpg" alt="Aalekh.AI"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              
+            </div>
+            <span class="logo-caption">Aalekh.AI</span>
+          </a>
+        </div>
+
+        <div class="logo-card featured">
+          <a href="https://inspheresolutions.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+            <div class="logo-img-wrap">
+              <img src="https://ai.icai.org/ais2026/images/sponsors/inspheresolutions.jpeg" alt="Insphere Solutions"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              
+            </div>
+            <span class="logo-caption">Insphere Solutions</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tier col-md-6">
+      <div class="tier-heading">
+        <h2>Content Partner</h2>
+      </div>
+      <div class="logo-grid grid-3">
+
+        <div class="logo-card featured">
+          <a href="https://www.taxmann.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+            <div class="logo-img-wrap">
+              <img src="https://ai.icai.org/ais2026/images/sponsors/taxmann.png" alt="TAXMANN"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              
+            </div>
+            <span class="logo-caption">TAXMANN</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- =============================================
+       TECHNOLOGY PARTNER
+  ============================================== -->
+<div class="tier">
+  <div class="tier-heading">
+    <h2>Technology Partner</h2>
+  </div>
+  <div class="logo-grid grid-3">
+
+    <div class="logo-card">
+      <a href="https://mybizzerp.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/MyBizz.png" alt="My Bizz"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">My Bizz ERP</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.bizalys.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/bizalys-logo.png" alt="Bizalys Infosystems Private Limited"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Bizalys Infosystems Private Limited</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://techca.app/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/techca.png" alt="TechCA Pulse"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">TechCA Pulse</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.finpera.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/finpera.png" alt="FinPera AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Finpera AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://simplifyte.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/simplifyte.png" alt="Simplifyte"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Simplifyte</span>
+      </a>
+    </div>
+    
+    <div class="logo-card featured">
+      <a href="https://www.foresightdigital.tech/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/foresightdigital.png" alt="Foresight Digital Private Limited"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Foresight Digital Private Limited</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://cadel.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/cadel-logo-full-black.png" alt="Cadel.AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Cadel.AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://tallysolutions.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/tally.jpeg" alt="Tally"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Tally</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://febi.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/febi.png" alt="Febi AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Febi AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://themunim.com/?source=ais2026" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/munimsite.svg" alt="The Munim"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">The Munim</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.taxobuddy.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/taxobuddy.png" alt="Texo Buddy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Taxo Buddy</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="#" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/pnl_logo.png" alt="P&L"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">P&L</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://webledger.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/webLedger-logo.png" alt="webLedger"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">WEBLEDGER</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://nu-pie.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/nu-pie.png" alt="Nu-Pie"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Nu-Pie</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://figmentglobal.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/Figment-Logo.png" alt="Figment Global Solutions Pvt. Ltd."
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Figment Global Solutions Pvt. Ltd.</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://accomation.io/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/accomation-logo.png" alt="Accomation.io"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption  d-block">Accomation.io</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://giddh.com/in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://giddh.com/img/giddh-logo.svg" alt="Giddh"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Giddh</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://astronfinancials.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/astronfinancials.png" alt="Astron Technologies"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Astron Technologies</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.microvistatech.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/microvistatech.png" alt="Microvista Technology"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Microvista Technologies</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://shadobooks.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_shadobooks.png" alt="Shado Books ERP Solutions"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Shado Books ERP Solutions</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://bharatx.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/BharatX.png" alt="Bharat X"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Bharat X</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://gogstbill.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/gogstbill.png" alt="Go GST Bill"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Go GST Bill</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://www.bharathcloud.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/bharatcloud.png" alt="Bharath Cloud"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Bharath Cloud</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://vidur.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/vidur.png" alt="Vidur"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Vidur</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://www.smartledger.ai" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/smartledger.jpeg" alt="Smart Ledger"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Smart Ledger</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================
+       PARTNER PARTNERS
+  ============================================== -->
+
+<div class="tier">
+  <div class="tier-heading">
+    <h2>Partner Sponsor</h2>
+  </div>
+  <div class="logo-grid grid-4">
+
+    <div class="logo-card featured">
+      <a href="https://soxmate.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/Soxmate.jpeg" alt="Soxmate Consultants"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Soxmate Consultants</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://taxbotgpt.ai" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/tax_bat_gpt.jpeg" alt="TaxBotGPT"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">TaxBotGPT</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.vaive.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/Vaive_ai_logo.png" alt="Vaive.AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Vaive.AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.finnect.org.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/finnect.png" alt="Finnect.ai"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Finnect.ai</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://serenvya.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/serenvya.jpeg" alt="Serenvya Consulting and Automations P.L."
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Serenvya Consulting and Automations P.L.</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.renxaa.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/renxaa.png" alt="ElevateOps Technologies Pvt Ltd"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">ElevateOps<br/>Technologies Pvt Ltd</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.linkedin.com/in/kartiktambi/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/kartiktambi.png" alt="Kartik Studios"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Kartik Studios</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://mandpindia.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/mandpindia-logo.png" alt="M & P IP Protectors"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">M & P IP Protectors</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.portraiturebypari.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_Portraiture.png" alt="Portraiture"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Portraiture</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.finspectors.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_finspectors.png" alt="finspectors"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Finspectors</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://getswipe.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_swipe.png" alt="Swipe"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Swipe</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.accountooze.ai/in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_accountooze.svg" alt="Accountooze.ai"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption d-block">Accountooze.ai</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.accountooze.ai/in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_credable.png" alt="CredAble"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">CredAble</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://querygen.ai/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/querygen.png" alt="Querygen AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Querygen AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://www.perfactimpression.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/perfactimpression.png" alt="Perfact Impression"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Perfact Impression</span>
+      </a>
+    </div>
+
+    <div class="logo-card featured">
+      <a href="https://showcraftglobal.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo-showcraftglobal.png" alt="showcraftglobal" style="max-width: 190px !important;"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">ShowCraft Global</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================
+       DIGITAL PARTNERS
+  ============================================== -->
+<div class="tier">
+  <div class="tier-heading">
+    <h2>Digital Partner</h2>
+  </div>
+  <div class="logo-grid grid-4">
+
+    <div class="logo-card featured">
+      <a href="https://epitomesolutions.in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/epitome.png" alt="Epitome Corporation Private Limited"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Epitome Corporation Private Limited</span>
+      </a>
+    </div>
+
+    <!-- <div class="logo-card">
+      <a href="https://www.savincommunication.com/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/logo_savin.jpg" alt="Savin Communication Private Limited"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Savin Communication Private Limited</span>
+      </a>
+    </div> -->
+
+    <div class="logo-card">
+      <a href="https://www.betelaudit.com" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/betalaudit.png" alt="Betel Audit"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Betel Audit</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://coraa.ai" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/coraa.png" alt="CORAA AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">CORAA AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://thelegalone.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/The_Legal_One.png" alt="The Legal One"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">The Legal One</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://finexo.in/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/Finexo.webp" alt="Finexo"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">FINEXO</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://proviai.in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/provi.png" alt="Provi AI"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Provi AI</span>
+      </a>
+    </div>
+
+    <div class="logo-card">
+      <a href="https://www.dreamcast.in" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://ai.icai.org/ais2026/images/sponsors/dreamcast.png" alt="Dreamcast"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">Dreamcast</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+</div>
   </div>
 
 </body>
