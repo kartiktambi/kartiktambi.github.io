@@ -83,10 +83,10 @@
       border-radius: 8px;
       margin: 32px 0;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-left: 4px solid #1447e6;
+      border-top: 5px solid #f11158; /* Changed from left edge to top edge */
       text-align: center;
       transition: transform 0.2s;
-      overflow:hidden;
+      overflow: hidden;
     }
     .developer-card:hover {
       transform: translateY(-4px);
@@ -99,54 +99,74 @@
     .developer-card h2 {
       font-size: 20px;
       color: #1a3c34;
-      margin-bottom: 16px;
+      margin-bottom: 4px;
       font-weight: 600;
+    }
+    .developer-card .stall-info {
+      font-size: 14px;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 16px;
     }
     .developer-links {
       display: flex;
-      justify-content: center;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 8px;
       margin-bottom: 16px;
-      flex-wrap: wrap;
+      padding: 0 16px;
+      flex-wrap: nowrap; /* Ensures buttons stay on one line */
     }
     .link-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 14px;
+      justify-content: center;
+      font-size: 16px; /* Slightly bigger text */
+      font-weight: 500;
       color: #444;
       background-color: #f0f4f8;
-      padding: 8px 16px;
+      padding: 6px 8px; /* Less padding */
       border-radius: 6px;
       text-decoration: none;
       transition: background-color 0.2s;
       cursor: pointer;
+      border: 2px solid #f11158;
+      text-align: center;
+    }
+    .side-btn {
+      flex: 1; /* Makes the side buttons small and equal */
+    }
+    .center-btn {
+      flex: 2.5; /* Makes the center button notably longer */
     }
     .link-item:hover {
       background-color: #e0e8f0;
     }
-    .link-item .icon {
-      font-size: 16px;
-      color: #1447e6;
+    /* Solid Theme Colored Button */
+    .link-item.theme-btn {
+      background-color: #f11158;
+      color: #fff;
+    }
+    .link-item.theme-btn:hover {
+      background-color: #d00f4b;
     }
     .business-card-image {
       width: 100%;
       height: auto;
       display: block;
+      margin: 0;
+      padding: 0;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <!-- Intro -->
     <div class="intro-card">
       <p>
         Discover the ultimate event companion with our app, designed to maximise your experience at ICAI AIS 2026! Seamlessly log in with your registered Email ID to access a host of features tailored for professionals.<br><br>From creating your personalized profile to exploring delegate directories and scheduling meetings, our app offers everything you need to network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.
       </p>
     </div>
 
-    <!-- Feature Cards -->
     <div class="feature-cards">
       <div class="feature-card">
         <div class="icon">🤖</div>
@@ -180,30 +200,31 @@
       </div>
     </div>
 
-    <!-- Developer Card -->
     <div class="developer-card">
-      <h3>App Designed & Developed By</h3><h2><span style="color:#1447e6;">Kartik Tambi</span></h2>
+      <h3>App Designed & Developed By</h3>
+      <h2><span style="color:#f11158;">Kartik Studios</span></h2>
+      <div class="stall-info">Visit us at Stall S-08 at the Event!</div>
+      
       <div class="developer-links">
-        <div class="link-item" onclick="sendLink('https://wa.me/917972341581')">
-          <span class="icon">📞</span> Contact
+        <div class="link-item side-btn" onclick="sendLink('https://wa.me/917972341581')">
+          Contact
         </div>
-        <div class="link-item" 
-     style="border-width: 2px; border-color: #007add; border-style: solid;" 
-     onclick="sendLink('https://about.me/kartiktambi')">
-  Profile
-</div>
+        
+        <div class="link-item center-btn theme-btn" onclick="sendLink('https://kartikstudios.com')">
+          Our Website
+        </div>
 
-        <div class="link-item" style="border-width: 2px; border-color: #007add; border-style: solid;"  onclick="sendLink('https://www.linkedin.com/in/kartiktambi/')">
+        <div class="link-item side-btn" onclick="sendLink('https://www.linkedin.com/in/kartiktambi/')">
           LinkedIn
         </div>
       </div>
-      <img src="https://i.ibb.co/67J3M04G/Kartik-Tambi-Business-Card.png" alt="Kartik Tambi Business Card" class="business-card-image">
+      
+      <img src="https://i.ibb.co/x8z7sy6t/1.png" alt="Kartik Studios Business Card" class="business-card-image">
     </div>
   </div>
 
   <script>
     function sendLink(url) {
-      // This sends the link string to the React Native app
       window.ReactNativeWebView.postMessage(url);
     }
   </script>
