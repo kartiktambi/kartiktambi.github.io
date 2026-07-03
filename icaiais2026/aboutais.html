@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +7,6 @@
   <title>AI Innovation Summit – AIS 2026</title>
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -15,7 +15,9 @@
 
     :root{
       --accent:#3b1d82;
+      --accent-dark:#2f1667;
       --accent-light:#f4f0ff;
+      --button-text:#ffffff;
     }
 
     body{
@@ -108,8 +110,67 @@
       text-align:justify;
     }
 
-    /* Why Attend */
+    /* VIDEO SECTION */
 
+.video-section{
+  margin:6px 0 10px;
+  text-align:center;
+}
+
+.video-section h3{
+  margin:-15px 0 10px;
+  color:#111827;
+  font-size:1.2rem;
+}
+
+.video-buttons{
+  display:flex;
+  gap:14px;
+}
+
+.video-btn{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px 14px;
+  background:var(--accent);
+  color:#fff;
+  text-decoration:none;
+  border-radius:16px;
+  font-weight:700;
+  font-size:1rem;
+  box-shadow:0 8px 20px rgba(59,29,130,.18);
+  transition:.2s;
+}
+
+.video-btn:hover{
+  background:#2f1667;
+  transform:translateY(-2px);
+}
+
+.section-divider{
+  width:90px;
+  height:3px;
+  background:#ddd;
+  margin:24px auto 26px;
+  border-radius:10px;
+}
+
+@media(max-width:480px){
+
+  .video-buttons{
+    gap:10px;
+  }
+
+  .video-btn{
+    padding:14px 8px;
+    font-size:.95rem;
+  }
+
+}
+
+    /* Why Attend */
     .why-list{
       display:flex;
       flex-direction:column;
@@ -140,7 +201,6 @@
     }
 
     /* Final Highlight Box */
-
     .final-box{
       margin-top:36px;
       background:var(--accent);
@@ -160,7 +220,6 @@
     }
 
     @media(max-width:480px){
-
       .hero{
         height:165px;
       }
@@ -186,9 +245,13 @@
         padding:13px 14px;
       }
 
+      .video-btn{
+        padding:15px 16px;
+        font-size:0.98rem;
+      }
     }
-
   </style>
+
 </head>
 
 <body>
@@ -207,99 +270,116 @@
   <!-- CONTENT -->
 
   <div class="container">
-
     <div class="main-card">
 
-      <div class="logo-wrap">
-        <img src="https://ai.icai.org/ais2026/images/ais2026.png" alt="AIS 2026 Logo">
-      </div>
+  <div class="logo-wrap">
+    <img src="https://ai.icai.org/ais2026/images/ais2026.png" alt="AIS 2026 Logo">
+  </div>
+  <div class="section-divider"></div>
 
+  
+  <!-- VIDEO BUTTONS -->
+<div class="video-section">
+
+  <h3>Watch Session Videos</h3>
+
+  <div class="video-buttons">
+    <a class="video-btn"
+       href="https://www.youtube.com/watch?v=SZk83puYVpw"
+       target="_blank">
+      ▶ Day 1
+    </a>
+
+    <a class="video-btn"
+       href="https://www.youtube.com/watch?v=0mb7iHb9ZBo"
+       target="_blank">
+      ▶ Day 2
+    </a>
+  </div>
+
+</div>
+
+<div class="section-divider"></div>
+
+  <p>
+    The Institute of Chartered Accountants of India (ICAI), established under the Chartered Accountants Act, 1949, is the world’s largest professional body of Chartered Accountants, functioning under the administrative oversight of the Ministry of Corporate Affairs, Government of India. With a legacy of excellence and a commitment to nation-building, ICAI continues to lead the profession into the future by embracing innovation and emerging technologies.
+  </p>
+
+  <p>
+    AI Innovation Summit (AIS) 2026, scheduled on 26th & 27th June 2026 at Bharat Mandapam, New Delhi, is a flagship global platform that brings together the brightest minds in finance, technology, and governance. This two-day summit is designed to explore how Artificial Intelligence is redefining the future of the accounting profession and beyond.
+  </p>
+
+  <p>
+    With the theme “Transforming Accounting, Audit, Tax, and Governance”, AIS 2026 will showcase how AI is revolutionizing financial ecosystems—enabling smarter decision-making, enhancing compliance, driving efficiency, and unlocking new strategic possibilities. As businesses adapt to rapid technological shifts and evolving regulatory frameworks, this summit will serve as a catalyst for innovation and transformation.
+  </p>
+
+  <p>
+    Participants will experience a dynamic blend of insightful keynotes, high-impact panel discussions, real-world use cases, and live demonstrations, delivered by industry leaders, global experts, policymakers, and innovators. The summit will also host the much-awaited AI Hackathon Grand Finale, highlighting cutting-edge solutions developed by emerging talent.
+  </p>
+
+  <!-- WHO SHOULD ATTEND -->
+  <h3>Who Should Attend</h3>
+
+  <p style="margin-bottom:12px;">
+    AIS 2026 is ideal for:
+  </p>
+
+  <ul class="simple-list">
+    <li>Chartered Accountants and finance professionals</li>
+    <li>AI and technology practitioners</li>
+    <li>Regulators and policymakers</li>
+    <li>Academicians and researchers</li>
+    <li>Industry leaders, startups, and innovators</li>
+  </ul>
+
+  <!-- WHY ATTEND -->
+  <h3>Why Attend AIS 2026</h3>
+
+  <div class="why-list">
+    <div class="why-item">
+      <h4>Inspiring Keynotes & Power Panels</h4>
       <p>
-        The Institute of Chartered Accountants of India (ICAI), established under the Chartered Accountants Act, 1949, is the world’s largest professional body of Chartered Accountants, functioning under the administrative oversight of the Ministry of Corporate Affairs, Government of India. With a legacy of excellence and a commitment to nation-building, ICAI continues to lead the profession into the future by embracing innovation and emerging technologies.
+        Hear from global leaders and pioneers shaping the AI-driven future of finance.
       </p>
-
-      <p>
-        AI Innovation Summit (AIS) 2026, scheduled on 26th & 27th June 2026 at Bharat Mandapam, New Delhi, is a flagship global platform that brings together the brightest minds in finance, technology, and governance. This two-day summit is designed to explore how Artificial Intelligence is redefining the future of the accounting profession and beyond.
-      </p>
-
-      <p>
-        With the theme “Transforming Accounting, Audit, Tax, and Governance”, AIS 2026 will showcase how AI is revolutionizing financial ecosystems—enabling smarter decision-making, enhancing compliance, driving efficiency, and unlocking new strategic possibilities. As businesses adapt to rapid technological shifts and evolving regulatory frameworks, this summit will serve as a catalyst for innovation and transformation.
-      </p>
-
-      <p>
-        Participants will experience a dynamic blend of insightful keynotes, high-impact panel discussions, real-world use cases, and live demonstrations, delivered by industry leaders, global experts, policymakers, and innovators. The summit will also host the much-awaited AI Hackathon Grand Finale, highlighting cutting-edge solutions developed by emerging talent.
-      </p>
-
-      <!-- WHO SHOULD ATTEND -->
-
-      <h3>Who Should Attend</h3>
-
-      <p style="margin-bottom:12px;">
-        AIS 2026 is ideal for:
-      </p>
-
-      <ul class="simple-list">
-        <li>Chartered Accountants and finance professionals</li>
-        <li>AI and technology practitioners</li>
-        <li>Regulators and policymakers</li>
-        <li>Academicians and researchers</li>
-        <li>Industry leaders, startups, and innovators</li>
-      </ul>
-
-      <!-- WHY ATTEND -->
-
-      <h3>Why Attend AIS 2026</h3>
-
-      <div class="why-list">
-
-        <div class="why-item">
-          <h4>Inspiring Keynotes & Power Panels</h4>
-          <p>
-            Hear from global leaders and pioneers shaping the AI-driven future of finance.
-          </p>
-        </div>
-
-        <div class="why-item">
-          <h4>AI Hackathon Grand Finale</h4>
-          <p>
-            Witness innovative, real-world AI solutions addressing critical challenges in finance and governance.
-          </p>
-        </div>
-
-        <div class="why-item">
-          <h4>Hands-on Learning & Use Cases</h4>
-          <p>
-            Gain practical insights into AI applications across accounting, audit, tax, and compliance.
-          </p>
-        </div>
-
-        <div class="why-item">
-          <h4>Unparalleled Networking</h4>
-          <p>
-            Connect with a diverse ecosystem of professionals, thought leaders, and technology providers.
-          </p>
-        </div>
-
-        <div class="why-item">
-          <h4>Innovation & Exhibition Zone</h4>
-          <p>
-            Explore next-gen AI tools, platforms, and solutions from leading organizations and startups.
-          </p>
-        </div>
-
-      </div>
-
-      <!-- FINAL BOX -->
-
-      <div class="final-box">
-
-        <p>
-          AIS 2026 is not just a conference, it is a movement towards building an intelligent, future-ready financial ecosystem. Join us in New Delhi to be a part of this transformative journey.
-        </p>
-
-      </div>
-
     </div>
+
+    <div class="why-item">
+      <h4>AI Hackathon Grand Finale</h4>
+      <p>
+        Witness innovative, real-world AI solutions addressing critical challenges in finance and governance.
+      </p>
+    </div>
+
+    <div class="why-item">
+      <h4>Hands-on Learning & Use Cases</h4>
+      <p>
+        Gain practical insights into AI applications across accounting, audit, tax, and compliance.
+      </p>
+    </div>
+
+    <div class="why-item">
+      <h4>Unparalleled Networking</h4>
+      <p>
+        Connect with a diverse ecosystem of professionals, thought leaders, and technology providers.
+      </p>
+    </div>
+
+    <div class="why-item">
+      <h4>Innovation & Exhibition Zone</h4>
+      <p>
+        Explore next-gen AI tools, platforms, and solutions from leading organizations and startups.
+      </p>
+    </div>
+  </div>
+
+  <!-- FINAL BOX -->
+  <div class="final-box">
+    <p>
+      AIS 2026 is not just a conference, it is a movement towards building an intelligent, future-ready financial ecosystem. Join us in New Delhi to be a part of this transformative journey.
+    </p>
+  </div>
+
+</div>
 
   </div>
 
