@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AIS 2026 Sponsors</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --accent:#3b1d82;
+      --light:#f6f3ff;
+      --border:#ebe5ff;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.7;
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      height:190px;
+      background:url('https://ai.icai.org/ais2026/images/hero_area/banner_bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
+    }
+
+    .hero h1{
+      font-size:2rem;
+      font-weight:700;
+      line-height:1.4;
+    }
+
+    /* MAIN */
+    .container{
+      max-width:760px;
+      margin:auto;
+      padding:20px 16px 50px;
+    }
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:28px 18px 35px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    /* TIER */
+    .tier{
+      margin-bottom:38px;
+    }
+
+    .tier-heading{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .tier-heading h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.tier-heading h2::before,
+.tier-heading h2::after {
+    content: "";
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #5a2ca0,
+        transparent
+    );
+}
+
+    .underline{
+      width:70px;
+      height:4px;
+      background:var(--accent);
+      margin:auto;
+      border-radius:20px;
+    }
+
+    /* GRID */
+    .logo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.logo-card {
+    width: calc(50% - 8px);
+}
+
+    /* CARD */
+    .logo-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px 14px;
+      text-align:center;
+      transition:0.3s ease;
+      box-shadow:0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .logo-card:hover{
+      transform:translateY(-3px);
+    }
+
+    .logo-card a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .logo-img-wrap{
+      height:70px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:12px;
+    }
+
+    .logo-img-wrap img{
+      max-width:100%;
+      max-height:65px;
+      object-fit:contain;
+    }
+
+    .logo-caption{
+      font-size:0.92rem;
+      font-weight:600;
+      color:#333;
+      line-height:1.5;
+      display:block;
+    }
+
+    /* SINGLE FEATURED */
+    .single-grid{
+      display:grid;
+      grid-template-columns:1fr;
+    }
+
+    /* MOBILE */
+    @media(max-width:480px){
+      .hero{
+        height:170px;
+      }
+      .hero h1{
+        font-size:1.7rem;
+      }
+      .main-card{
+        padding:24px 14px 30px;
+      }
+      .logo-grid{
+        gap:14px;
+      }
+      .logo-card{
+        padding:16px 12px;
+        border-radius:16px;
+      }
+      .logo-img-wrap{
+        height:62px;
+      }
+      .logo-caption{
+        font-size:0.88rem;
+      }
+      .tier-heading h2{
+        font-size:1.28rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="main-card">
+
+<div class="row">
+  <div class="tier col-md-6" >
+  <div class="tier-heading">
+    <h2>Sponsors List</h2>
+  </div>
+  <div class="logo-grid grid-3">
+  
+    <div class="logo-card featured">
+      <a href="https://icai.org/" target="_blank" style="text-decoration: none; color: inherit; text-align: center; ">
+        <div class="logo-img-wrap">
+          <img src="https://nirc.icai.org/wp-content/uploads/2024/04/loader.png" alt="ICAI" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          
+        </div>
+        <span class="logo-caption">ICAI</span>
+      </a>
+    </div>
+    
+  </div>
+  </div>
+
+
+  </div>
+</div>
+
+</div>
+  </div>
+
+</body>
+</html>
