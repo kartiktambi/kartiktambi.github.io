@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>3CD-MRL Admin Panel (AY 2025)</title>
+  <title>3CD-MRL Admin Panel (AY 2026)</title>
 
   <script src="https://www.gstatic.com/charts/loader.js"></script>
   <style>
@@ -34,7 +34,7 @@
   </style>
 </head>
 <body>
-  <div class="topbar">3CD-MRL Admin Panel — AY 2025</div>
+  <div class="topbar">3CD-MRL Admin Panel — AY 2026</div>
 
   <div class="tabs">
     <div id="tabSummary" class="tab active">Summary Dashboard</div>
@@ -114,7 +114,7 @@
   google.charts.load("current",{packages:["corechart","bar"]});
   google.charts.setOnLoadCallback(init);
 
-  const sheetURL = "https://docs.google.com/spreadsheets/d/1Uj1_IbrzA8TgaBHC0KRVE1m3MDxdGPhARBYHoY6-Pdg/gviz/tq?sheet=Sheet1&tq=" + encodeURIComponent("select * where K=2025");
+  const sheetURL = "https://docs.google.com/spreadsheets/d/1Uj1_IbrzA8TgaBHC0KRVE1m3MDxdGPhARBYHoY6-Pdg/gviz/tq?sheet=Sheet1&tq=" + encodeURIComponent("select * where K=2026");
 
   let allData = {}, sortedDates=[], windowStart=0;
 
@@ -293,18 +293,18 @@ document.getElementById("whatsappBtn").onclick = () => {
 
 Warm greetings.
 
-It is my privilege to share with you the latest version of the 3CD-MRL Utility for Assessment Year 2025-26. Please find below your personalized activation details:
+It is my privilege to share with you the latest version of the 3CD-MRL Utility for Assessment Year 2026-26. Please find below your personalized activation details:
 
 — ACTIVATION CODE —
 ${code}
 
 User Name : ${name}
 Registered Mobile : ${mobile}
-Valid for Assessment Year : 2025-26
+Valid for Assessment Year : 2026-26
 
 You may kindly download the Utility (.xlsm file) from the following secure link:
 
-https://dl.dropboxusercontent.com/s/e6zr3uhylav70ud6dso5g/3CD-MRL-Utility_AY2526_v2-1.xlsm?rlkey=o4yeva8vevkikvxq7bqazwzfs&st=ayitp6a4
+https://dl.dropboxusercontent.com/s/8ragggo1nmwmrxvaoq90g/3CD-MRL-Utility_AY2627_v1.xlsm?rlkey=g5tssak9xyp2wovqnnwn97h5n&st=ojt8ekz7
 
 After downloading, please open the file and click on the “Activate Utility” button (on the Instructions sheet). Paste your Activation Code when prompted to enable immediate access.
 
@@ -329,7 +329,7 @@ Kartik L. Tambi
   if (!configText.trim()) return alert("No config data to download.");
 
   const zip = new JSZip();
-  const folder = zip.folder("3CD-MRL Utility 2025");
+  const folder = zip.folder("3CD-MRL Utility 2026");
 
   // File 1: personalized config
   folder.file(`${name}.txt`, configText);
