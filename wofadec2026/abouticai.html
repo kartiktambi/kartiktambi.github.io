@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About ICAI</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --accent:#3b1d82;
+      --accent-light:#f4f0ff;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.85;
+    }
+
+    .hero{
+      position:relative;
+      height:180px;
+      background:url('https://i.ibb.co/TMrRF2L1/sky-bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
+    }
+
+    .hero h1{
+      font-size:1.75rem;
+      font-weight:700;
+      line-height:1.4;
+      letter-spacing:0.3px;
+    }
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      padding:20px 16px 50px;
+    }
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:26px 20px 32px;
+      margin-top:-32px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .logo-wrap{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .logo-wrap img{
+      width:210px;
+      max-width:100%;
+    }
+
+    p{
+      margin-bottom:20px;
+      text-align:justify;
+      color:#444;
+      font-size:1rem;
+    }
+
+    h3{
+      text-align:center;
+      margin-top:36px;
+      margin-bottom:20px;
+      font-size:1.35rem;
+      color:#111827;
+    }
+
+    /* Styled Key Functions List */
+
+    .function-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .function-list li{
+      background:#faf8ff;
+      border:1px solid #ece7ff;
+      border-left:4px solid var(--accent);
+      padding:14px 16px;
+      border-radius:14px;
+      color:#444;
+      font-size:0.97rem;
+      line-height:1.7;
+    }
+
+    @media(max-width:480px){
+
+      .hero{
+        height:165px;
+      }
+
+      .hero h1{
+        font-size:1.45rem;
+      }
+
+      .main-card{
+        padding:24px 16px 30px;
+      }
+
+      p,
+      .function-list li{
+        font-size:0.96rem;
+      }
+
+      .logo-wrap img{
+        width:190px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        The Institute of Chartered<br>
+        Accountants of India (ICAI)
+      </h1>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+
+  <div class="container">
+
+    <div class="main-card">
+
+      <div class="logo-wrap">
+        <img src="https://i.ibb.co/Y4MrhQxF/icai-logo.png" alt="ICAI Logo">
+      </div>
+
+      <p>
+        The Institute of Chartered Accountants of India (ICAI) is a statutory body established by an Act of Parliament, viz. The Chartered Accountants Act, 1949 (Act No.XXXVIII of 1949) for regulation and development of the profession of Chartered Accountants in the country. The Institute, functions under the administrative control of the Ministry of Corporate Affairs, Government of India. The ICAI is the largest professional body of Chartered Accountants in the world, with a strong tradition of service to the Indian economy in public interest.
+      </p>
+
+      <p>
+        The affairs of the ICAI are managed by a Council in accordance with the provisions of the Chartered Accountants Act, 1949 and the Chartered Accountants Regulations, 1988. The Council constitutes of 40 members of whom 32 are elected by the Chartered Accountants and remaining 8 are nominated by the Central Government generally representing the Comptroller and Auditor General of India, Securities and Exchange Board of India, Ministry of Corporate Affairs, Ministry of Finance and other stakeholders.
+      </p>
+
+      <p>
+        Over a period of time the ICAI has achieved recognition as a premier accounting body not only in the country but also globally, for maintaining highest standards in technical, ethical areas and for sustaining stringent examination and education standards. Since 1949, the profession has grown leaps and bounds in terms of members and student base.
+      </p>
+
+      <h3>Key Functions of ICAI</h3>
+
+      <ul class="function-list">
+        <li>Regulate the profession of Accountancy</li>
+        <li>Education and Examination of Chartered Accountancy Course</li>
+        <li>Continuing Professional Education of Members</li>
+        <li>Conducting Post Qualification Courses</li>
+        <li>Formulation of Accounting Standards</li>
+        <li>Prescription of Standard Auditing Procedures</li>
+        <li>Laying down Ethical Standards</li>
+        <li>Monitoring Quality through Peer Review</li>
+        <li>Ensuring Standards of performance of Members</li>
+        <li>Exercise Disciplinary Jurisdiction</li>
+        <li>Financial Reporting Review</li>
+        <li>Input on Policy matters to Government</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
