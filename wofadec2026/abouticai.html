@@ -7,14 +7,16 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--accent:#3b1d82;--light:#f4f0ff;--ink:#202033;--muted:#626277;--line:#e9e5f2}
 body{font-family:Inter,"Segoe UI",Arial,sans-serif;background:#f6f5fa;color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+/* ===== SHARED PAGE HEADER (identical across all WOFA pages) ===== */
 .hero{position:relative;min-height:245px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:34px 20px 66px;color:#fff;background:radial-gradient(circle at 15% 15%,rgba(177,143,255,.35),transparent 35%),linear-gradient(125deg,#241052 0%,#48249a 55%,#7550bd 100%)}
 .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.15);border-radius:50%;pointer-events:none}
-.hero:before{width:340px;height:340px;right:-100px;top:-190px}.hero:after{width:250px;height:250px;left:-85px;bottom:-165px}
+.hero:before{width:340px;height:340px;right:-100px;top:-190px}
+.hero:after{width:250px;height:250px;left:-85px;bottom:-165px}
 .hero-content{position:relative;z-index:1;max-width:760px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:13px;padding:6px 12px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(255,255,255,.1);font-size:.76rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:#d8c7ff;box-shadow:0 0 0 4px rgba(216,199,255,.16)}
 .hero h1{font-size:clamp(1.65rem,4.5vw,2.55rem);line-height:1.22;font-weight:800;letter-spacing:-.6px}
-.hero p{max-width:590px;margin:14px auto 0;color:rgba(255,255,255,.82);font-size:1rem;line-height:1.65}
+/* ===== END SHARED PAGE HEADER ===== */
+
 .container{width:min(100% - 32px,850px);margin:-43px auto 0;padding-bottom:54px;position:relative;z-index:2}
 .main-card{background:#fff;border:1px solid rgba(59,29,130,.08);border-radius:26px;padding:clamp(22px,5vw,42px);box-shadow:0 18px 50px rgba(35,19,75,.1)}
 .logo-panel{display:flex;align-items:center;justify-content:center;padding:22px 16px;margin-bottom:27px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#fff,#faf8ff)}
@@ -31,12 +33,14 @@ body{font-family:Inter,"Segoe UI",Arial,sans-serif;background:#f6f5fa;color:var(
 .function-list li:hover{transform:translateY(-2px);border-color:#d3c5f4;box-shadow:0 9px 22px rgba(59,29,130,.07)}
 .footer-note{display:flex;gap:12px;align-items:flex-start;margin-top:25px;padding:16px 18px;border-radius:15px;background:var(--light);color:#51416f;font-size:.9rem;line-height:1.65}
 .footer-note .mark{flex:0 0 28px;width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#e5dcff;color:var(--accent);font-weight:800}
-@media(max-width:560px){.hero{min-height:220px;padding:30px 18px 60px}.hero p{font-size:.92rem}.container{width:min(100% - 22px,850px);margin-top:-34px}.main-card{border-radius:21px}.logo-panel{padding:19px 12px;margin-bottom:23px}.logo-panel img{width:185px}.function-list{grid-template-columns:1fr;gap:10px}.function-list li{min-height:0;padding:14px}.section-heading{margin-top:32px}}
+@media(max-width:560px){
+.hero{min-height:220px;padding:30px 18px 60px}
+.container{width:min(100% - 22px,850px);margin-top:-34px}.main-card{border-radius:21px}.logo-panel{padding:19px 12px;margin-bottom:23px}.logo-panel img{width:185px}.function-list{grid-template-columns:1fr;gap:10px}.function-list li{min-height:0;padding:14px}.section-heading{margin-top:32px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
 </style>
 </head>
 <body>
-<section class="hero"><div class="hero-content"><div class="eyebrow">About the Institute</div><h1>The Institute of Chartered Accountants of India</h1><p>A statutory body committed to advancing the accountancy profession and serving the public interest.</p></div></section>
+<section class="hero"><div class="hero-content"><h1>The Institute of Chartered Accountants of India</h1></div></section>
 <main class="container"><article class="main-card">
 <div class="logo-panel"><img src="https://i.ibb.co/Y4MrhQxF/icai-logo.png" alt="Institute of Chartered Accountants of India logo"></div>
 <div class="copy"><div class="intro-label">Who we are</div>

@@ -3,177 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#2f1667">
+  <meta name="theme-color" content="#351477">
   <title>About App - ICAI WOFA 2026</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --purple: #3b1d82;
-      --purple-dark: #2b145e;
-      --purple-soft: #f4f0ff;
-      --ink: #202235;
-      --muted: #687083;
+      --accent: #3b1d82;
+      --accent-dark: #2b145e;
+      --light: #f4f0ff;
+      --ink: #202033;
+      --muted: #626277;
       --line: #e9e5f2;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background: #f5f6fb;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      background: #f6f5fa;
       color: var(--ink);
-      line-height: 1.65;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* ===== SHARED PAGE HEADER (identical across all WOFA pages) ===== */
+    .hero{position:relative;min-height:245px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:34px 20px 66px;color:#fff;background:radial-gradient(circle at 15% 15%,rgba(177,143,255,.35),transparent 35%),linear-gradient(125deg,#241052 0%,#48249a 55%,#7550bd 100%)}
+    .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.15);border-radius:50%;pointer-events:none}
+    .hero:before{width:340px;height:340px;right:-100px;top:-190px}
+    .hero:after{width:250px;height:250px;left:-85px;bottom:-165px}
+    .hero-content{position:relative;z-index:1;max-width:760px}
+    .hero h1{font-size:clamp(1.65rem,4.5vw,2.55rem);line-height:1.22;font-weight:800;letter-spacing:-.6px}
+    /* ===== END SHARED PAGE HEADER ===== */
 
     .container {
-      width: min(100% - 28px, 760px);
-      margin: 0 auto;
-      padding: 22px 0 42px;
-    }
-
-    .app-hero {
+      width: min(100% - 32px, 850px);
+      margin: -43px auto 0;
+      padding-bottom: 54px;
       position: relative;
-      overflow: hidden;
-      isolation: isolate;
-      padding: 30px 22px 34px;
-      color: #fff;
-      text-align: center;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #2b145e 0%, #3b1d82 55%, #7453b6 100%);
-      box-shadow: 0 16px 35px rgba(47, 22, 103, .2);
+      z-index: 2;
     }
 
-    .app-hero::before,
-    .app-hero::after {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .app-hero::before {
-      width: 230px;
-      height: 230px;
-      top: -145px;
-      right: -60px;
-      box-shadow: 0 0 0 24px rgba(255,255,255,.035), 0 0 0 48px rgba(255,255,255,.025);
-    }
-
-    .app-hero::after {
-      width: 180px;
-      height: 180px;
-      bottom: -135px;
-      left: -42px;
-      box-shadow: 0 0 0 22px rgba(255,255,255,.035);
-    }
-
-    .hero-mark {
-      display: inline-flex;
-      width: 58px;
-      height: 58px;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 13px;
-      border: 1px solid rgba(255,255,255,.28);
-      border-radius: 18px;
-      background: rgba(255,255,255,.12);
-      font-size: 25px;
-      backdrop-filter: blur(8px);
-    }
-
-    .eyebrow {
-      margin-bottom: 5px;
-      color: #e0d4ff;
-      font-size: .72rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .app-hero h1 {
-      font-size: clamp(1.7rem, 5vw, 2.15rem);
-      line-height: 1.2;
-      letter-spacing: -.5px;
-      margin-bottom: 10px;
-    }
-
-    .app-hero .hero-copy {
-      max-width: 470px;
-      margin: 0 auto;
-      color: rgba(255,255,255,.84);
-      font-size: .96rem;
-      text-align: center;
-    }
-
-    .intro-card {
-      position: relative;
-      margin: 20px 0 26px;
-      padding: 24px 23px 22px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 18px;
+    .main-card {
       background: #fff;
-      box-shadow: 0 8px 25px rgba(31, 24, 59, .045);
-    }
-
-    .intro-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(180deg, #7654ba, var(--purple));
+      border: 1px solid rgba(59, 29, 130, .08);
+      border-radius: 26px;
+      padding: clamp(22px, 5vw, 42px);
+      box-shadow: 0 18px 50px rgba(35, 19, 75, .1);
     }
 
     .section-kicker {
       display: flex;
       align-items: center;
-      gap: 9px;
-      margin-bottom: 9px;
-      color: var(--purple);
-      font-size: .74rem;
+      gap: 10px;
+      margin-bottom: 13px;
+      color: var(--accent);
+      font-size: .78rem;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.6px;
       text-transform: uppercase;
     }
 
     .section-kicker::before {
       content: "";
-      width: 22px;
+      width: 25px;
       height: 2px;
-      background: #9a83cf;
+      background: #8b6be0;
       border-radius: 2px;
     }
 
-    .intro-card p {
-      color: #515668;
-      font-size: .96rem;
-      text-align: left;
-    }
-
     .section-heading {
-      margin: 0 0 7px;
+      margin: 0 0 10px;
       color: var(--ink);
-      font-size: 1.35rem;
+      font-size: clamp(1.25rem, 3vw, 1.55rem);
       line-height: 1.3;
+      font-weight: 800;
       text-align: left;
     }
 
-    .section-description {
+    .copy p {
       margin-bottom: 18px;
       color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.85;
+      text-align: left;
+    }
+
+    .copy p:last-child { margin-bottom: 0; }
+
+    .section-description {
+      margin-bottom: 20px;
+      color: #77758a;
       font-size: .92rem;
       text-align: left;
     }
 
+    .block { margin-top: 38px; }
+
     .feature-cards {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin: 18px 0 30px;
+      gap: 12px;
     }
 
     .feature-card {
@@ -184,9 +113,8 @@
       padding: 19px 17px 17px;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 17px;
-      background: linear-gradient(150deg, #fff 0%, #fcfbff 100%);
-      box-shadow: 0 6px 18px rgba(31, 24, 59, .045);
+      border-radius: 15px;
+      background: #fff;
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
     }
 
@@ -203,9 +131,9 @@
     }
 
     .feature-card:hover {
-      transform: translateY(-4px);
-      border-color: #d5c8ed;
-      box-shadow: 0 12px 25px rgba(47, 22, 103, .1);
+      transform: translateY(-2px);
+      border-color: #d3c5f4;
+      box-shadow: 0 9px 22px rgba(59, 29, 130, .07);
     }
 
     .feature-icon {
@@ -241,20 +169,19 @@
     .feature-card:nth-child(5) { --feature: #4266a0; }
     .feature-card:nth-child(6) { --feature: #4d784b; }
 
-    .developer-card {
-      margin-top: 34px;
+    .developer-panel {
+      margin-top: 38px;
       overflow: hidden;
       border: 1px solid var(--line);
-      border-radius: 20px;
+      border-radius: 18px;
       background: #fff;
-      box-shadow: 0 10px 28px rgba(31, 24, 59, .07);
     }
 
     .developer-top {
       padding: 24px 20px 20px;
       text-align: center;
       background: linear-gradient(180deg, #faf8ff 0%, #fff 100%);
-      border-top: 4px solid var(--purple);
+      border-top: 4px solid var(--accent);
     }
 
     .developer-badge {
@@ -265,8 +192,8 @@
       padding: 5px 10px;
       border: 1px solid #e7def8;
       border-radius: 999px;
-      background: #f4f0ff;
-      color: var(--purple);
+      background: var(--light);
+      color: var(--accent);
       font-size: .7rem;
       font-weight: 800;
       letter-spacing: .7px;
@@ -282,7 +209,7 @@
 
     .developer-top h2 {
       margin-bottom: 3px;
-      color: var(--purple);
+      color: var(--accent);
       font-size: 1.45rem;
       line-height: 1.3;
       font-weight: 800;
@@ -312,7 +239,7 @@
       border: 1px solid #e2d9f3;
       border-radius: 11px;
       background: #fff;
-      color: var(--purple);
+      color: var(--accent);
       font-size: .84rem;
       font-weight: 700;
       text-align: center;
@@ -322,17 +249,17 @@
     }
 
     .link-item:hover {
-      background: var(--purple-soft);
+      background: var(--light);
       transform: translateY(-2px);
     }
 
     .link-item.theme-btn {
-      background: var(--purple);
-      border-color: var(--purple);
+      background: var(--accent);
+      border-color: var(--accent);
       color: #fff;
     }
 
-    .link-item.theme-btn:hover { background: var(--purple-dark); }
+    .link-item.theme-btn:hover { background: var(--accent-dark); }
 
     .business-card-image {
       display: block;
@@ -341,10 +268,11 @@
       margin: 0;
     }
 
-    @media (max-width: 480px) {
-      .container { width: min(100% - 22px, 760px); padding-top: 12px; }
-      .app-hero { padding: 27px 17px 30px; border-radius: 18px; }
-      .intro-card { padding: 21px 18px 19px; }
+    @media (max-width: 560px) {
+      .hero { min-height: 220px; padding: 30px 18px 60px; }
+      .container { width: min(100% - 22px, 850px); margin-top: -34px; }
+      .main-card { border-radius: 21px; }
+      .block { margin-top: 32px; }
       .feature-cards { gap: 10px; }
       .feature-card { min-height: 185px; padding: 15px 13px; border-radius: 14px; }
       .feature-icon { width: 39px; height: 39px; margin-bottom: 11px; }
@@ -368,85 +296,83 @@
   </style>
 </head>
 <body>
+  <section class="hero"><div class="hero-content"><h1>ICAI WOFA 2026 App</h1></div></section>
+
   <main class="container">
-    <header class="app-hero">
-      <div class="hero-mark"><i class="fa-solid fa-earth-asia" aria-hidden="true"></i></div>
-      <p class="eyebrow">Your official event companion</p>
-      <h1>ICAI WOFA 2026 App</h1>
-      <p class="hero-copy">Connect with the global accountancy community. Discover sessions, meet fellow delegates, and make every moment count.</p>
-    </header>
+    <article class="main-card">
 
-    <section class="intro-card" aria-labelledby="about-app-title">
-      <div class="section-kicker">Designed for delegates</div>
-      <h2 class="section-heading" id="about-app-title">Your WOFA experience, all in one place</h2>
-      <p>
-        Discover the ultimate event companion with the ICAI WOFA 2026 app, designed to help you make the most of your experience. Seamlessly log in with your registered Email ID to access features tailored for professionals.
-        <br><br>
-        From creating your personalized profile to exploring delegate directories and scheduling meetings, the app helps you network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.
-      </p>
-    </section>
+      <section aria-labelledby="about-app-title">
+        <div class="section-kicker">Designed for delegates</div>
+        <h2 class="section-heading" id="about-app-title">Your WOFA experience, all in one place</h2>
+        <div class="copy">
+          <p>Discover the ultimate event companion with the ICAI WOFA 2026 app, designed to help you make the most of your experience. Seamlessly log in with your registered Email ID to access features tailored for professionals.</p>
+          <p>From creating your personalized profile to exploring delegate directories and scheduling meetings, the app helps you network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.</p>
+        </div>
+      </section>
 
-    <section aria-labelledby="features-title">
-      <div class="section-kicker">Everything you need</div>
-      <h2 class="section-heading" id="features-title">Explore app features</h2>
-      <p class="section-description">A smarter way to connect, plan, and stay informed throughout ICAI WOFA 2026.</p>
+      <section class="block" aria-labelledby="features-title">
+        <div class="section-kicker">Everything you need</div>
+        <h2 class="section-heading" id="features-title">Explore app features</h2>
+        <p class="section-description">A smarter way to connect, plan, and stay informed throughout ICAI WOFA 2026.</p>
 
-      <div class="feature-cards">
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
-          <h3>AI Networking</h3>
-          <p>Smart recommendations to connect with peers, mentors, and industry leaders.</p>
-        </article>
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-regular fa-comments" aria-hidden="true"></i></div>
-          <h3>Chat &amp; Meetings</h3>
-          <p>Engage in one-on-one chats or schedule meetings with fellow participants.</p>
-        </article>
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></div>
-          <h3>Personal Agenda</h3>
-          <p>Plan your sessions and track your schedule with a personalized agenda.</p>
-        </article>
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-regular fa-bell" aria-hidden="true"></i></div>
-          <h3>Live Notifications</h3>
-          <p>Stay updated with instant alerts on sessions, updates, and announcements.</p>
-        </article>
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
-          <h3>Connections</h3>
-          <p>Build lasting professional relationships with global Chartered Accountants.</p>
-        </article>
-        <article class="feature-card">
-          <div class="feature-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
-          <h3>Insights</h3>
-          <p>Access curated content, speaker highlights, and event insights at your fingertips.</p>
-        </article>
-      </div>
-    </section>
+        <div class="feature-cards">
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+            <h3>AI Networking</h3>
+            <p>Smart recommendations to connect with peers, mentors, and industry leaders.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-regular fa-comments" aria-hidden="true"></i></div>
+            <h3>Chat &amp; Meetings</h3>
+            <p>Engage in one-on-one chats or schedule meetings with fellow participants.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></div>
+            <h3>Personal Agenda</h3>
+            <p>Plan your sessions and track your schedule with a personalized agenda.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-regular fa-bell" aria-hidden="true"></i></div>
+            <h3>Live Notifications</h3>
+            <p>Stay updated with instant alerts on sessions, updates, and announcements.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+            <h3>Connections</h3>
+            <p>Build lasting professional relationships with global Chartered Accountants.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+            <h3>Insights</h3>
+            <p>Access curated content, speaker highlights, and event insights at your fingertips.</p>
+          </article>
+        </div>
+      </section>
 
-    <section class="developer-card" aria-labelledby="developer-title">
-      <div class="developer-top">
-        <div class="developer-badge"><i class="fa-solid fa-code" aria-hidden="true"></i> Built with care</div>
-        <h3 id="developer-title">App designed &amp; developed by</h3>
-        <h2>Kartik Studios</h2>
-        <p>Digital experiences for meaningful connections.</p>
-      </div>
+      <section class="developer-panel" aria-labelledby="developer-title">
+        <div class="developer-top">
+          <div class="developer-badge"><i class="fa-solid fa-code" aria-hidden="true"></i> Built with care</div>
+          <h3 id="developer-title">App designed &amp; developed by</h3>
+          <h2>Kartik Studios</h2>
+          <p>Digital experiences for meaningful connections.</p>
+        </div>
 
-      <nav class="developer-links" aria-label="Developer links">
-        <a class="link-item" href="https://wa.me/917972341581" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Contact
-        </a>
-        <a class="link-item theme-btn" href="https://kartikstudios.com" target="_blank" rel="noopener noreferrer">
-          <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Website
-        </a>
-        <a class="link-item" href="https://www.linkedin.com/in/kartiktambi/" target="_blank" rel="noopener noreferrer">
-          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn
-        </a>
-      </nav>
+        <nav class="developer-links" aria-label="Developer links">
+          <a class="link-item" href="https://wa.me/917972341581" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Contact
+          </a>
+          <a class="link-item theme-btn" href="https://kartikstudios.com" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Website
+          </a>
+          <a class="link-item" href="https://www.linkedin.com/in/kartiktambi/" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn
+          </a>
+        </nav>
 
-      <img src="https://i.ibb.co/x8z7sy6t/1.png" alt="Kartik Studios business card" class="business-card-image">
-    </section>
+        <img src="https://i.ibb.co/x8z7sy6t/1.png" alt="Kartik Studios business card" class="business-card-image">
+      </section>
+
+    </article>
   </main>
 </body>
 </html>
