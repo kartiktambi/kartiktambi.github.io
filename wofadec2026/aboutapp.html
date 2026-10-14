@@ -1,402 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About ICAI WOFA 2026</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2f1667">
+  <title>About App - ICAI WOFA 2026</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --accent: #3b1d82;
-      --accent-dark: #2f1667;
-      --accent-light: #f4f0ff;
-      --ink: #1f2430;
-      --muted: #5e6472;
+      --purple: #3b1d82;
+      --purple-dark: #2b145e;
+      --purple-soft: #f4f0ff;
+      --ink: #202235;
+      --muted: #687083;
+      --line: #e9e5f2;
     }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #222;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #f5f6fb;
+      color: var(--ink);
       line-height: 1.65;
     }
 
-    .hero {
+    .container {
+      width: min(100% - 28px, 760px);
+      margin: 0 auto;
+      padding: 22px 0 42px;
+    }
+
+    .app-hero {
       position: relative;
-      height: 180px;
-      background: url('https://i.ibb.co/TMrRF2L1/sky-bg.jpg') center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-    }
-
-    .hero-content { position: relative; z-index: 2; color: #fff; }
-
-    .hero h1 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      line-height: 1.35;
-      letter-spacing: 0.3px;
-    }
-
-    .container { max-width: 900px; margin: auto; padding: 20px 16px 50px; }
-
-    .main-card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 26px 28px 36px;
-      margin-top: -32px;
-      position: relative;
-      z-index: 5;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-
-    .logo-wrap { text-align: center; margin-bottom: 18px; }
-    .logo-wrap img { width: 255px; max-width: 100%; }
-
-    p {
-      margin-bottom: 20px;
-      text-align: justify;
-      color: #444;
-      font-size: 1rem;
-    }
-
-    h3 {
-      text-align: center;
-      margin-top: 36px;
-      margin-bottom: 18px;
-      font-size: 1.35rem;
-      color: #111827;
-    }
-
-    .section-divider {
-      width: 90px;
-      height: 3px;
-      background: #ddd;
-      margin: 24px auto 26px;
-      border-radius: 10px;
-    }
-
-    .closing-box {
-      margin-top: 32px;
-      background: var(--accent);
-      color: #fff;
-      padding: 20px 18px;
-      border-radius: 16px;
-      text-align: center;
-      font-weight: 700;
-      line-height: 1.7;
-    }
-
-    .closing-box p {
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      font-size: 1rem;
-    }
-
-    /* UNLOCK STRATEGIC OPPORTUNITIES */
-    .opportunity-intro {
-      max-width: 680px;
-      margin: 0 auto 24px;
-      text-align: center;
-    }
-
-    .opportunity-intro p { text-align: center; }
-
-    .stack-cards {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin: 26px 0 8px;
-    }
-
-    .stack-card {
-      --card-accent: #65409d;
-      position: relative;
-      isolation: isolate;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-height: 250px;
-      padding: 25px 24px 22px;
-      border: 1px solid #e8e2f5;
-      border-radius: 18px;
-      background: linear-gradient(145deg, #fff 0%, #fbf9ff 100%);
-      box-shadow: 0 8px 22px rgba(47, 22, 103, 0.07);
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      isolation: isolate;
+      padding: 30px 22px 34px;
+      color: #fff;
+      text-align: center;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #2b145e 0%, #3b1d82 55%, #7453b6 100%);
+      box-shadow: 0 16px 35px rgba(47, 22, 103, .2);
     }
 
-    .stack-card::before {
-      content: '';
+    .app-hero::before,
+    .app-hero::after {
+      content: "";
       position: absolute;
       z-index: -1;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .app-hero::before {
+      width: 230px;
+      height: 230px;
+      top: -145px;
+      right: -60px;
+      box-shadow: 0 0 0 24px rgba(255,255,255,.035), 0 0 0 48px rgba(255,255,255,.025);
+    }
+
+    .app-hero::after {
+      width: 180px;
+      height: 180px;
+      bottom: -135px;
+      left: -42px;
+      box-shadow: 0 0 0 22px rgba(255,255,255,.035);
+    }
+
+    .hero-mark {
+      display: inline-flex;
+      width: 58px;
+      height: 58px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 13px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 18px;
+      background: rgba(255,255,255,.12);
+      font-size: 25px;
+      backdrop-filter: blur(8px);
+    }
+
+    .eyebrow {
+      margin-bottom: 5px;
+      color: #e0d4ff;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .app-hero h1 {
+      font-size: clamp(1.7rem, 5vw, 2.15rem);
+      line-height: 1.2;
+      letter-spacing: -.5px;
+      margin-bottom: 10px;
+    }
+
+    .app-hero .hero-copy {
+      max-width: 470px;
+      margin: 0 auto;
+      color: rgba(255,255,255,.84);
+      font-size: .96rem;
+      text-align: center;
+    }
+
+    .intro-card {
+      position: relative;
+      margin: 20px 0 26px;
+      padding: 24px 23px 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(31, 24, 59, .045);
+    }
+
+    .intro-card::before {
+      content: "";
+      position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--card-accent);
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(180deg, #7654ba, var(--purple));
     }
 
-    .stack-card::after {
-      content: '';
-      position: absolute;
-      z-index: -1;
-      width: 145px;
-      height: 145px;
-      right: -60px;
-      top: -62px;
-      border-radius: 50%;
-      background: var(--card-accent);
-      opacity: .055;
-    }
-
-    .stack-card:hover {
-      transform: translateY(-4px);
-      border-color: #d4c6ee;
-      box-shadow: 0 14px 30px rgba(47, 22, 103, 0.12);
-    }
-
-    .stack-number {
-      position: absolute;
-      top: 17px;
-      right: 20px;
-      color: var(--card-accent);
-      font-size: .82rem;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      opacity: .82;
-    }
-
-    .stack-icon {
-      width: 48px;
-      height: 48px;
+    .section-kicker {
       display: flex;
       align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      border-radius: 14px;
-      color: var(--card-accent);
-      background: color-mix(in srgb, var(--card-accent) 10%, white);
-      font-size: 23px;
+      gap: 9px;
+      margin-bottom: 9px;
+      color: var(--purple);
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
-    .stack-icon svg { width: 23px; height: 23px; display: block; }
+    .section-kicker::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: #9a83cf;
+      border-radius: 2px;
+    }
 
-    .stack-card h3 {
-      width: 100%;
-      margin: 0 0 10px;
+    .intro-card p {
+      color: #515668;
+      font-size: .96rem;
       text-align: left;
-      font-size: 1.08rem;
-      line-height: 1.4;
+    }
+
+    .section-heading {
+      margin: 0 0 7px;
       color: var(--ink);
-    }
-
-    .stack-card p {
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: .94rem;
-      line-height: 1.7;
+      font-size: 1.35rem;
+      line-height: 1.3;
       text-align: left;
     }
 
-    .stack-pill {
+    .section-description {
+      margin-bottom: 18px;
+      color: var(--muted);
+      font-size: .92rem;
+      text-align: left;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0 30px;
+    }
+
+    .feature-card {
+      --feature: #65409d;
+      position: relative;
+      min-width: 0;
+      min-height: 188px;
+      padding: 19px 17px 17px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(150deg, #fff 0%, #fcfbff 100%);
+      box-shadow: 0 6px 18px rgba(31, 24, 59, .045);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 95px;
+      top: -55px;
+      right: -42px;
+      border-radius: 50%;
+      background: var(--feature);
+      opacity: .07;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: #d5c8ed;
+      box-shadow: 0 12px 25px rgba(47, 22, 103, .1);
+    }
+
+    .feature-icon {
+      display: flex;
+      width: 43px;
+      height: 43px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      border-radius: 13px;
+      background: color-mix(in srgb, var(--feature) 10%, white);
+      color: var(--feature);
+      font-size: 19px;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 6px;
+      color: #28263a;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: .85rem;
+      line-height: 1.6;
+    }
+
+    .feature-card:nth-child(1) { --feature: #65409d; }
+    .feature-card:nth-child(2) { --feature: #267b83; }
+    .feature-card:nth-child(3) { --feature: #a05b2a; }
+    .feature-card:nth-child(4) { --feature: #a14f73; }
+    .feature-card:nth-child(5) { --feature: #4266a0; }
+    .feature-card:nth-child(6) { --feature: #4d784b; }
+
+    .developer-card {
+      margin-top: 34px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(31, 24, 59, .07);
+    }
+
+    .developer-top {
+      padding: 24px 20px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, #faf8ff 0%, #fff 100%);
+      border-top: 4px solid var(--purple);
+    }
+
+    .developer-badge {
       display: inline-flex;
       align-items: center;
-      margin-top: auto;
-      padding: 6px 11px;
-      border: 1px solid color-mix(in srgb, var(--card-accent) 20%, white);
+      gap: 7px;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border: 1px solid #e7def8;
       border-radius: 999px;
-      background: color-mix(in srgb, var(--card-accent) 7%, white);
-      color: var(--card-accent);
-      font-size: .76rem;
+      background: #f4f0ff;
+      color: var(--purple);
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+    }
+
+    .developer-top h3 {
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: .83rem;
+      font-weight: 600;
+    }
+
+    .developer-top h2 {
+      margin-bottom: 3px;
+      color: var(--purple);
+      font-size: 1.45rem;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .developer-top p {
+      color: var(--muted);
+      font-size: .85rem;
+      text-align: center;
+    }
+
+    .developer-links {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 18px 20px;
+    }
+
+    .link-item {
+      display: inline-flex;
+      flex: 1;
+      min-width: 0;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 11px 8px;
+      border: 1px solid #e2d9f3;
+      border-radius: 11px;
+      background: #fff;
+      color: var(--purple);
+      font-size: .84rem;
       font-weight: 700;
-      letter-spacing: .2px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
     }
 
-    .sc-1 { --card-accent: #65409d; }
-    .sc-2 { --card-accent: #277b83; }
-    .sc-3 { --card-accent: #a05b2a; }
-    .sc-4 { --card-accent: #4d6b43; }
-    .sc-5 { --card-accent: #4266a0; }
-    .sc-6 { --card-accent: #9b4d72; }
-    .sc-7 { --card-accent: #3b1d82; }
+    .link-item:hover {
+      background: var(--purple-soft);
+      transform: translateY(-2px);
+    }
 
-    .stack-card-wide { grid-column: 1 / -1; min-height: 210px; }
-    .stack-card-wide .wide-content {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      column-gap: 20px;
-      align-items: start;
+    .link-item.theme-btn {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+
+    .link-item.theme-btn:hover { background: var(--purple-dark); }
+
+    .business-card-image {
+      display: block;
       width: 100%;
-    }
-    .stack-card-wide .stack-icon { grid-row: span 3; }
-    .stack-card-wide h3 { padding-right: 45px; }
-    .stack-card-wide p { max-width: 720px; }
-
-    @media (max-width: 600px) {
-      .hero { height: 165px; }
-      .hero h1 { font-size: 1.55rem; }
-      .main-card { padding: 24px 16px 30px; }
-      .container { padding: 20px 12px 36px; }
-      .logo-wrap img { width: 220px; }
-      p { font-size: .96rem; }
-      .stack-cards { gap: 12px; }
-      .stack-card { min-height: 260px; padding: 21px 15px 17px; border-radius: 15px; }
-      .stack-number { top: 13px; right: 13px; font-size: .75rem; }
-      .stack-icon { width: 42px; height: 42px; margin-bottom: 13px; }
-      .stack-card h3 { font-size: .98rem; }
-      .stack-card p { font-size: .88rem; line-height: 1.6; }
-      .stack-card-wide { min-height: 190px; }
-      .stack-card-wide .wide-content { column-gap: 13px; }
+      height: auto;
+      margin: 0;
     }
 
-    @media (max-width: 380px) {
-      .stack-cards { grid-template-columns: 1fr; }
-      .stack-card, .stack-card-wide { grid-column: auto; min-height: auto; }
-      .stack-card-wide .wide-content { display: block; }
-      .stack-card-wide .stack-icon { grid-row: auto; }
+    @media (max-width: 480px) {
+      .container { width: min(100% - 22px, 760px); padding-top: 12px; }
+      .app-hero { padding: 27px 17px 30px; border-radius: 18px; }
+      .intro-card { padding: 21px 18px 19px; }
+      .feature-cards { gap: 10px; }
+      .feature-card { min-height: 185px; padding: 15px 13px; border-radius: 14px; }
+      .feature-icon { width: 39px; height: 39px; margin-bottom: 11px; }
+      .feature-card h3 { font-size: .94rem; }
+      .feature-card p { font-size: .81rem; }
+      .developer-links { gap: 7px; padding-left: 12px; padding-right: 12px; }
+      .link-item { gap: 5px; padding: 10px 5px; font-size: .77rem; }
+    }
+
+    @media (max-width: 350px) {
+      .feature-cards { grid-template-columns: 1fr; }
+      .feature-card { min-height: auto; }
+      .developer-links { flex-wrap: wrap; }
+      .link-item { flex: 1 1 28%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .stack-card { transition: none; }
-      .stack-card:hover { transform: none; }
+      *, *::before, *::after { transition: none !important; }
+      .feature-card:hover, .link-item:hover { transform: none; }
     }
   </style>
-
-  <!-- Font Awesome icons used in the opportunity cards -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
 <body>
-  <section class="hero">
-    <div class="hero-content">
-      <h1>World Forum of Accountants 2026</h1>
-    </div>
-  </section>
+  <main class="container">
+    <header class="app-hero">
+      <div class="hero-mark"><i class="fa-solid fa-earth-asia" aria-hidden="true"></i></div>
+      <p class="eyebrow">Your official event companion</p>
+      <h1>ICAI WOFA 2026 App</h1>
+      <p class="hero-copy">Connect with the global accountancy community. Discover sessions, meet fellow delegates, and make every moment count.</p>
+    </header>
 
-  <div class="container">
-    <div class="main-card">
-      <div class="logo-wrap">
-        <img src="https://wofa.icai.org/images/WOFA-Logo-2026.svg" alt="ICAI WOFA 2026 Logo">
-      </div>
-
+    <section class="intro-card" aria-labelledby="about-app-title">
+      <div class="section-kicker">Designed for delegates</div>
+      <h2 class="section-heading" id="about-app-title">Your WOFA experience, all in one place</h2>
       <p>
-        The World Forum of Accountants (WOFA), 2026, scheduled to be held in Visakhapatnam, India from 16th to 18th December 2026, is envisioned as a global confluence of financial leaders, policymakers, and innovators united by a common mission — to shape a future where progress is purposeful, people-centric, and sustainable.
+        Discover the ultimate event companion with the ICAI WOFA 2026 app, designed to help you make the most of your experience. Seamlessly log in with your registered Email ID to access features tailored for professionals.
+        <br><br>
+        From creating your personalized profile to exploring delegate directories and scheduling meetings, the app helps you network and connect with ease. Stay updated with real-time notifications and explore the agenda, speaker line-up, and event highlights all in one place.
       </p>
+    </section>
 
-      <p>
-        Building on the strong legacy of its earlier editions, WOFA 2026 comes at a defining moment for India as the nation advances toward its Viksit Bharat 2047 vision. The Forum will highlight the transformative role of the accounting and finance profession in enabling trust-based governance, fostering digital inclusion, promoting ethical AI adoption, and driving climate-conscious growth.
-      </p>
+    <section aria-labelledby="features-title">
+      <div class="section-kicker">Everything you need</div>
+      <h2 class="section-heading" id="features-title">Explore app features</h2>
+      <p class="section-description">A smarter way to connect, plan, and stay informed throughout ICAI WOFA 2026.</p>
 
-      <p>
-        By encouraging collaboration, facilitating knowledge exchange, and upholding the highest standards of professional excellence, WOFA, 2026 inspires accountants to act as vital connectors between governments, businesses, and society. It celebrates the profession’s unique ability to translate expertise into impactful global solutions, contributing to a future defined by integrity, sustainability, and shared prosperity.
-      </p>
-
-      <div class="section-divider"></div>
-
-      <h3>About This Year WOFA’s Theme</h3>
-
-      <p>
-        The global financial landscape is being reshaped by rapid technological advancements, evolving regulations, and growing expectations of transparency and sustainability. In this dynamic environment, the accounting profession is moving beyond its traditional role to become a key driver of trust, innovation, and transformation.
-      </p>
-
-      <p>
-        The theme, <strong>“Redefining Excellence: Technology | Trust | Transformation”</strong>, captures this evolution and the changing expectations from the profession. It highlights the transformative role of technology in enhancing efficiency, insights, and decision-making; the enduring importance of trust as the cornerstone of financial systems and public confidence; and the profession’s expanding responsibility in driving resilience, sustainability, and inclusive growth.
-      </p>
-
-      <p>
-        The theme also reflects the Institute’s commitment to embracing innovation, strengthening professional credibility, and fostering meaningful global collaboration. It highlights our vision of building a future-ready profession that is agile, ethical, and equipped to respond effectively to emerging opportunities and challenges in an increasingly interconnected world.
-      </p>
-
-      <div class="closing-box">
-        <p style="font-size: 22px;">Redefining Excellence</p>
-        <p>Technology | Trust | Transformation</p>
-      </div>
-
-      <div class="section-divider"></div>
-
-      <h3>Unlock Strategic Opportunities</h3>
-      <div class="opportunity-intro">
-        <p>
-          Engage to Expand your Network and Elevate your Expertise. WOFA 2026 offers more than a conference – it’s a global movement for the future of the profession.
-        </p>
-      </div>
-
-      <div class="stack-cards">
-        <article class="stack-card sc-1">
-          <div class="stack-number">01</div>
-          <div class="stack-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
-          <h3>Gain Insights from Global Thought Leaders</h3>
-          <p>Engage with international experts and explore emerging trends, sustainability priorities, and the evolving future of finance.</p>
-          <span class="stack-pill">Leadership</span>
+      <div class="feature-cards">
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+          <h3>AI Networking</h3>
+          <p>Smart recommendations to connect with peers, mentors, and industry leaders.</p>
         </article>
-
-        <article class="stack-card sc-2">
-          <div class="stack-number">02</div>
-          <div class="stack-icon"><i class="fa-solid fa-microchip" aria-hidden="true"></i></div>
-          <h3>Prepare for the Future</h3>
-          <p>Understand how advancements in technology, artificial intelligence, and sustainability are reshaping business, finance, and the profession.</p>
-          <span class="stack-pill">Technology</span>
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-regular fa-comments" aria-hidden="true"></i></div>
+          <h3>Chat &amp; Meetings</h3>
+          <p>Engage in one-on-one chats or schedule meetings with fellow participants.</p>
         </article>
-
-        <article class="stack-card sc-3">
-          <div class="stack-number">03</div>
-          <div class="stack-icon"><i class="fa-solid fa-handshake" aria-hidden="true"></i></div>
-          <h3>Strengthen Professional Networks</h3>
-          <p>Build meaningful connections with peers, firms, policymakers, and thought leaders from across the globe.</p>
-          <span class="stack-pill">Networking</span>
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></div>
+          <h3>Personal Agenda</h3>
+          <p>Plan your sessions and track your schedule with a personalized agenda.</p>
         </article>
-
-        <article class="stack-card sc-4">
-          <div class="stack-number">04</div>
-          <div class="stack-icon"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i></div>
-          <h3>Discover Innovative Practices</h3>
-          <p>Explore advanced solutions, tools, and methodologies that are redefining the profession.</p>
-          <span class="stack-pill">Innovation</span>
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-regular fa-bell" aria-hidden="true"></i></div>
+          <h3>Live Notifications</h3>
+          <p>Stay updated with instant alerts on sessions, updates, and announcements.</p>
         </article>
-
-        <article class="stack-card sc-5">
-          <div class="stack-number">05</div>
-          <div class="stack-icon"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></div>
-          <h3>Develop Strategic Understanding</h3>
-          <p>Gain perspectives on global economic developments and their impact on business and accountancy.</p>
-          <span class="stack-pill">Strategy</span>
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+          <h3>Connections</h3>
+          <p>Build lasting professional relationships with global Chartered Accountants.</p>
         </article>
-
-        <article class="stack-card sc-6">
-          <div class="stack-number">06</div>
-          <div class="stack-icon"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i></div>
-          <h3>Contribute to the Dialogue</h3>
-          <p>Share your perspectives and engage in global conversations on ethics, trust, growth, and sustainability.</p>
-          <span class="stack-pill">Impact</span>
-        </article>
-
-        <article class="stack-card stack-card-wide sc-7">
-          <div class="stack-number">07</div>
-          <div class="wide-content">
-            <div class="stack-icon"><i class="fa-solid fa-trophy" aria-hidden="true"></i></div>
-            <div>
-              <h3>Celebrate Professional Excellence</h3>
-              <p>Participate in a landmark global gathering that highlights the achievements and future direction of the accountancy profession.</p>
-              <span class="stack-pill">Celebration</span>
-            </div>
-          </div>
+        <article class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-chart-simple" aria-hidden="true"></i></div>
+          <h3>Insights</h3>
+          <p>Access curated content, speaker highlights, and event insights at your fingertips.</p>
         </article>
       </div>
-    </div>
-  </div>
+    </section>
+
+    <section class="developer-card" aria-labelledby="developer-title">
+      <div class="developer-top">
+        <div class="developer-badge"><i class="fa-solid fa-code" aria-hidden="true"></i> Built with care</div>
+        <h3 id="developer-title">App designed &amp; developed by</h3>
+        <h2>Kartik Studios</h2>
+        <p>Digital experiences for meaningful connections.</p>
+      </div>
+
+      <nav class="developer-links" aria-label="Developer links">
+        <a class="link-item" href="https://wa.me/917972341581" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Contact
+        </a>
+        <a class="link-item theme-btn" href="https://kartikstudios.com" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Website
+        </a>
+        <a class="link-item" href="https://www.linkedin.com/in/kartiktambi/" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn
+        </a>
+      </nav>
+
+      <img src="https://i.ibb.co/x8z7sy6t/1.png" alt="Kartik Studios business card" class="business-card-image">
+    </section>
+  </main>
 </body>
 </html>
