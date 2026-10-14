@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NIRC Navodaya 2026</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --accent:#3b1d82;
+      --accent-dark:#2f1667;
+      --accent-light:#f4f0ff;
+      --button-text:#ffffff;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background:#f5f7fb;
+      color:#222;
+      line-height:1.85;
+    }
+
+    .hero{
+      position:relative;
+      height:180px;
+      background:url('https://i.ibb.co/TMrRF2L1/sky-bg.jpg') center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:20px;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      color:#fff;
+    }
+
+    .hero h1{
+      font-size:1.9rem;
+      font-weight:700;
+      line-height:1.35;
+      letter-spacing:0.3px;
+    }
+
+    .container{
+      max-width:700px;
+      margin:auto;
+      padding:20px 16px 50px;
+    }
+
+    .main-card{
+      background:#fff;
+      border-radius:24px;
+      padding:26px 20px 32px;
+      margin-top:-32px;
+      position:relative;
+      z-index:5;
+      box-shadow:0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    /* --- ADDED LEADERS SECTION CSS --- */
+    .section-heading{
+      text-align:center;
+      margin-bottom:28px;
+    }
+
+    .section-heading h2{
+      font-size:1.5rem;
+      color:#111827;
+      margin-bottom:10px;
+    }
+
+    .underline{
+      width:70px;
+      height:4px;
+      background:var(--accent);
+      margin:auto;
+      border-radius:20px;
+    }
+
+    .leaders-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px 18px;
+      margin-bottom:40px;
+    }
+
+    .leader-card{
+      text-align:center;
+    }
+
+    .leader-card img{
+      width:145px;
+      height:145px;
+      object-fit:cover;
+      border-radius:50%;
+      border:5px solid #fff;
+      box-shadow:0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .leader-card h4{
+      margin-top:14px;
+      font-size:1rem;
+      color:#111827;
+      line-height:1.5;
+    }
+
+    .leader-card p{
+      margin-top:4px;
+      font-size:0.92rem;
+      color:#666;
+      line-height:1.5;
+      text-align:center;
+    }
+    /* --------------------------------- */
+
+    .logo-wrap{
+      text-align:center;
+      margin-bottom:18px;
+    }
+
+    .logo-wrap img{
+      width:240px;
+      max-width:100%;
+    }
+
+    p{
+      margin-bottom:20px;
+      text-align:justify;
+      color:#444;
+      font-size:1rem;
+    }
+
+    h3{
+      text-align:center;
+      margin-top:36px;
+      margin-bottom:18px;
+      font-size:1.35rem;
+      color:#111827;
+    }
+
+    .simple-list{
+      padding-left:22px;
+      margin-bottom:24px;
+    }
+
+    .simple-list li{
+      margin-bottom:12px;
+      color:#444;
+      text-align:justify;
+    }
+
+    /* VIDEO SECTION */
+    .video-section{
+      margin:6px 0 10px;
+      text-align:center;
+    }
+    
+    .video-section h3{
+      margin:-15px 0 10px;
+      color:#111827;
+      font-size:1.2rem;
+    }
+    
+    .video-buttons{
+      display:flex;
+      gap:14px;
+    }
+    
+    .video-btn{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:16px 14px;
+      background:var(--accent);
+      color:#fff;
+      text-decoration:none;
+      border-radius:16px;
+      font-weight:700;
+      font-size:1rem;
+      box-shadow:0 8px 20px rgba(59,29,130,.18);
+      transition:.2s;
+    }
+    
+    .video-btn:hover{
+      background:#2f1667;
+      transform:translateY(-2px);
+    }
+    
+    .section-divider{
+      width:90px;
+      height:3px;
+      background:#ddd;
+      margin:24px auto 26px;
+      border-radius:10px;
+    }
+    
+    @media(max-width:480px){
+      .hero{
+        height:165px;
+      }
+
+      .hero h1{
+        font-size:1.55rem;
+      }
+
+      .main-card{
+        padding:24px 16px 30px;
+      }
+
+      /* Leader Section Mobile Overrides */
+      .section-heading h2{
+        font-size:1.35rem;
+      }
+
+      .leaders-grid{
+        gap:24px 14px;
+      }
+
+      .leader-card img{
+        width:125px;
+        height:125px;
+      }
+      /* -------------------------------- */
+
+      p,
+      .simple-list li{
+        font-size:0.96rem;
+      }
+
+      .logo-wrap img{
+        width:220px;
+      }
+
+      .video-buttons{
+        gap:10px;
+      }
+    
+      .video-btn{
+        padding:14px 8px;
+        font-size:.95rem;
+      }
+    }
+
+    /* Why Attend */
+    .why-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .why-item{
+      background:#ffffff;
+      border-radius:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--accent);
+      box-shadow:0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .why-item h4{
+      margin-bottom:4px;
+      color:var(--accent);
+      font-size:1rem;
+    }
+
+    .why-item p{
+      margin:0;
+      font-size:0.95rem;
+      color:#555;
+      text-align:justify;
+      line-height:1.7;
+    }
+
+    /* Final Highlight Box */
+    .final-box{
+      margin-top:36px;
+      background:var(--accent);
+      color:#fff;
+      padding:28px 22px;
+      border-radius:24px;
+      text-align:center;
+      box-shadow:0 10px 24px rgba(59,29,130,0.25);
+    }
+
+    .final-box p{
+      color:rgba(255,255,255,0.95);
+      text-align:center;
+      margin:0;
+      font-size:1rem;
+      line-height:1.9;
+    }
+
+    @media(max-width:480px){
+      .why-item{
+        padding:13px 14px;
+      }
+
+      .video-btn{
+        padding:15px 16px;
+        font-size:0.98rem;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>
+        About NIRC of ICAI
+      </h1>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="container">
+    <div class="main-card">
+
+      <!-- LEADERS HEADING -->
+      <div class="section-heading">
+        <h2>Leaders of NIRC</h2>
+        <div class="underline"></div>
+      </div>
+
+      <!-- LEADERS -->
+      <div class="leaders-grid">
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/8.-Navya-Malhotra-Executive-member.jpg-879x1024.jpeg" alt="CA. Navya Malhotra">
+          <h4>CA. Navya Malhotra</h4>
+          <p>Chairman, NIRC of ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/3.-Ajit-Kumar-Singh-Secretary.jpg-879x1024.jpeg" alt="CA. Ajit Singh Chandel">
+          <h4>CA. Ajit Singh Chandel</h4>
+          <p>Vice-Chairman, NIRC of ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/2.-Hitesh-Goyal-Vice-Chairman.jpg-879x1024.jpeg" alt="CA. Hitesh Goyal">
+          <h4>CA. Hitesh Goyal</h4>
+          <p>Secretary, NIRC of ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/7A.-Abhishek-Raja-NICASA-Member.jpeg" alt="CA. Abhishek Raja">
+          <h4>CA. Abhishek Raja</h4>
+          <p>Treasurer, NIRC of ICAI</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/4.-CA.-Sachin-Bahl-Treasurer-1024x1011.jpeg" alt="CA. Sachin Bahl">
+          <h4>CA. Sachin Bahl</h4>
+          <p>NICASA Chairman</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2025/02/6.-Rattan-Singh-Yadav-879x1024.jpg" alt="CA. Rattan Singh Yadav">
+          <h4>CA. Rattan Singh Yadav</h4>
+          <p>NICASA Member</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/5.-Nitiesh-Kumar-Chugh-NICASA-Chairman.jpg-879x1024.jpeg" alt="CA. Nitish Kumar Chugh">
+          <h4>CA. Nitish Kumar Chugh</h4>
+          <p>NICASA Member</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/04/1.-Jagjeet-Singh-Jags-Chairman-NIRC-of-ICAI.jpg-879x1024.jpeg" alt="CA. Jagjeet Singh Jags">
+          <h4>CA. Jagjeet Singh Jags</h4>
+          <p>Immediate Past Chairman</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2025/02/9.-Sangam-Kumar-Aggarwal-879x1024.jpg" alt="CA. Sangam Kumar Aggarwal">
+          <h4>CA. Sangam Kumar Aggarwal</h4>
+          <p>Member</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2026/03/10.-Gaurav-Aggrawal-879x1024.jpg" alt="CA. Gaurav Aggrawal">
+          <h4>CA. Gaurav Aggrawal</h4>
+          <p>Member</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2025/02/11.-Sana-Baqai-879x1024.jpg" alt="CA. Sana Baqai">
+          <h4>CA. Sana Baqai</h4>
+          <p>Member</p>
+        </div>
+
+        <div class="leader-card">
+          <img src="https://nirc.icai.org/wp-content/uploads/2025/02/12.-Vaibhav-Jain-879x1024.jpg" alt="CA. Vaibhav Jain">
+          <h4>CA. Vaibhav Jain</h4>
+          <p>Member</p>
+        </div>
+      </div>
+
+      <div class="logo-wrap">
+        <img src="https://nirc.icai.org/wp-content/uploads/2024/04/loader.png" alt="AIS 2026 Logo">
+      </div>
+
+      <p>
+        The Institute of Chartered Accountants of India (ICAI) is a statutory body established on 1st July, 1949 by an Act of Parliament, viz., The Chartered Accountants Act, 1949 for regulating the profession of Chartered Accountants in the country. ICAI is having 175 Branches covering the length and breadth of the country. ICAI has presence in 75 global cities of the World with 44 overseas Chapters and 31 Representative Offices spanning in 47 countries. It is worthwhile to mention that the ICAI regulates nearly 3,90,000 members and has an active student base of nearly 8,62,996. It is the one of the premier accounting bodies in the world and represented at all the international forums on accountancy.
+      </p>
+      
+      <p>
+        The Northern India Regional Council is a constituent body of the Institute of Chartered Accountants of India. The NIRC was set up on 1st April, 1952 (then known as Delhi Regional Council and comprising the then States of Delhi, Punjab,  Himachal Pradesh, Patiala and East of States Union) presently represents its over 75,739+ Chartered Accountants professionals and 1,26,171 students spread across the states of Haryana, Ladakh, Himachal Pradesh, Jammu & Kashmir, NCT of Delhi, Punjab and Union Territory of Chandigarh. Members are either in practice or holding eminent positions in various Industries as well as in Government Organisations.
+      </p>
+      
+      <p>
+        The NIRC (2022-25) is composed of 13 elected Members, 12 elected Students Association alongwith 6 Central Council Members and 7 Central Government Nominee members who are from MCA, CAG, SEBI, MOF and other stakeholders etc. The Regional Council Headquarters is at New Delhi (ICAI Bhawan, 4th & 5th Floors, Annexe Building, Indraprastha Marg, New Delhi – 110002). The NIRC of ICAI has 25 Branches, 43 CPE Study Circles, 6 CPE Chapters and 13 Centres and Reading Rooms – cum-Libraries.  
+      </p>
+    </div>
+  </div>
+
+</body>
+</html>
